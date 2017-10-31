@@ -81,6 +81,7 @@ public class ProblemService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
+            problemEntity.status = Status.toString(Status.CREATE);
             ProblemModel problemModel= problemEntity.toEntity();
             Integer.valueOf(String.valueOf(session.save(problemModel)));
             tx.commit();

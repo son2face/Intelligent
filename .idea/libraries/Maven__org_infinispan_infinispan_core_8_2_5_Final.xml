@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/infinispan/infinispan-core/8.2.5.Final/infinispan-core-8.2.5.Final.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/infinispan/infinispan-core/8.2.5.Final/infinispan-core-8.2.5.Final-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/infinispan/infinispan-core/8.2.5.Final/infinispan-core-8.2.5.Final-sources.jar!/" />
     </SOURCES>

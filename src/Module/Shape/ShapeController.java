@@ -5,7 +5,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/Shapes")
+@Path("/shapes")
 public class ShapeController {
     @Inject
     private ShapeService shapeService;

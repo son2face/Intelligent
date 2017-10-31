@@ -3,9 +3,11 @@ package Module.File;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.FileOutputStream;
 import java.util.List;
 
-@Path("/Files")
+@Path("/files")
 public class FileController {
     @Inject
     private FileService fileService;
@@ -59,4 +61,26 @@ public class FileController {
         fileService.delete(fileId);
     }
 
+    @Path("{fileId}/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("fileId") int fileID) {
+        FileEntity fileEntity = fileService.get(fileID);
+        byte[] contents = org.infinispan.commons.util.Base64.decode(fileEntity.data);
+        Response.ResponseBuilder response = null;
+        try {
+            FileOutputStream out = new FileOutputStream(fileEntity.name);
+            out.write(contents);
+            response = Response.ok((Object) out);
+            response.header("content-type", "application/octet-stream");
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        response.header("Content-Disposition", "attachment; filename=" + fileEntity.name);
+        return response.build();
+//        String file_name = getFileName(fileID);
+//        return contents;
+    }
 }

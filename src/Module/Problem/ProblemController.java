@@ -5,7 +5,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/Problems")
+@Path("/problems")
 public class ProblemController {
     @Inject
     private ProblemService problemService;

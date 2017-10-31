@@ -16,7 +16,7 @@ import org.hibernate.cfg.Configuration;
  * Created by Son on 5/12/2017.
  */
 
-public class DatabaseControllService  implements IDatabaseControllService {
+public class DatabaseControllService implements IDatabaseControllService {
     public boolean setActive(int id) {
         if (id >= 0 && id < DatabaseEntity.getDatabaseModels().size()) {
             DatabaseEntity.setActive(id);
@@ -32,9 +32,11 @@ public class DatabaseControllService  implements IDatabaseControllService {
                 cfg = new Configuration()
                         .setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver")
                         .setProperty("hibernate.connection.url", "jdbc:mysql://" + databaseModel.url + "/" + databaseModel.databaseName)
-                        .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
+                        .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect")
                         .setProperty("hibernate.connection.username", databaseModel.userName)
                         .setProperty("hibernate.connection.password", databaseModel.passWord)
+                        .setProperty("hibernate.hbm2ddl.auto", "update")
+                        .setProperty("hibernate.connection.autoReconnect", "true")
                         .addAnnotatedClass(EdgeModel.class)
                         .addAnnotatedClass(FileModel.class)
                         .addAnnotatedClass(PointModel.class)
@@ -49,6 +51,8 @@ public class DatabaseControllService  implements IDatabaseControllService {
                         .setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect")
                         .setProperty("hibernate.connection.username", databaseModel.userName)
                         .setProperty("hibernate.connection.password", databaseModel.passWord)
+                        .setProperty("hibernate.hbm2ddl.auto", "update")
+                        .setProperty("hibernate.connection.autoReconnect", "true")
                         .addAnnotatedClass(EdgeModel.class)
                         .addAnnotatedClass(FileModel.class)
                         .addAnnotatedClass(PointModel.class)

@@ -1,9 +1,10 @@
 package Module.File;
 
-import Module.Problem.ProblemModel;
 import Module.Problem.ProblemEntity;
-import Module.User.UserModel;
+import Module.Problem.ProblemModel;
 import Module.User.UserEntity;
+import Module.User.UserModel;
+import org.infinispan.commons.util.Base64;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -20,7 +21,7 @@ public class FileEntity implements Serializable {
 
     public int fileId;
     public String name;
-    public byte[] data;
+    public String data;
     public Timestamp createdTime;
     public String type;
     public Timestamp expiredTime;
@@ -35,7 +36,7 @@ public class FileEntity implements Serializable {
     public FileEntity(int fileId, String name, byte[] data, Timestamp createdTime, String type, Timestamp expiredTime, Integer userId) {
         this.fileId = fileId;
         this.name = name;
-        this.data = data;
+        if (data != null) this.data = Base64.encodeBytes(data);
         this.createdTime = createdTime;
         this.type = type;
         this.expiredTime = expiredTime;
@@ -45,7 +46,7 @@ public class FileEntity implements Serializable {
     public FileEntity(FileModel FileModel, Object... objects) {
         this.fileId = FileModel.getFileId();
         this.name = FileModel.getName();
-        this.data = FileModel.getData();
+        if (FileModel.getData() != null) this.data = Base64.encodeBytes(FileModel.getData());
         this.createdTime = FileModel.getCreatedTime();
         this.type = FileModel.getType();
         this.expiredTime = FileModel.getExpiredTime();
@@ -64,7 +65,7 @@ public class FileEntity implements Serializable {
         FileModel FileModel = new FileModel();
         FileModel.setFileId(fileId);
         FileModel.setName(name);
-        FileModel.setData(data);
+        if (data != null) FileModel.setData(Base64.decode(data));
         FileModel.setCreatedTime(createdTime);
         FileModel.setType(type);
         FileModel.setExpiredTime(expiredTime);
