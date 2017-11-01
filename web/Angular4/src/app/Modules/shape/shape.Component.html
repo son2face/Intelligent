@@ -12,7 +12,7 @@
                 <th>shapeId</th>
                 <th>problemId</th>
                 <th>level</th>
-                <th>userId</th>
+                <th>Hình dạng</th>
                 <th>code</th>
                 <th></th>
             </tr>
@@ -125,7 +125,14 @@
                 <td>{{shape?.shapeId}}</td>
                 <td>{{shape?.problemId}}</td>
                 <td>{{shape?.level}}</td>
-                <td>{{shape?.userId}}</td>
+                <td>
+                    <ngvas [width]="500" [height]="500" *ngIf="shape.render != null">
+                        <ng-template ngFor let-item [ngForOf]="shape.render">
+                            <ngvas-line [x]="100" [y]="100" [fill]="'#03ff5f'" [stroke]="{ width: 1 }" [lines]="item" origin="center" [scaleX]="4" [scaleY]="4"></ngvas-line>
+                        </ng-template>
+                    </ngvas>
+                </td>
+                <!--<td>{{shape?.userId}}</td>-->
                 <td style="text-align: center">
                     <button type="button" class="btn btn-primary btn-circle" (click)="LoadDataToUpdateModal(shape,i)">
                         <i class="fa fa-edit fa-1x" aria-hidden="true"></i>

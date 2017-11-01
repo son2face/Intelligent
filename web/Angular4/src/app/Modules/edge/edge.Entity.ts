@@ -2,10 +2,10 @@ import {ShapeEntity} from "../shape/shape.Entity";
 
 export class EdgeEntity {
     edgeId: number;
-    startX: string;
-    startY: string;
-    endX: string;
-    endY: string;
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
     shapeId: string;
     shapeEntity: ShapeEntity;
     IsEdit: boolean;

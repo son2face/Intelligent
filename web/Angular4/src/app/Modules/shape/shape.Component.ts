@@ -8,6 +8,9 @@ import {ShapeEntity} from "./shape.Entity";
 import {EdgeEntity} from "../edge/edge.Entity";
 import {UserEntity} from "../user/user.Entity";
 import {ProblemEntity} from "../problem/problem.Entity";
+import {types} from "ngvas";
+import Line = types.Line;
+import TweenInput = types.TweenInput;
 
 @Component({
     selector: 'App-shape',
@@ -17,7 +20,7 @@ import {ProblemEntity} from "../problem/problem.Entity";
 })
 export class ShapeComponent {
     Title: string = "shape";
-    shapeEntities: ShapeEntity[];
+    shapeEntities: any[];
     PagingModel = new PagingModel(7, 10, data => {
         this.shapeService.Get().subscribe(p => {
             this.shapeEntities = p;
@@ -57,6 +60,14 @@ export class ShapeComponent {
         this.SearchshapeEntity.Take = this.PagingModel.Take;
         this.shapeService.Get(this.SearchshapeEntity).subscribe(p => {
             this.shapeEntities = p;
+            this.shapeEntities.forEach(h => {
+                h.render = [];
+                let t: Array<Line> = [];
+                h.edgeEntities.forEach(edge => {
+                    t.push([[edge.startX, edge.startY], [edge.endX, edge.endY]]);
+                });
+                h.render.push(t);
+            })
             this.Count();
         });
     }
