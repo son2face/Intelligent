@@ -5,6 +5,7 @@ import Manager.Interface.IDatabaseControllService;
 import Manager.Interface.IDatabaseService;
 import Manager.Service.DatabaseControllService;
 import Manager.Service.DatabaseService;
+import Module.Edge.EdgeEntity;
 import com.google.common.collect.Lists;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Son on 6/15/2017.
@@ -181,7 +183,8 @@ public class FileService {
         Root<FileModel> FileEntities = criteria.from(FileModel.class);
         try {
             List<FileModel> fileEntities = session.createQuery(criteria).getResultList();
-            return Lists.transform(fileEntities, fileEntity -> new FileEntity(fileEntity));
+            return fileEntities.stream()
+                    .map(s -> new FileEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
         }

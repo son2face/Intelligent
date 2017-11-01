@@ -1,10 +1,12 @@
 package Module.Problem;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@RequestScoped
 @Path("/problems")
 public class ProblemController {
     @Inject
@@ -26,6 +28,13 @@ public class ProblemController {
     @Path("/Count")
     public int count(@BeanParam SearchProblemModel searchProblemModel) {
         return 100;
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("{problemId}/processfile")
+    public int process(@PathParam("problemId") int problemId) {
+        return problemService.process(problemId);
     }
 
     @GET

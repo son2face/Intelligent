@@ -14,6 +14,7 @@ public class ShapeModel {
     private Integer problemId;
     private Integer level;
     private Integer userId;
+    private Integer code;
     private Collection<EdgeModel> edgesByShapeId;
     private ProblemModel problemByProblemId;
     private UserModel userByUserId;
@@ -59,6 +60,16 @@ public class ShapeModel {
         this.userId = userId;
     }
 
+    @Basic
+    @Column(name = "code", nullable = true)
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,6 +81,7 @@ public class ShapeModel {
         if (problemId != null ? !problemId.equals(that.problemId) : that.problemId != null) return false;
         if (level != null ? !level.equals(that.level) : that.level != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
 
         return true;
     }
@@ -80,6 +92,7 @@ public class ShapeModel {
         result = 31 * result + (problemId != null ? problemId.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
         return result;
     }
 
@@ -93,7 +106,7 @@ public class ShapeModel {
     }
 
     @ManyToOne
-    @JoinColumn(name = "problemId", referencedColumnName = "problemId", insertable=false, updatable=false)
+    @JoinColumn(name = "problemId", referencedColumnName = "problemId", insertable = false, updatable = false)
     public ProblemModel getProblemByProblemId() {
         return problemByProblemId;
     }
@@ -103,7 +116,7 @@ public class ShapeModel {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId", insertable=false, updatable=false)
+    @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false)
     public UserModel getUserByUserId() {
         return userByUserId;
     }

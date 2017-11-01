@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Son on 6/15/2017.
@@ -157,8 +158,9 @@ public class EdgeService {
         CriteriaQuery<EdgeModel> criteria = builder.createQuery(EdgeModel.class);
         Root<EdgeModel> EdgeEntities = criteria.from(EdgeModel.class);
         try {
-            List<EdgeModel> edgeEntities = session.createQuery(criteria).getResultList();
-            return Lists.transform(edgeEntities, edgeEntity -> new EdgeEntity(edgeEntity));
+            List<EdgeModel> edgeList = session.createQuery(criteria).getResultList();
+            return edgeList.stream()
+                    .map(s -> new EdgeEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
         }

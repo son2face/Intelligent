@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/glassfish/jersey/inject/jersey-hk2/unknown/jersey-hk2-unknown.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/glassfish/jersey/inject/jersey-hk2/unknown/jersey-hk2-unknown-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/glassfish/jersey/inject/jersey-hk2/unknown/jersey-hk2-unknown-sources.jar!/" />
     </SOURCES>

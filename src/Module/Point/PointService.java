@@ -5,7 +5,6 @@ import Manager.Interface.IDatabaseControllService;
 import Manager.Interface.IDatabaseService;
 import Manager.Service.DatabaseControllService;
 import Manager.Service.DatabaseService;
-import com.google.common.collect.Lists;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Son on 6/15/2017.
@@ -157,7 +157,8 @@ public class PointService {
         Root<PointModel> PointEntities = criteria.from(PointModel.class);
         try {
             List<PointModel> pointEntities = session.createQuery(criteria).getResultList();
-            return Lists.transform(pointEntities, pointEntity -> new PointEntity(pointEntity));
+            return pointEntities.stream()
+                    .map(s -> new PointEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
         }

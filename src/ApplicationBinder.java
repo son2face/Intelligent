@@ -19,7 +19,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(new DatabaseControllService()).to(DatabaseControllService.class);
         bind(new EdgeService()).to(EdgeService.class);
         bind(new FileService()).to(FileService.class);
-        bind(new ProblemService()).to(ProblemService.class);
+        bind(new ProblemService(new FileService(),new ShapeService(),new EdgeService())).to(ProblemService.class);
         bind(new ShapeService()).to(ShapeService.class);
         bind(new UserService()).to(UserService.class);
         bind(new PointService()).to(PointService.class);

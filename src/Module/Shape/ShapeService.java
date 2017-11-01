@@ -5,7 +5,6 @@ import Manager.Interface.IDatabaseControllService;
 import Manager.Interface.IDatabaseService;
 import Manager.Service.DatabaseControllService;
 import Manager.Service.DatabaseService;
-import com.google.common.collect.Lists;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Son on 6/15/2017.
@@ -56,13 +56,13 @@ public class ShapeService {
         }
     }
 
-    public ShapeEntity create(int shapeId, Integer problemId, Integer level, Integer userId) {
+    public ShapeEntity create(int shapeId, Integer problemId, Integer level, Integer userId, Integer code) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId);
-            ShapeModel shapeModel =shapeEntity.toModel();
+            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId, code);
+            ShapeModel shapeModel = shapeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(shapeModel)));
             tx.commit();
             ShapeEntity result = new ShapeEntity(shapeModel);
@@ -81,7 +81,7 @@ public class ShapeService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            ShapeModel shapeModel =shapeEntity.toModel();
+            ShapeModel shapeModel = shapeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(shapeModel)));
             tx.commit();
             ShapeEntity result = new ShapeEntity(shapeModel);
@@ -95,12 +95,12 @@ public class ShapeService {
         return null;
     }
 
-    public ShapeEntity update(int shapeId, Integer problemId, Integer level, Integer userId) {
+    public ShapeEntity update(int shapeId, Integer problemId, Integer level, Integer userId, Integer code) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId);
+            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId, code);
             session.update(shapeEntity.toModel());
             tx.commit();
             ShapeEntity result = get(shapeId);
@@ -158,7 +158,8 @@ public class ShapeService {
         Root<ShapeModel> ShapeEntities = criteria.from(ShapeModel.class);
         try {
             List<ShapeModel> shapeEntities = session.createQuery(criteria).getResultList();
-            return Lists.transform(shapeEntities, shapeEntity -> new ShapeEntity(shapeEntity));
+            return shapeEntities.stream()
+                    .map(s -> new ShapeEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
         }

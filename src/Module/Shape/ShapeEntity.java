@@ -21,15 +21,17 @@ public class ShapeEntity implements Serializable {
     public List<EdgeEntity> edgeEntityList;
     public ProblemEntity problemEntity;
     public UserEntity userEntity;
+    public Integer code;
 
     public ShapeEntity() {
     }
 
-    public ShapeEntity(int shapeId, Integer problemId, Integer level, Integer userId) {
+    public ShapeEntity(int shapeId, Integer problemId, Integer level, Integer userId, Integer code) {
         this.shapeId = shapeId;
         this.level = level;
         this.problemId = problemId;
         this.userId = userId;
+        this.code = code;
     }
 
     public ShapeEntity(ShapeModel ShapeModel) {
@@ -37,6 +39,7 @@ public class ShapeEntity implements Serializable {
         this.problemId = ShapeModel.getProblemId();
         this.level = ShapeModel.getLevel();
         this.userId = ShapeModel.getUserId();
+        this.code = ShapeModel.getCode();
         if (ShapeModel.getUserByUserId() != null) this.userEntity = new UserEntity(ShapeModel.getUserByUserId());
         if (ShapeModel.getProblemByProblemId() != null)
             this.problemEntity = new ProblemEntity(ShapeModel.getProblemByProblemId());
@@ -48,6 +51,8 @@ public class ShapeEntity implements Serializable {
         ShapeModel ShapeModel = new ShapeModel();
         ShapeModel.setShapeId(shapeId);
         ShapeModel.setLevel(level);
+        ShapeModel.setCode(code);
+        ShapeModel.setProblemId(problemId);
 //        if (problemEntity != null) ShapeModel.setProblemByProblemId(this.problemEntity.toModel());
 //        if (userEntity != null) ShapeModel.setUserByUserId(this.userEntity.toModel());
 //        if (edgeEntityList != null)

@@ -28,6 +28,10 @@ public class ProblemEntity implements Serializable {
     public List<PointEntity> pointEntityList;
     public List<ShapeEntity> shapeEntityList;
 
+    public void setFileEntity(FileEntity fileEntity) {
+        this.fileEntity = fileEntity;
+    }
+
     public ProblemEntity() {
     }
 
