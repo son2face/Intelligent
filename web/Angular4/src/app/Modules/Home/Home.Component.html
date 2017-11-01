@@ -1,0 +1,4 @@
+<ngvas [width]="1000" [height]="1000" *ngIf="problemEntity != null">
+    <ngvas-polygon [fill]="'#03ff5f'" [sides]="item.convertedEdges"
+                   *ngFor="let item of problemEntity.shapeEntities"></ngvas-polygon>
+</ngvas>

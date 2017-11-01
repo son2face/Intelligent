@@ -1,0 +1,1062 @@
+/*
+    Layer Control
+ */
+.Hide {
+    display: none !important;
+}
+
+@media (min-width: 992px) {
+    .modal-xxl {
+        max-width: 1100px;
+    }
+}
+
+
+/* You can add global styles to this file, and also import other style files */
+.text-danger{
+    opacity: 1 !important;
+}
+.fpt-navbar {
+    background-color: #0064b4;
+}
+
+.fpt-nav-link {
+    font-size: 13px;
+    padding: 12px;
+    color: white !important;
+}
+
+.fpt-nav-link:hover {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.active-link {
+    background-color: #2A92D8;
+}
+
+.active-sublink {
+    background-color: #2A92D8 !important;
+}
+
+.fpt-dropdown-menu {
+    font-size: 13px;
+    background-color: #0064b4;
+}
+
+#SpinnerBar {
+    display: none;
+}
+
+.table-responsive {
+    overflow-y: hidden;
+}
+
+.SpinnerBarBackdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0.1;
+    height: 100%;
+    width: 100%;
+    z-index: 20000;
+}
+
+@-webkit-keyframes bounceDelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+    }
+
+    40% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes bounceDelay {
+    0%, 80%, 100% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+.page-spinner-bar {
+    position: fixed;
+    z-index: 10051;
+    width: 100px;
+    top: 40%;
+    left: 50%;
+    margin-left: -55px;
+    text-align: center;
+}
+
+.page-spinner-bar > div {
+    margin: 0 5px;
+    width: 18px;
+    height: 18px;
+    background: #eee;
+    -ms-border-radius: 100% !important;
+    border-radius: 100% !important;
+    display: inline-block;
+    -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
+    -ms-animation: bounceDelay 1.4s infinite ease-in-out;
+    animation: bounceDelay 1.4s infinite ease-in-out;
+    /* Prevent first frame from flickering when animation starts */
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.page-spinner-bar .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+    background-color: rgb(12, 76, 163);
+}
+
+.page-spinner-bar .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+    background-color: rgb(243, 112, 34);
+}
+
+.page-spinner-bar .bounce3 {
+    background-color: rgb(77, 183, 72);
+}
+
+/*All*/
+/*CSS chung*/
+/*-------------------------------------
+-------------------------------------*/
+/*TABLE*/
+table {
+    font-family: sans-serif;
+    margin-top: 20px;
+    line-height: 17px;
+    font-size: 12px;
+}
+
+th {
+    text-align: center;
+    background-color: #0064b4;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+tr:nth-child(1) {
+    border: none;
+}
+
+tr td {
+    white-space: nowrap;
+    line-height: 17px;
+}
+
+.row {
+    margin: 5px;
+}
+
+/*TITLE*/
+.caption {
+    text-transform: uppercase;
+    float: left;
+    font-size: 18px;
+    line-height: 17px;
+    padding: 10px 0;
+    font-family: "Open Sans", sans-serif;
+    margin: 5px 5px 0 5px;
+}
+
+title {
+    display: block;
+    font-size: 30px;
+    text-align: center;
+}
+
+/*END TITLE*/
+/*ICON*/
+.delete {
+    background-color: red;
+    border: none;
+}
+
+btn-success {
+    background-color: #4CAF50;
+}
+
+.btn-collapse {
+    position: relative;
+    cursor: pointer;
+    color: #0064b4 !important;
+    padding: 0!important;
+    width: 19px!important;
+    height: 14px!important;
+}
+
+.adddown {
+    margin-left: 10%;
+    padding-top: 8.9%;
+    padding-bottom: 8.9%;
+    padding-left: 12%;
+}
+
+.edittrash {
+    margin-left: 10%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    padding-left: 12%;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+/*END ICON*/
+/*INPUT SEARCH*/
+.SearchBox {
+    width: 100%;
+    max-height: 30px;
+}
+
+.ui.input input {
+    padding: 0.5em 1em !important;
+}
+
+.ui.search .prompt {
+    border-radius: 4px !important;
+}
+
+/*END INPUT SEARCH*/
+/*PADING*/
+app-paging {
+    float: left !important;
+    padding-top: 1% !important;
+}
+
+/*END PADING*/
+/*  Start Css for fieldset*/
+fieldset.scheduler-border {
+    border: 1px solid #eceeef !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 2em 2em 1.2em 2em !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #eceeef;
+    box-shadow: 0px 0px #eceeef;
+}
+
+legend.scheduler-border {
+    border: none;
+    width: 260px;
+    color: #0064b4;
+}
+.position-in-fieldset {
+    padding-left: 1%;
+    margin-top: 2%;
+}
+    .position-in-fieldset div p {
+        display: inline;
+    }
+/*End css for fieldset*/
+/*END CSS chung*/
+/*-------------------------------------
+-------------------------------------*/
+/*CSS VỚI MODAL NHIỀU TRƯỜNG*/
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width: 1000px;
+    }
+}
+
+/*END CSS VỚI MODAL NHIỀU TRƯỜNG*/
+/*-------------------------------------
+-------------------------------------*/
+/*CSS VỚI MODAL NHIỀU RESPONSIVE 3 TABLE*/
+.threetable {
+    width: 100%;
+}
+
+.threetable td {
+    padding: 2px;
+    line-height: 17px;
+}
+
+@media (min-width: 768px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 14.2%;
+        padding-bottom: 14.2%;
+        padding-left: 2%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 2%;
+    }
+}
+
+@media (min-width: 912px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 13.3%;
+        padding-bottom: 13.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 972px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 12.5%;
+        padding-bottom: 12.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1018px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 11.9%;
+        padding-bottom: 11.9%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1066px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 11.4%;
+        padding-bottom: 11.4%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1114px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 11.2%;
+        padding-bottom: 11.2%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1138px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 10.7%;
+        padding-bottom: 10.7%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1186px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 10.4%;
+        padding-bottom: 10.4%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1210px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 10.1%;
+        padding-bottom: 10.1%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1246px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 9.8%;
+        padding-bottom: 9.8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1282px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 9.5%;
+        padding-bottom: 9.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1318px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 9.2%;
+        padding-bottom: 9.2%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1354px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6.5%;
+        padding-bottom: 6.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1402px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.6%;
+        padding-bottom: 8.6%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1450px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.3%;
+        padding-bottom: 8.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1486px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.3%;
+        padding-bottom: 8.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1498px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8%;
+        padding-bottom: 8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1546px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.7%;
+        padding-bottom: 7.7%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1607px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.4%;
+        padding-bottom: 7.4%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1667px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.1%;
+        padding-bottom: 7.1%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1703px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.1%;
+        padding-bottom: 7.1%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1739px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6.8%;
+        padding-bottom: 6.8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1811px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6.6%;
+        padding-bottom: 6.6%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1860px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 4.8%;
+        padding-bottom: 4.8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1943px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6%;
+        padding-bottom: 6%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 2185px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 5.5%;
+        padding-bottom: 5.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 0.9%;
+        padding-bottom: 0.9%;
+        padding-left: 12%;
+    }
+}
+
+/*style tree*/
+.ui-tree {
+    width: 100%
+}
+
+ui-treenode-content ui-treenode-selectable {
+    width: 70px;
+}
+
+.ui-widget-content {
+    border: 0;
+}
+
+.ui-tree .ui-treenode-icon {
+    color: #dbc056;
+}
+
+.ui-treenode-content {
+    width: 68px;
+}
+
+/*End style tree*/
+
+/*END CSS VỚI MODAL NHIỀU RESPONSIVE 3 TABLE*/
+
+/* Portlet */
+.portlet {
+    background: #fff;
+    padding: 20px;
+}
+
+.portlet.portlet-gray {
+    background: #f7f7f7;
+}
+
+.portlet.portlet-bordered {
+    border: 1px solid #eee;
+}
+
+/* Portlet Title */
+.portlet-title {
+    padding: 0;
+    min-height: 40px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 18px;
+}
+
+.caption-portlet {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.caption-portlet.caption-portlet-green .caption-portlet-subject,
+.caption-portlet.caption-portlet-green i {
+    color: #4db3a2;
+    font-weight: 200;
+}
+
+.caption-portlet.caption-portlet-red .caption-portlet-subject,
+.caption-portlet.caption-portlet-red i {
+    color: #e26a6a;
+    font-weight: 200;
+}
+
+.caption-portlet.caption-portlet-purple .caption-portlet-subject,
+.caption-portlet.caption-portlet-purple i {
+    color: #8775a7;
+    font-weight: 400;
+}
+
+.caption-portlet i {
+    color: #777;
+    font-size: 15px;
+    font-weight: 300;
+    margin-top: 3px;
+}
+
+.caption-portlet-subject {
+    color: #666;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.caption-portlet-helper {
+    padding: 0;
+    margin: 0;
+    line-height: 13px;
+    color: #9eacb4;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.addnewrow {
+    position: relative;
+    cursor: pointer;
+    color: #0064b4 !important;
+}
+
+.text-vertical {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.fams-error {
+    color: #FFF !important;
+    background-color: #ff0019 !important;
+}
+
+.fams-info {
+    color: #FFF !important;
+    background-color: #2A92D8 !important;
+}
+
+.fams-warning {
+    color: #FFF !important;
+    background-color: #f06e28 !important;
+}
+
+.fams-success {
+    color: #FFF !important;
+    background-color: #DFF2BF !important;
+}
+
+.farm-running {
+    color: #FFF !important;
+    background-color: #e6e6e6 !important;
+}
+
+.list-group-item:hover {
+    color: #fff;
+    background-color: #2A92D8;
+    cursor: pointer;
+}
+
+.li-selected {
+    color: #fff;
+    background-color: #0064b4 !important;
+}
+
+.li-active {
+    color: #fff;
+    background-color: #2A92D8 !important;
+}
+
+.fams-header-blue {
+    background-color: #0064B4;
+    color: #fff;
+}
+
+.table-header {
+    text-align: center;
+}
+
+.table-header th {
+    vertical-align: middle !important;
+    padding: 0.3rem !important;
+}
+
+.table-header td {
+    padding: 0.3rem !important;
+}
+
+.TagsInput input{
+    border: 0;
+    outline: 0;
+}
+
+.row-number{
+    text-align: right;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-family: sans-serif;
+    font-size: 12px;
+    opacity: .4!important;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    font-family: sans-serif;
+    opacity: .3!important;
+    font-size: 12px;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    font-family: sans-serif;
+    opacity: .3!important;
+    font-size: 12px;
+}
+:-moz-placeholder { /* Firefox 18- */
+    font-family: sans-serif;
+    opacity: .3!important;
+    font-size: 12px;
+}
+
+.selected-box {
+    border: solid #4CAF50 1px;
+    float: left;
+    margin: 2px;
+    padding: 2px 15px;
+}
+
+.fams-font-size{
+    font-size: 12px !important;
+}
+
+.fams-active {
+    background: #2A92D8!important;
+}
+
+.ui-widget{
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1em;
+}
+
+/*body{*/
+    /*font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+    /*font-size: 1em;*/
+/*}*/
+
+.ui-rating {
+    font-size: 200% !important;
+}
+
+    .ui-rating a {
+        color: red;
+    }
+        .ui-rating a:focus, .ui-rating a:hover{
+            text-decoration:none;
+        }
+.mod-width{
+    max-width: 100px;
+}
+
+.fams-style{
+    width: 140px;
+}
+
+.n-p-l{
+    padding-left: 0px !important;
+}
+
+.n-p-r{
+    padding-right: 0px !important;
+}
+
+.fams-header-light {
+    background-color: #D6D6D6;
+    color: #000;
+}
+
+body{
+    font-size: 12px;
+}
+
+.form-control{
+    font-size: 12px;
+}
+
+.top-place {
+    bottom: 100%;
+    top:auto;
+}
+
+.input-dropdown::after{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.3em;
+    vertical-align: middle;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-left: 0.3em solid transparent;
+}
+
+.btn-secondary.nohover:hover {
+    cursor: default !important;
+    opacity: 0.9;
+}
+
+/*Style Tooltip*/
+
+.ng-tooltip {
+    max-width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 8px;
+    position: absolute;
+    z-index: 1000;
+    display: block;
+    opacity: 0;
+    -webkit-transition: opacity 300ms;
+    -moz-transition: opacity 300ms;
+    -o-transition: opacity 300ms;
+    transition: opacity 300ms;
+}
+
+.ng-tooltip-show {
+    opacity: 1;
+}
+
+.ng-tooltip::after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+}
+
+.ng-tooltip-top::after {
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: black transparent transparent transparent;
+}
+
+.ng-tooltip-bottom::after {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: transparent transparent black transparent;
+}
+
+.ng-tooltip-left::after {
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent transparent transparent black;
+}
+
+.ng-tooltip-right::after {
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent black transparent transparent;
+}
+
+.MinHeightTable{
+    min-height: 486.67px;
+}
+
+.table-nowhitespace td {
+    white-space: normal !important;
+}

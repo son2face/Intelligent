@@ -27,7 +27,7 @@ public class FileEntity implements Serializable {
     public Timestamp expiredTime;
     public Integer userId;
     public UserEntity userEntity;
-    public List<ProblemEntity> problemEntityList;
+    public List<ProblemEntity> problemEntities;
 
 
     public FileEntity() {
@@ -53,10 +53,14 @@ public class FileEntity implements Serializable {
         this.userId = FileModel.getUserId();
         for (Object object : objects) {
             if (object instanceof UserModel) {
-                this.userEntity = new UserEntity(FileModel.getUserByUserId());
+                this.userEntity = new UserEntity((UserModel) object);
             } else if (object instanceof Collection) {
-                if (object.getClass().getGenericSuperclass() instanceof ProblemModel)
-                    this.problemEntityList = FileModel.getProblemsByFileId().parallelStream().map(ProblemEntity::new).collect(Collectors.toList());
+                for (Object o : (Collection<Object>) object) {
+                    if (o instanceof ProblemModel) {
+                        this.problemEntities = ((Collection<ProblemModel>) object).parallelStream().map(ProblemEntity::new).collect(Collectors.toList());
+                        break;
+                    }
+                }
             }
         }
     }
@@ -71,8 +75,8 @@ public class FileEntity implements Serializable {
         FileModel.setExpiredTime(expiredTime);
         FileModel.setUserId(userId);
 //        if (userEntity != null) FileModel.setUserByUserId(userEntity.toModel());
-//        if (problemEntityList != null)
-//            FileModel.setProblemsByFileId(problemEntityList.parallelStream().map(ProblemEntity::toModel).collect(Collectors.toList()));
+//        if (problemEntities != null)
+//            FileModel.setProblemsByFileId(problemEntities.parallelStream().map(ProblemEntity::toModel).collect(Collectors.toList()));
         return FileModel;
     }
 }

@@ -1,0 +1,15 @@
+﻿<div contenteditable="true" spellcheck="false" style="-webkit-user-select:text;font-size: 12px" (keypress)="OnKeyPress($event)"
+     (keyup)="OnKeyUp($event)" [attr.id]="Id" [innerHTML]="BindingObject[PropertyToBindWithContent]"
+     (click)="OnClick($event)" [ngClass]="InputClass">
+</div>
+<ul [ngClass]="'dropdown-content list-group ' + ClassContent" *ngIf="IsShow" (click)="TurnOff($event)"
+    (mousedown)="TurnOn()"
+    [ngStyle]="{'top': TopPopUp + 'px', 'left' : LeftPopUp + 'px', 'position' : 'fixed', 'z-index':'1'}"
+    (mousemove)="Remove()">
+    <ng-content select="dropdown-content" *ngIf="IsShow"></ng-content>
+    <li *ngIf="DataList == null" class="list-group-item">Đang tải dữ liệu ...</li>
+    <li *ngIf="DataList != null && DataList.length == 0" class="list-group-item">Không có dữ liệu</li>
+    <li *ngIf="IsError" class="list-group-item text-danger">
+        <ng-content select="dropdown-error"></ng-content>
+    </li>
+</ul>

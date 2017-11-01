@@ -1,10 +1,15 @@
 package Module.User;
 
 import Module.File.FileEntity;
+import Module.File.FileModel;
+import Module.Point.PointModel;
 import Module.Problem.ProblemEntity;
+import Module.Problem.ProblemModel;
 import Module.Shape.ShapeEntity;
+import Module.Shape.ShapeModel;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,9 +22,9 @@ public class UserEntity implements Serializable {
     public int userId;
     public String userName;
     public String passWord;
-    private List<FileEntity> fileEntityList;
-    private List<ProblemEntity> problemEntityList;
-    private List<ShapeEntity> shapeEntityList;
+    private List<FileEntity> fileEntities;
+    private List<ProblemEntity> problemEntities;
+    private List<ShapeEntity> shapeEntities;
 
     public UserEntity() {
     }
@@ -30,16 +35,28 @@ public class UserEntity implements Serializable {
         this.passWord = passWord;
     }
 
-    public UserEntity(UserModel UserModel) {
+    public UserEntity(UserModel UserModel, Object... objects) {
         this.userId = UserModel.getUserId();
         this.userName = UserModel.getUserName();
         this.passWord = UserModel.getPassWord();
-        if (UserModel.getFilesByUserId() != null)
-            this.fileEntityList = UserModel.getFilesByUserId().parallelStream().map(FileEntity::new).collect(Collectors.toList());
-        if (UserModel.getProblemsByUserId() != null)
-            this.problemEntityList = UserModel.getProblemsByUserId().parallelStream().map(ProblemEntity::new).collect(Collectors.toList());
-        if (UserModel.getShapesByUserId() != null)
-            this.shapeEntityList = UserModel.getShapesByUserId().parallelStream().map(ShapeEntity::new).collect(Collectors.toList());
+        for (Object object : objects) {
+            if (object instanceof Collection) {
+                for (Object o : (Collection<Object>) object) {
+                    if (o instanceof PointModel) {
+                        this.fileEntities = ((Collection<FileModel>) object).parallelStream().map(FileEntity::new).collect(Collectors.toList());
+                        break;
+                    }
+                    if (o instanceof ShapeModel) {
+                        this.problemEntities = ((Collection<ProblemModel>) object).parallelStream().map(ProblemEntity::new).collect(Collectors.toList());
+                        break;
+                    }
+                    if (o instanceof ShapeModel) {
+                        this.shapeEntities = ((Collection<ShapeModel>) object).parallelStream().map(ShapeEntity::new).collect(Collectors.toList());
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public UserModel toModel() {
@@ -47,12 +64,12 @@ public class UserEntity implements Serializable {
         UserModel.setUserId(userId);
         UserModel.setUserName(userName);
         UserModel.setPassWord(passWord);
-//        if (fileEntityList != null)
-//            UserModel.setFilesByUserId(fileEntityList.parallelStream().map(FileEntity::toModel).collect(Collectors.toList()));
-//        if (problemEntityList != null)
-//            UserModel.setProblemsByUserId(problemEntityList.parallelStream().map(ProblemEntity::toModel).collect(Collectors.toList()));
-//        if (shapeEntityList != null)
-//            UserModel.setShapesByUserId(shapeEntityList.parallelStream().map(ShapeEntity::toModel).collect(Collectors.toList()));
+//        if (fileEntities != null)
+//            UserModel.setFilesByUserId(fileEntities.parallelStream().map(FileEntity::toModel).collect(Collectors.toList()));
+//        if (problemEntities != null)
+//            UserModel.setProblemsByUserId(problemEntities.parallelStream().map(ProblemEntity::toModel).collect(Collectors.toList()));
+//        if (shapeEntities != null)
+//            UserModel.setShapesByUserId(shapeEntities.parallelStream().map(ShapeEntity::toModel).collect(Collectors.toList()));
         return UserModel;
     }
 

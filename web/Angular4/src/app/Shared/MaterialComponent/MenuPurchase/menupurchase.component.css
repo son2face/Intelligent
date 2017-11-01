@@ -1,0 +1,42 @@
+﻿.numberCircle {
+    display: table-caption;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 0.4rem;
+    background: #fff;
+    border: 2px solid;
+    text-align: center;
+    font: 20px Arial, sans-serif;
+    cursor: default;
+}
+
+
+.text-fams-big {
+    font-weight: bold;
+    font-size: 18px;
+    cursor: default;
+}
+
+.text-fams-small {
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 1.1rem;
+    opacity: 0.8;
+    cursor: default;
+}
+
+.menu-style {
+    color: #666;
+    border-color: #666;
+}
+
+.ActiveMenu {
+    color: #0064b4;
+    border-color: #0064b4;
+}
+
+.menu-style:hover {
+    color: #0064b4;
+    border-color: #0064b4;
+}

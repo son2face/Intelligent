@@ -1,0 +1,45 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" aria-label="Previous" tabindex="-1" (click)="previous()"
+               *ngIf="PagingModel.TotalPage>PagingModel.NumberButton">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item" [ngClass]="{'active':PagingModel.Active == 0}" (click)="entry(0)">
+            <a class="page-link" tabindex="-1">1</a>
+        </li>
+        <li class="page-item" *ngIf="dot && PagingModel.TotalPage>PagingModel.NumberButton && PagingModel.base > 1">
+            <a class="page-link" tabindex="-1">...</a>
+        </li>
+        <li class="page-item" *ngFor="let i of PagingModel.buttons" [ngClass]="{'active':PagingModel.Active == i}"
+            (click)="entry(i)">
+            <a *ngIf="i>0 && i < PagingModel.TotalPage-1" class="page-link" tabindex="-1">{{i+1}}</a>
+        </li>
+        <li class="page-item"
+            *ngIf="dot && PagingModel.TotalPage>PagingModel.NumberButton  && PagingModel.base < PagingModel.TotalPage - PagingModel.NumberButton + 1">
+            <a class="page-link" tabindex="-1">...</a>
+        </li>
+        <li class="page-item" [ngClass]="{'active':PagingModel.Active == PagingModel.TotalPage-1}"
+            *ngIf="PagingModel.TotalPage > 1" (click)="entry(PagingModel.TotalPage-1)">
+            <a class="page-link" tabindex="-1">{{PagingModel.TotalPage}}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" aria-label="Next" tabindex="-1" (click)="next()"
+               *ngIf="PagingModel.TotalPage>PagingModel.NumberButton">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        <li class="dropup">
+            <a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{PagingModel.Take}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left: auto;">
+                <a class="dropdown-item" href="#" *ngFor="let s of SetOfPage" (click)="SetTake(s)">{{s}}</a>
+            </div>
+        </li>
+    </ul>
+</nav>

@@ -57,6 +57,34 @@ public class ProblemService {
         ProblemService.factory = factory;
     }
 
+    public List<ProblemEntity> get(SearchProblemModel searchProblemModel) {
+        Session session = factory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ProblemModel> criteria = builder.createQuery(ProblemModel.class);
+        Root<ProblemModel> ProblemEntities = criteria.from(ProblemModel.class);
+        try {
+            List<ProblemModel> problemList = session.createQuery(criteria).getResultList();
+            List<ProblemEntity> problemEntities = problemList.stream()
+                    .map(problemModel ->
+                            new ProblemEntity(
+                                    problemModel, problemModel.getPointsByProblemId(),
+                                    problemModel.getShapesByProblemId(),
+                                    problemModel.getUserByUserId()
+                            )
+                    ).collect(Collectors.toList());
+            for (int i = 0; i < problemEntities.size(); i++) {
+                ProblemEntity problemEntity = problemEntities.get(i);
+                if (problemEntity.fileId != null) {
+                    FileEntity fileEntity = fileService.get(problemEntity.fileId);
+                    problemEntity.setFileEntity(fileEntity);
+                    problemEntities.set(i, problemEntity);
+                }
+            }
+            return problemEntities;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     public ProblemEntity get(int id) {
         Session session = factory.openSession();
@@ -66,7 +94,11 @@ public class ProblemService {
         criteria.where(builder.equal(problemEntities.get("problemId"), id));
         try {
             ProblemModel problemModel = session.createQuery(criteria).getSingleResult();
-            return new ProblemEntity(problemModel);
+            return new ProblemEntity(
+                    problemModel, problemModel.getPointsByProblemId(),
+                    problemModel.getShapesByProblemId(),
+                    problemModel.getUserByUserId()
+            );
         } catch (NoResultException e) {
             return null;
         }
@@ -168,34 +200,6 @@ public class ProblemService {
         return false;
     }
 
-    public List<ProblemEntity> get(SearchProblemModel searchProblemModel) {
-        Session session = factory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<ProblemModel> criteria = builder.createQuery(ProblemModel.class);
-        Root<ProblemModel> ProblemEntities = criteria.from(ProblemModel.class);
-        try {
-            List<ProblemModel> problemList = session.createQuery(criteria).getResultList();
-            List<ProblemEntity> problemEntities = problemList.stream()
-                    .map(problemEntity -> new ProblemEntity(problemEntity, problemEntity.getPointsByProblemId(), problemEntity.getShapesByProblemId())).collect(Collectors.toList());
-            for (int i = 0; i < problemEntities.size(); i++) {
-                ProblemEntity problemEntity = problemEntities.get(i);
-                if (problemEntity.fileId != null) {
-                    FileEntity fileEntity = fileService.get(problemEntity.fileId);
-                    problemEntity.setFileEntity(fileEntity);
-                    problemEntities.set(i, problemEntity);
-                }
-            }
-//            problemEntities.forEach(problemEntity -> {
-//
-////                list.add(fileService.get(problemEntity.fileId));
-////                problemEntity.fileEntity =
-//            });
-
-            return problemEntities;
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 
     public int process(int id) {
         Session session = factory.openSession();
@@ -227,7 +231,7 @@ public class ProblemService {
                         edgeService.create(edgeEntity);
                         x0 = x;
                         y0 = y;
-                    } catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }

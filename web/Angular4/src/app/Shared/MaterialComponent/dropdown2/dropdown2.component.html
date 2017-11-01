@@ -1,0 +1,17 @@
+﻿<div class="dropdown-list col-md-12" style="padding:0">
+    <div>
+        <input type="text" class="form-control" (click)="IsShow = true;" (keyup)="GetKey($event)"
+               (blur)="CheckShowHide()"
+               [(ngModel)]="SelectedDisplay" [placeholder]="Placeholder"/>
+    </div>
+    <ul class="dropdown-content" *ngIf="IsShow">
+        <li *ngIf="IsError">
+            <span class="text-danger">Not found data</span>
+        </li>
+        <ng-container *ngIf="!IsError">
+            <li *ngFor="let Item of _Items" (click)="GetItem(Item)">
+                <ng-template [ngTemplateOutlet]="itemTemplate" [ngOutletContext]="{ $implicit: Item }"></ng-template>
+            </li>
+        </ng-container>
+    </ul>
+</div>

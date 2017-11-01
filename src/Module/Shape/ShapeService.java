@@ -41,6 +41,19 @@ public class ShapeService {
         ShapeService.factory = factory;
     }
 
+    public List<ShapeEntity> get(SearchShapeModel searchShapeModel) {
+        Session session = factory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ShapeModel> criteria = builder.createQuery(ShapeModel.class);
+        Root<ShapeModel> ShapeEntities = criteria.from(ShapeModel.class);
+        try {
+            List<ShapeModel> shapeEntities = session.createQuery(criteria).getResultList();
+            return shapeEntities.stream()
+                    .map(shapeModel -> new ShapeEntity(shapeModel, shapeModel.getEdgesByShapeId(), shapeModel.getUserByUserId())).collect(Collectors.toList());
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     public ShapeEntity get(int id) {
         Session session = factory.openSession();
@@ -50,7 +63,7 @@ public class ShapeService {
         criteria.where(builder.equal(shapeEntities.get("shapeId"), id));
         try {
             ShapeModel shapeModel = session.createQuery(criteria).getSingleResult();
-            return new ShapeEntity(shapeModel);
+            return new ShapeEntity(shapeModel, shapeModel.getEdgesByShapeId(), shapeModel.getUserByUserId());
         } catch (NoResultException e) {
             return null;
         }
@@ -151,17 +164,5 @@ public class ShapeService {
         return false;
     }
 
-    public List<ShapeEntity> get(SearchShapeModel searchShapeModel) {
-        Session session = factory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<ShapeModel> criteria = builder.createQuery(ShapeModel.class);
-        Root<ShapeModel> ShapeEntities = criteria.from(ShapeModel.class);
-        try {
-            List<ShapeModel> shapeEntities = session.createQuery(criteria).getResultList();
-            return shapeEntities.stream()
-                    .map(s -> new ShapeEntity(s)).collect(Collectors.toList());
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
+
 }

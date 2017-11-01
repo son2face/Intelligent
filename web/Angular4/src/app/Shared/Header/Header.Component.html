@@ -1,0 +1,44 @@
+﻿<div class="navbar-fixed-top">
+    <div class="page-header-top">
+        <div class="container">
+            <div class="page-logo">
+                <a href="/">
+                    <b> Trí tuệ nhân tạo</b>
+                </a>
+            </div>
+            <div class="page-info" id="asds">
+                <div class="page-info-content">
+                    <span class="public-header-avatar">
+                        <img src="Angular4/src/assets/VNU-UET.jpg" alt="logo" width="47"/>
+                    </span>
+                    <!--<span class="page-info-content-name">{{UserEntity !== undefined ? UserEntity.Display : "" }}</span>-->
+                    <a href="" >
+                        <i class="glyphicon glyphicon-log-out"></i> Đăng xuất
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="nav navbar-inverse fpt-navbar navbar-toggleable-md">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer"
+            aria-controls="navbarToggleExternalContent" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container collapse navbar-collapse" id="navbarsExampleContainer">
+        <ul class="navbar-nav mr-auto">
+            <li *ngFor="let menu of MenuList"
+                [ngClass]=" (menu.hasSub() ? ' dropdown' : '')">
+                <a class="fpt-nav-link nav-link" routerLinkActive="active-link"
+                   [routerLink]="[menu.Link]">{{menu.Name}}
+                    <i class="fa fa-angle-down" *ngIf="menu.hasSub()"></i>
+                </a>
+                <div class="dropdown-content" *ngIf="menu.hasSub()">
+                    <a *ngFor="let sub of menu.Sub" class="fpt-dropdown-menu fpt-nav-link"
+                       routerLinkActive="active-sublink"
+                       [routerLink]="[sub.Link]">{{sub.Name}}</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

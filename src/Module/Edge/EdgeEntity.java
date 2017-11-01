@@ -1,6 +1,7 @@
 package Module.Edge;
 
 import Module.Shape.ShapeEntity;
+import Module.Shape.ShapeModel;
 
 import java.io.Serializable;
 
@@ -32,6 +33,7 @@ public class EdgeEntity implements Serializable {
     }
 
     public EdgeEntity(EdgeModel EdgeModel, Object... objects) {
+        System.out.println(1);
         this.edgeId = EdgeModel.getEdgeId();
         this.startX = EdgeModel.getStartX();
         this.endX = EdgeModel.getEndX();
@@ -39,8 +41,8 @@ public class EdgeEntity implements Serializable {
         this.endY = EdgeModel.getEndY();
         this.shapeId = EdgeModel.getShapeId();
         for (Object object : objects) {
-            if (object instanceof EdgeModel) {
-                this.shapeEntity = new ShapeEntity(EdgeModel.getShapeByShapeId());
+            if (object instanceof ShapeModel) {
+                this.shapeEntity = new ShapeEntity((ShapeModel) object);
             }
         }
     }

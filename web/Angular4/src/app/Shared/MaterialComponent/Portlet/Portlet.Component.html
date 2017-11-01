@@ -1,0 +1,12 @@
+﻿<div class="card">
+    <div class="card-header">
+        <i [ngClass]="TitleIcon"></i>&nbsp;{{TitleName}}
+        <button type="button" class="btn btn-sm btn-success pull-right" title="Search" (click)="Search()"
+                *ngIf="HideButton">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+    <div class="card-block">
+        <ng-content></ng-content>
+    </div>
+</div>

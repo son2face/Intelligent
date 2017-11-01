@@ -1,0 +1,282 @@
+<div>
+    <div class="row">
+        <div class="caption">
+            <span>Danh sách {{Title}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead style="white-space: nowrap">
+            <tr>
+                <th>STT</th>
+                <th>fileId</th>
+                <th>name</th>
+                <th>data</th>
+                <th>createdTime</th>
+                <th>type</th>
+                <th>expriedTime</th>
+                <th>userId</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.fileId" type="number"
+                           placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.name" type="text" placeholder="Search..."
+                           (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.data" type="text" placeholder="Search..."
+                           (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.createdTime" type="text"
+                           placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.type" type="text" placeholder="Search..."
+                           (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.expriedTime" type="text"
+                           placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchfileEntity.userId" type="text"
+                           placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td style="text-align: center">
+                    <app-modal>
+                        <OpenDiv>
+                            <button type="button" class="btn btn-success btn-circle">
+                                <i class="fa fa-plus fa-1x" aria-hidden="true">
+                                </i>
+                            </button>
+                        </OpenDiv>
+                        <modal-header>
+                            <h5 class="modal-title" id="add_modal">
+                                <i class="fa fa-dropbox" aria-hidden="true"></i>
+                                Thêm {{ Title }}
+                            </h5>
+                        </modal-header>
+                        <modal-body>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">fileId:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập fileId"
+                                           name="fileIdCreate" [(ngModel)]="CreatedfileEntity.fileId"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">name:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập name"
+                                           name="nameCreate" [(ngModel)]="CreatedfileEntity.name"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">data:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập data"
+                                           name="dataCreate" [(ngModel)]="CreatedfileEntity.data"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">createdTime:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập createdTime"
+                                           name="createdTimeCreate" [(ngModel)]="CreatedfileEntity.createdTime"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">type:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập type"
+                                           name="typeCreate" [(ngModel)]="CreatedfileEntity.type"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">expriedTime:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập expriedTime"
+                                           name="expriedTimeCreate" [(ngModel)]="CreatedfileEntity.expriedTime"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                                    <label class="control-label">userId:</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                                    <input type="text" class="form-control" placeholder="Nhập userId"
+                                           name="userIdCreate" [(ngModel)]="CreatedfileEntity.userId"
+                                           required/>
+                                </div>
+                            </div>
+                        </modal-body>
+                        <modal-footer>
+                            <button data-dismiss="modal" data-backdrop="false" (click)="Add()"
+                                    class="btn btn-success">
+                                <i class="fa fa-check" aria-hidden="true"></i> Lưu
+                            </button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                <span><i class="fa fa-times" aria-hidden="true"></i> Hủy</span>
+                            </button>
+                        </modal-footer>
+                    </app-modal>
+                    <button type="button" class="btn btn-success btn-circle"><i class="fa fa-download fa-1x"
+                                                                                aria-hidden="true"></i></button>
+                </td>
+            </tr>
+            <tr *ngFor="let file of (fileEntities ? fileEntities : []); let i = index">
+                <td>{{PagingModel.Take * PagingModel.Active + i + 1}}</td>
+                <td>{{file?.fileId}}</td>
+                <td>{{file?.name}}</td>
+                <td>{{file?.data}}</td>
+                <td>{{file?.createdTime}}</td>
+                <td>{{file?.type}}</td>
+                <td>{{file?.expriedTime}}</td>
+                <td>{{file?.userId}}</td>
+                <td style="text-align: center">
+                    <button type="button" class="btn btn-primary btn-circle" (click)="LoadDataToUpdateModal(file,i)">
+                        <i class="fa fa-edit fa-1x" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-circle delete" (click)="LoadDataToDelete(file)">
+                        <i class="fa fa-trash fa-1x" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<app-paging [PagingModel]="PagingModel" [dot]="true" (onChanges)="Search()"></app-paging>
+<app-modal [OpenModalId]="EditModalComponent.ID">
+    <modal-header>
+        <h5 class="modal-title">
+            <i class="fa fa-dropbox" aria-hidden="true"></i>
+            Sửa {{ Title }}
+        </h5>
+    </modal-header>
+    <modal-body>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">fileId:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập fileId"
+                       name="fileIdEdit" [(ngModel)]="EditedfileEntity.fileId"
+                       required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">name:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập name"
+                       name="nameEdit" [(ngModel)]="EditedfileEntity.name"
+                       required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">data:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập data"
+                       name="dataEdit" [(ngModel)]="EditedfileEntity.data"
+                       required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">createdTime:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập createdTime"
+                       name="createdTimeEdit" [(ngModel)]="EditedfileEntity.createdTime"
+                       required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">type:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập type"
+                       name="typeEdit" [(ngModel)]="EditedfileEntity.type"
+                       required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">expriedTime:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập expriedTime"
+                       name="expriedTimeEdit" [(ngModel)]="EditedfileEntity.expriedTime"
+                       required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">userId:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập userId"
+                       name="userIdEdit" [(ngModel)]="EditedfileEntity.userId"
+                       required/>
+            </div>
+        </div>
+    </modal-body>
+    <modal-footer>
+        <button data-dismiss="modal" data-backdrop="false" (click)="Edit()"
+                class="btn btn-success">
+            <i class="fa fa-check" aria-hidden="true"></i> Sửa
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+            <span><i class="fa fa-times" aria-hidden="true"></i> Hủy</span>
+        </button>
+    </modal-footer>
+</app-modal>
+<!-- Modal delete-->
+<app-modal [OpenModalId]="DeleteModalComponent.ID">
+    <modal-body>
+        <div class="modal-body">
+            <div class="">
+                <span class="glyphicon glyphicon-warning-sign"></span>Bạn có chắc muốn xóa không ?
+            </div>
+        </div>
+    </modal-body>
+    <modal-footer>
+        <button type="button" data-dismiss="modal" class="btn btn-success" (click)="Delete()">
+            <span><i class="fa fa-check" aria-hidden="true"></i> Đồng ý</span>
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+            <span><i class="fa fa-times" aria-hidden="true"></i> Hủy</span>
+        </button>
+    </modal-footer>
+</app-modal>

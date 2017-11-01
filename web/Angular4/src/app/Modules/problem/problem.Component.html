@@ -1,0 +1,138 @@
+<div>
+    <div class="row">
+        <div class="caption">
+            <span>Danh sách {{Title}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead style="white-space: nowrap">
+            <tr>
+                <th>STT</th>
+                <th>Mã ID</th>
+                <th>Trạng thái</th>
+                <th>Người tạo</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchproblemEntity.problemId"
+                           type="number" placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchproblemEntity.status" type="text"
+                           placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="SearchproblemEntity.userId" type="text"
+                           placeholder="Search..." (keydown.enter)="Search()">
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-success btn-circle" (click)="Add()">
+                        <i class="fa fa-plus fa-1x" aria-hidden="true">
+                        </i>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngFor="let problem of (problemEntities ? problemEntities : []); let i = index">
+                <td>{{PagingModel.Take * PagingModel.Active + i + 1}}</td>
+                <td>{{problem?.problemId}}</td>
+                <td>{{problem?.status}}</td>
+                <td>{{problem?.userEntity?.userName}}</td>
+                <td class="text-center">
+                    <a class="btn btn-success btn-circle"
+                       [attr.href]="'/api/files/' + problem.fileId+ '/download'"
+                       *ngIf="problem.fileId != null">
+                        <i class="fa fa-download fa-1x"
+                           aria-hidden="true"></i>
+                    </a>
+                    <button type="button" class="btn btn-primary btn-circle"
+                            (click)="LoadDataToUpdateModal(problem,i)">
+                        <i class="fa fa-cogs fa-1x" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-circle delete"
+                            mwlConfirmationPopover [title]="'Bạn có muốn ?' + Trick"
+                            [confirmText]="'Xác nhận'"
+                            [cancelText]="'Hủy'"
+                            [appendToBody]="true"
+                            cancelButtonType="danger"
+                            [message]="'Bạn có chắc chắn xóa trường này?'"
+                            placement="left" (confirm)="LoadDataToDelete(problem);Delete()">
+                        <i class="fa fa-trash fa-1x"
+                           aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<app-paging [PagingModel]="PagingModel" [dot]="true" (onChanges)="Search()"></app-paging>
+<app-modal [OpenModalId]="EditModalComponent.ID">
+    <modal-header>
+        <h5 class="modal-title">
+            <i class="fa fa-dropbox" aria-hidden="true"></i>
+            Thông tin bài toán
+        </h5>
+    </modal-header>
+    <modal-body>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">Mã Id:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập problemId"
+                       name="shapeIdEdit" [(ngModel)]="EditedproblemEntity.problemId"
+                       disabled/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">Trạng thái:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control" placeholder="Nhập status"
+                       name="shapeIdEdit" [(ngModel)]="EditedproblemEntity.status"
+                       disabled/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">File hiện thời:</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                <input type="text" class="form-control"
+                       name="shapeIdEdit" [(ngModel)]="EditedproblemEntity.fileEntity.name"
+                       disabled/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding-bottom: 10px;">
+                <label class="control-label">File xử lí:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
+                <inputfile [DataEntity]="DataEntity">
+                    <button class="btn btn-info">
+                        <span *ngIf="DataEntity.name == undefined">Chọn File</span>
+                        <span *ngIf="DataEntity.name != undefined">{{DataEntity.name}} ({{Round(DataEntity.length/1024)}}KB)</span>
+                    </button>
+                </inputfile>
+                <button class="btn btn-info" (click)="UploadFile()">Tải lên</button>
+            </div>
+        </div>
+    </modal-body>
+    <modal-footer>
+        <!--<button data-dismiss="modal" data-backdrop="false" (click)="Edit()"-->
+        <!--class="btn btn-success">-->
+        <!--<i class="fa fa-check" aria-hidden="true"></i> Sửa-->
+        <!--</button>-->
+        <button class="btn btn-success" (click)="ProcessFile()" *ngIf="EditedproblemEntity.fileId != undefined">Xử lí</button>
+        <button class="btn btn-danger" *ngIf="EditedproblemEntity.fileId == undefined">Đẩy File trước khi xử lí</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+            <span><i class="fa fa-times" aria-hidden="true"></i> Hủy</span>
+        </button>
+    </modal-footer>
+</app-modal>

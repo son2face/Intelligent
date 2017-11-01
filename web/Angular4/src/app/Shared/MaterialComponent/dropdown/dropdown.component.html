@@ -1,0 +1,14 @@
+﻿<div class="dropdown-list">
+    <span (mousedown)="Click()" (keyup.esc)="Esc()" (keyup.ArrowDown)="Down()" (keyup.ArrowUp)="Up()"
+          (keyup.enter)="Enter()" (keypress)="CurrentNumber = -1; IsShow = true;">
+        <ng-content select="dropdown-input">
+        </ng-content>
+    </span>
+    <ul [ngClass]="'dropdown-content list-group ' + ClassContent" *ngIf="IsShow" (click)="TurnOff($event)" (mousedown)="TurnOn()"
+        (mousemove)="Remove()">
+        <ng-content select="dropdown-content" *ngIf="IsShow"></ng-content>
+        <li *ngIf="DataList == null" class="list-group-item">Đang tải dữ liệu ...</li>
+        <li *ngIf="DataList != null && DataList.length == 0" class="list-group-item">Không có dữ liệu</li>
+        <li *ngIf="IsError" class="list-group-item text-danger"><ng-content select="dropdown-error"></ng-content></li>
+    </ul>
+</div>

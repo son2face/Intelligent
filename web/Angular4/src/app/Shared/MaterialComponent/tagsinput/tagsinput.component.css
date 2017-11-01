@@ -1,0 +1,70 @@
+﻿.TagsInput {
+    background-color: #fff;
+    /*border: 1px solid #ccc;*/
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    display: inline-block;
+    /*padding: 4px 6px;*/
+    color: #555;
+    vertical-align: middle;
+    max-width: 100%;
+    line-height: 22px;
+    cursor: text;
+    width: 100%;
+    height: auto;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+}
+
+
+.tag {
+    margin-right: 2px;
+    color: white;
+}
+
+.label-info {
+    background-color: #5bc0de;
+}
+
+.label {
+    display: inline-block;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.remove-tag{
+    cursor: pointer;
+}
+
+.dropdown-list {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    width: 90%;
+    left: 1.1rem;
+    z-index: 999;
+    list-style: none;
+    white-space: normal;
+    box-shadow: 2px 2px 5px #888888;
+    cursor: pointer;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.dropdown-content li:hover {
+    color: #fff;
+    background-color: #2A92D8;
+    cursor: pointer;
+}

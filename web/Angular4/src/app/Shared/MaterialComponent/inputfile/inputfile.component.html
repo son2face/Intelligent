@@ -1,0 +1,4 @@
+﻿<span data-toggle="modal" (click)="OpenFile()">
+    <ng-content></ng-content>
+</span>
+<input [attr.id]="Id" style="display: none" type="file" name="Id" (change)="LoadFile(file.files)" #file/>

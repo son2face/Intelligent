@@ -1,0 +1,580 @@
+/*CSS chung*/
+/*-------------------------------------
+-------------------------------------*/
+/*TABLE*/
+table {
+    font-family: sans-serif;
+    margin-top: 20px;
+    line-height: 17px;
+}
+
+th {
+    text-align: center;
+    background-color: #0064b4;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+tr:nth-child(1) {
+    border: none;
+}
+
+tr td {
+    white-space: nowrap;
+    line-height: 17px;
+}
+
+.row {
+    margin: 5px;
+}
+
+/*TITLE*/
+.caption {
+    text-transform: uppercase;
+    float: left;
+    font-size: 18px;
+    line-height: 17px;
+    padding: 10px 0;
+    font-family: "Open Sans", sans-serif;
+    margin: 5px 5px 0px 5px;
+}
+
+title {
+    display: block;
+    font-size: 30px;
+    text-align: center;
+}
+
+/*END TITLE*/
+/*ICON*/
+.delete {
+    background-color: red;
+    border: none;
+}
+
+btn-success {
+    background-color: #4CAF50;
+}
+
+.adddown {
+    margin-left: 10%;
+    padding-top: 8.9%;
+    padding-bottom: 8.9%;
+    padding-left: 12%;
+}
+
+.edittrash {
+    margin-left: 10%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    padding-left: 12%;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+/*END ICON*/
+/*INPUT SEARCH*/
+.SearchBox {
+    width: 100%;
+}
+
+.ui.input input {
+    padding: 0.5em 1em !important;
+}
+
+.ui.search .prompt {
+    border-radius: 4px !important;
+}
+
+/*END INPUT SEARCH*/
+/*MODAL*/
+.modal-header {
+    background-color: #0064b4;
+    color: aliceblue;
+}
+
+.modal-footer {
+    padding: 1% 4% 1% 1%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+}
+
+/*END MODAL*/
+/*PADING*/
+app-paging {
+    float: right;
+    padding: 1%;
+}
+
+/*END PADING*/
+
+/*END CSS chung*/
+/*-------------------------------------
+-------------------------------------*/
+/*CSS VỚI MODAL NHIỀU TRƯỜNG*/
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width: 1000px;
+    }
+}
+
+/*END CSS VỚI MODAL NHIỀU TRƯỜNG*/
+/*-------------------------------------
+-------------------------------------*/
+/*CSS VỚI MODAL NHIỀU RESPONSIVE 3 TABLE*/
+.threetable {
+    width: 100%;
+}
+
+.threetable td {
+    padding: 2px;
+    line-height: 17px;
+}
+
+@media (min-width: 768px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 14.2%;
+        padding-bottom: 14.2%;
+        padding-left: 2%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 2%;
+    }
+}
+
+@media (min-width: 912px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 13.3%;
+        padding-bottom: 13.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 972px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 12.5%;
+        padding-bottom: 12.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1018px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 11.9%;
+        padding-bottom: 11.9%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1066px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 11.4%;
+        padding-bottom: 11.4%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1114px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 11.2%;
+        padding-bottom: 11.2%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1138px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 10.7%;
+        padding-bottom: 10.7%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1186px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 10.4%;
+        padding-bottom: 10.4%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1210px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 10.1%;
+        padding-bottom: 10.1%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1246px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 9.8%;
+        padding-bottom: 9.8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1282px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 9.5%;
+        padding-bottom: 9.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1318px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 9.2%;
+        padding-bottom: 9.2%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1354px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.9%;
+        padding-bottom: 8.9%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1402px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.6%;
+        padding-bottom: 8.6%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1450px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.3%;
+        padding-bottom: 8.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1486px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8.3%;
+        padding-bottom: 8.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1498px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 8%;
+        padding-bottom: 8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1546px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.7%;
+        padding-bottom: 7.7%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1607px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.4%;
+        padding-bottom: 7.4%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1667px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.1%;
+        padding-bottom: 7.1%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1.3%;
+        padding-bottom: 1.3%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1703px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 7.1%;
+        padding-bottom: 7.1%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1739px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6.8%;
+        padding-bottom: 6.8%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1811px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6.6%;
+        padding-bottom: 6.6%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1860px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6.3%;
+        padding-bottom: 6.3%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 1943px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 6%;
+        padding-bottom: 6%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 12%;
+    }
+}
+
+@media (min-width: 2185px) {
+    .adddown {
+        margin-left: 10%;
+        padding-top: 5.5%;
+        padding-bottom: 5.5%;
+        padding-left: 12%;
+    }
+
+    .edittrash {
+        margin-left: 10%;
+        padding-top: 0.9%;
+        padding-bottom: 0.9%;
+        padding-left: 12%;
+    }
+}
+
+/*END CSS VỚI MODAL NHIỀU RESPONSIVE 3 TABLE*/

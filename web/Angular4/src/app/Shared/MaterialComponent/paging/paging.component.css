@@ -1,0 +1,48 @@
+.list-header {
+    font-size: 30px;
+    padding-bottom: 15px;
+}
+
+.list-header .list-body .list-form-header .title {
+    color: #ffffff;
+}
+
+span.input-group-addon i {
+    color: #0064b4;
+    font-size: 14px;
+}
+
+@keyframes NewRow {
+    0% {
+        outline: solid 0.5px #0064b4;
+    }
+
+    100% {
+        outline: solid 0 #0064b4;
+    }
+}
+
+.paging button {
+    background-color: #0064b4;
+    border: 1px solid #0064b4;
+    color: #ffffff;
+
+}
+
+.page-item {
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+a.dropdown-item:hover{
+    background-color: #2A92D8;
+    color: white;
+}
+
+.dropdown-menu{
+    min-width: 0px;
+}

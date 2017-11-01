@@ -1,0 +1,31 @@
+﻿.dropdown-list {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    width: 100%;
+    z-index: 400;
+    list-style: none;
+    white-space: normal;
+    box-shadow: 2px 2px 5px #888888;
+    cursor: pointer;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.dropdown-content li:hover {
+    color: #fff;
+    background-color: #2A92D8;
+    cursor: pointer;
+}
+
+dropdown {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
