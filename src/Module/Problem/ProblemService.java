@@ -62,7 +62,7 @@ public class ProblemService {
         try {
             tx = session.beginTransaction();
             ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId);
-            ProblemModel problemModel= problemEntity.toEntity();
+            ProblemModel problemModel= problemEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(problemModel)));
             tx.commit();
             ProblemEntity result = new ProblemEntity(problemModel);
@@ -82,7 +82,7 @@ public class ProblemService {
         try {
             tx = session.beginTransaction();
             problemEntity.status = Status.toString(Status.CREATE);
-            ProblemModel problemModel= problemEntity.toEntity();
+            ProblemModel problemModel= problemEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(problemModel)));
             tx.commit();
             ProblemEntity result = new ProblemEntity(problemModel);
@@ -102,7 +102,7 @@ public class ProblemService {
         try {
             tx = session.beginTransaction();
             ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId);
-            session.update(problemEntity.toEntity());
+            session.update(problemEntity.toModel());
             tx.commit();
             ProblemEntity result = get(problemId);
             return result;
@@ -120,7 +120,7 @@ public class ProblemService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(problemEntity.toEntity());
+            session.update(problemEntity.toModel());
             tx.commit();
             ProblemEntity result = get(problemId);
             return result;

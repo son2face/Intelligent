@@ -61,7 +61,7 @@ public class FileEntity implements Serializable {
         }
     }
 
-    public FileModel toEntity() {
+    public FileModel toModel() {
         FileModel FileModel = new FileModel();
         FileModel.setFileId(fileId);
         FileModel.setName(name);
@@ -70,9 +70,9 @@ public class FileEntity implements Serializable {
         FileModel.setType(type);
         FileModel.setExpiredTime(expiredTime);
         FileModel.setUserId(userId);
-        if (userEntity != null) FileModel.setUserByUserId(userEntity.toEntity());
-        if (problemEntityList != null)
-            FileModel.setProblemsByFileId(problemEntityList.parallelStream().map(ProblemEntity::toEntity).collect(Collectors.toList()));
+//        if (userEntity != null) FileModel.setUserByUserId(userEntity.toModel());
+//        if (problemEntityList != null)
+//            FileModel.setProblemsByFileId(problemEntityList.parallelStream().map(ProblemEntity::toModel).collect(Collectors.toList()));
         return FileModel;
     }
 }

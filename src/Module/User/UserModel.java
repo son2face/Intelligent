@@ -18,6 +18,7 @@ public class UserModel {
     private Collection<ShapeModel> shapesByUserId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId", nullable = false)
     public int getUserId() {
         return userId;

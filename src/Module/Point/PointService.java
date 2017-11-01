@@ -60,7 +60,7 @@ public class PointService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            PointModel pointModel = pointEntity.toEntity();
+            PointModel pointModel = pointEntity.toModel();
             Object o = session.save(pointModel);
             tx.commit();
             PointEntity result = new PointEntity(pointModel);
@@ -80,7 +80,7 @@ public class PointService {
         try {
             tx = session.beginTransaction();
             PointEntity pointEntity = new PointEntity(pointId, x, y, problemId);
-            PointModel pointModel = pointEntity.toEntity();
+            PointModel pointModel = pointEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(pointModel)));
             tx.commit();
             PointEntity result = new PointEntity(pointModel);
@@ -100,7 +100,7 @@ public class PointService {
         try {
             tx = session.beginTransaction();
             PointEntity pointEntity = new PointEntity(pointId, x, y, problemId);
-            session.update(pointEntity.toEntity());
+            session.update(pointEntity.toModel());
             tx.commit();
             PointEntity result = get(pointId);
             return result;
@@ -118,7 +118,7 @@ public class PointService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(pointEntity.toEntity());
+            session.update(pointEntity.toModel());
             tx.commit();
             PointEntity result = get(pointId);
             return result;

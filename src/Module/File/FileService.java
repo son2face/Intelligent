@@ -49,6 +49,27 @@ public class FileService {
         CriteriaQuery<FileModel> criteria = builder.createQuery(FileModel.class);
         Root<FileModel> fileEntities = criteria.from(FileModel.class);
         criteria.where(builder.equal(fileEntities.get("fileId"), id));
+        criteria.select(builder.construct(
+                FileModel.class,
+                fileEntities.get("fileId"), fileEntities.get("name"),
+                fileEntities.get("createdTime"), fileEntities.get("type"),
+                fileEntities.get("expiredTime"), fileEntities.get("userId")
+                )
+        );
+        try {
+            FileModel fileModel = session.createQuery(criteria).getSingleResult();
+            return new FileEntity(fileModel);
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public FileEntity download(int id) {
+        Session session = factory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<FileModel> criteria = builder.createQuery(FileModel.class);
+        Root<FileModel> fileEntities = criteria.from(FileModel.class);
+        criteria.where(builder.equal(fileEntities.get("fileId"), id));
         try {
             FileModel fileModel = session.createQuery(criteria).getSingleResult();
             return new FileEntity(fileModel);
@@ -62,8 +83,9 @@ public class FileService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            FileEntity fileEntity = new FileEntity(fileId, name, data, createdTime, type, expiredTime,userId);
-            FileModel fileModel = fileEntity.toEntity();
+            FileEntity fileEntity = new FileEntity(fileId, name, data, createdTime, type, expiredTime, userId);
+            fileEntity.createdTime = new Timestamp(System.currentTimeMillis());
+            FileModel fileModel = fileEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(fileModel)));
             tx.commit();
             FileEntity result = new FileEntity(fileModel);
@@ -82,7 +104,7 @@ public class FileService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            FileModel fileModel = fileEntity.toEntity();
+            FileModel fileModel = fileEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(fileModel)));
             tx.commit();
             FileEntity result = new FileEntity(fileModel);
@@ -101,8 +123,8 @@ public class FileService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            FileEntity fileEntity = new FileEntity(fileId, name, data, createdTime, type, expiredTime,userId);
-            session.update(fileEntity.toEntity());
+            FileEntity fileEntity = new FileEntity(fileId, name, data, createdTime, type, expiredTime, userId);
+            session.update(fileEntity.toModel());
             tx.commit();
             FileEntity result = get(fileId);
             return result;
@@ -120,7 +142,7 @@ public class FileService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(fileEntity.toEntity());
+            session.update(fileEntity.toModel());
             tx.commit();
             FileEntity result = get(fileId);
             return result;

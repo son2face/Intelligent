@@ -21,6 +21,7 @@ public class ProblemModel {
     private Collection<ShapeModel> shapesByProblemId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "problemId", nullable = false)
     public int getProblemId() {
         return problemId;
@@ -93,7 +94,7 @@ public class ProblemModel {
         this.pointsByProblemId = pointsByProblemId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fileId", referencedColumnName = "fileId", insertable=false, updatable=false)
     public FileModel getFileByFileId() {
         return fileByFileId;

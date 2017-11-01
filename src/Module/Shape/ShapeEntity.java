@@ -44,14 +44,14 @@ public class ShapeEntity implements Serializable {
             this.edgeEntityList = ShapeModel.getEdgesByShapeId().parallelStream().map(EdgeEntity::new).collect(Collectors.toList());
     }
 
-    public ShapeModel toEntity() {
+    public ShapeModel toModel() {
         ShapeModel ShapeModel = new ShapeModel();
         ShapeModel.setShapeId(shapeId);
         ShapeModel.setLevel(level);
-        if (problemEntity != null) ShapeModel.setProblemByProblemId(this.problemEntity.toEntity());
-        if (userEntity != null) ShapeModel.setUserByUserId(this.userEntity.toEntity());
-        if (edgeEntityList != null)
-            ShapeModel.setEdgesByShapeId(edgeEntityList.parallelStream().map(EdgeEntity::toEntity).collect(Collectors.toList()));
+//        if (problemEntity != null) ShapeModel.setProblemByProblemId(this.problemEntity.toModel());
+//        if (userEntity != null) ShapeModel.setUserByUserId(this.userEntity.toModel());
+//        if (edgeEntityList != null)
+//            ShapeModel.setEdgesByShapeId(edgeEntityList.parallelStream().map(EdgeEntity::toModel).collect(Collectors.toList()));
         return ShapeModel;
     }
 }

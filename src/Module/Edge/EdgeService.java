@@ -62,7 +62,7 @@ public class EdgeService {
         try {
             tx = session.beginTransaction();
             EdgeEntity edgeEntity = new EdgeEntity(edgeId, startX, startY, endX, endY, shapeId);
-            EdgeModel edgeModel = edgeEntity.toEntity();
+            EdgeModel edgeModel = edgeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(edgeModel)));
             tx.commit();
             EdgeEntity result = new EdgeEntity(edgeModel);
@@ -81,7 +81,7 @@ public class EdgeService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            EdgeModel edgeModel = edgeEntity.toEntity();
+            EdgeModel edgeModel = edgeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(edgeModel)));
             tx.commit();
             EdgeEntity result = new EdgeEntity(edgeModel);
@@ -101,7 +101,7 @@ public class EdgeService {
         try {
             tx = session.beginTransaction();
             EdgeEntity edgeEntity = new EdgeEntity(edgeId, startX, startY, endX, endY, shapeId);
-            session.update(edgeEntity.toEntity());
+            session.update(edgeEntity.toModel());
             tx.commit();
             EdgeEntity result = get(edgeId);
             return result;
@@ -119,7 +119,7 @@ public class EdgeService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(edgeEntity.toEntity());
+            session.update(edgeEntity.toModel());
             tx.commit();
             EdgeEntity result = get(edgeId);
             return result;

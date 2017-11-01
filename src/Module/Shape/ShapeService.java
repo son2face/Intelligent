@@ -62,7 +62,7 @@ public class ShapeService {
         try {
             tx = session.beginTransaction();
             ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId);
-            ShapeModel shapeModel =shapeEntity.toEntity();
+            ShapeModel shapeModel =shapeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(shapeModel)));
             tx.commit();
             ShapeEntity result = new ShapeEntity(shapeModel);
@@ -81,7 +81,7 @@ public class ShapeService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            ShapeModel shapeModel =shapeEntity.toEntity();
+            ShapeModel shapeModel =shapeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(shapeModel)));
             tx.commit();
             ShapeEntity result = new ShapeEntity(shapeModel);
@@ -101,7 +101,7 @@ public class ShapeService {
         try {
             tx = session.beginTransaction();
             ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId);
-            session.update(shapeEntity.toEntity());
+            session.update(shapeEntity.toModel());
             tx.commit();
             ShapeEntity result = get(shapeId);
             return result;
@@ -119,7 +119,7 @@ public class ShapeService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(shapeEntity.toEntity());
+            session.update(shapeEntity.toModel());
             tx.commit();
             ShapeEntity result = get(shapeId);
             return result;

@@ -62,7 +62,7 @@ public class UserService {
         try {
             tx = session.beginTransaction();
             UserEntity userEntity = new UserEntity(userId, userName, passWord);
-            UserModel userModel = userEntity.toEntity();
+            UserModel userModel = userEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(userModel)));
             tx.commit();
             UserEntity result = new UserEntity(userModel);
@@ -81,7 +81,7 @@ public class UserService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            UserModel userModel = userEntity.toEntity();
+            UserModel userModel = userEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(userModel)));
             tx.commit();
             UserEntity result = new UserEntity(userModel);
@@ -101,7 +101,7 @@ public class UserService {
         try {
             tx = session.beginTransaction();
             UserEntity userEntity = new UserEntity(userId, userName, passWord);
-            session.update(userEntity.toEntity());
+            session.update(userEntity.toModel());
             tx.commit();
             UserEntity result = get(userId);
             return result;
@@ -119,7 +119,7 @@ public class UserService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(userEntity.toEntity());
+            session.update(userEntity.toModel());
             tx.commit();
             UserEntity result = get(userId);
             return result;

@@ -35,13 +35,13 @@ public class PointEntity implements Serializable {
         if (PointModel.getProblemByProblemId() != null) this.problemEntity = new ProblemEntity(PointModel.getProblemByProblemId());
     }
 
-    public PointModel toEntity() {
+    public PointModel toModel() {
         PointModel PointModel = new PointModel();
         PointModel.setPointId(pointId);
         PointModel.setX(x);
         PointModel.setY(y);
         PointModel.setProblemId(problemId);
-        if (problemEntity != null) PointModel.setProblemByProblemId(problemEntity.toEntity());
+//        if (problemEntity != null) PointModel.setProblemByProblemId(problemEntity.toModel());
         return PointModel;
     }
 }

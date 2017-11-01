@@ -63,18 +63,18 @@ public class ProblemEntity implements Serializable {
         }
     }
 
-    public ProblemModel toEntity() {
+    public ProblemModel toModel() {
         ProblemModel ProblemModel = new ProblemModel();
         ProblemModel.setProblemId(problemId);
         ProblemModel.setStatus(status);
         ProblemModel.setFileId(fileId);
         ProblemModel.setUserId(userId);
-        if (fileEntity != null) ProblemModel.setFileByFileId(fileEntity.toEntity());
-        if (userEntity != null) ProblemModel.setUserByUserId(userEntity.toEntity());
-        if (pointEntityList != null)
-            ProblemModel.setPointsByProblemId(pointEntityList.parallelStream().map(PointEntity::toEntity).collect(Collectors.toList()));
-        if (shapeEntityList != null)
-            ProblemModel.setShapesByProblemId(shapeEntityList.parallelStream().map(ShapeEntity::toEntity).collect(Collectors.toList()));
+//        if (fileEntity != null) ProblemModel.setFileByFileId(fileEntity.toModel());
+//        if (userEntity != null) ProblemModel.setUserByUserId(userEntity.toModel());
+//        if (pointEntityList != null)
+//            ProblemModel.setPointsByProblemId(pointEntityList.parallelStream().map(PointEntity::toModel).collect(Collectors.toList()));
+//        if (shapeEntityList != null)
+//            ProblemModel.setShapesByProblemId(shapeEntityList.parallelStream().map(ShapeEntity::toModel).collect(Collectors.toList()));
         return ProblemModel;
     }
 }

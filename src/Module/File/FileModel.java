@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "file", schema = "intelligent", catalog = "")
@@ -21,7 +22,21 @@ public class FileModel {
     private UserModel userByUserId;
     private Collection<ProblemModel> problemsByFileId;
 
+    public FileModel() {
+
+    }
+
+    public FileModel(int fileId, String name, Date createdTime, String type, Date expiredTime, Integer userId) {
+        this.fileId = fileId;
+        this.name = name;
+        if (createdTime != null) this.createdTime = new Timestamp(createdTime.getTime());
+        this.type = type;
+        if (expiredTime != null) this.expiredTime = new Timestamp(expiredTime.getTime());
+        this.userId = userId;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fileId", nullable = false)
     public int getFileId() {
         return fileId;
@@ -41,7 +56,7 @@ public class FileModel {
         this.name = name;
     }
 
-    @Basic
+    @Lob @Basic(fetch = FetchType.LAZY)
     @Column(name = "data", nullable = true)
     public byte[] getData() {
         return data;
@@ -122,7 +137,7 @@ public class FileModel {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId", insertable=false, updatable=false)
+    @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false)
     public UserModel getUserByUserId() {
         return userByUserId;
     }

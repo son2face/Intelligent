@@ -16,6 +16,7 @@ public class EdgeModel {
     private ShapeModel shapeByShapeId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "edgeId", nullable = false)
     public int getEdgeId() {
         return edgeId;

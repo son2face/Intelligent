@@ -42,17 +42,18 @@ public class UserEntity implements Serializable {
             this.shapeEntityList = UserModel.getShapesByUserId().parallelStream().map(ShapeEntity::new).collect(Collectors.toList());
     }
 
-    public UserModel toEntity() {
+    public UserModel toModel() {
         UserModel UserModel = new UserModel();
         UserModel.setUserId(userId);
         UserModel.setUserName(userName);
         UserModel.setPassWord(passWord);
-        if (fileEntityList != null)
-            UserModel.setFilesByUserId(fileEntityList.parallelStream().map(FileEntity::toEntity).collect(Collectors.toList()));
-        if (problemEntityList != null)
-            UserModel.setProblemsByUserId(problemEntityList.parallelStream().map(ProblemEntity::toEntity).collect(Collectors.toList()));
-        if (shapeEntityList != null)
-            UserModel.setShapesByUserId(shapeEntityList.parallelStream().map(ShapeEntity::toEntity).collect(Collectors.toList()));
+//        if (fileEntityList != null)
+//            UserModel.setFilesByUserId(fileEntityList.parallelStream().map(FileEntity::toModel).collect(Collectors.toList()));
+//        if (problemEntityList != null)
+//            UserModel.setProblemsByUserId(problemEntityList.parallelStream().map(ProblemEntity::toModel).collect(Collectors.toList()));
+//        if (shapeEntityList != null)
+//            UserModel.setShapesByUserId(shapeEntityList.parallelStream().map(ShapeEntity::toModel).collect(Collectors.toList()));
         return UserModel;
     }
+
 }

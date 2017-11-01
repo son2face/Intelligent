@@ -14,6 +14,7 @@ public class PointModel {
     private ProblemModel problemByProblemId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pointId", nullable = false)
     public int getPointId() {
         return pointId;

@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.FileOutputStream;
+import javax.ws.rs.core.StreamingOutput;
 import java.util.List;
 
 @Path("/files")
@@ -42,7 +42,9 @@ public class FileController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public FileEntity create(FileEntity fileEntity) {
-        return fileService.create(fileEntity);
+        FileEntity FileEntity = fileService.create(fileEntity);
+        FileEntity.data = "";
+        return FileEntity;
     }
 
     @PUT
@@ -61,26 +63,19 @@ public class FileController {
         fileService.delete(fileId);
     }
 
+    @GET
     @Path("{fileId}/download")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("fileId") int fileID) {
-        FileEntity fileEntity = fileService.get(fileID);
+        FileEntity fileEntity = fileService.download(fileID);
         byte[] contents = org.infinispan.commons.util.Base64.decode(fileEntity.data);
-        Response.ResponseBuilder response = null;
-        try {
-            FileOutputStream out = new FileOutputStream(fileEntity.name);
-            out.write(contents);
-            response = Response.ok((Object) out);
-            response.header("content-type", "application/octet-stream");
-            out.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        response.header("Content-Disposition", "attachment; filename=" + fileEntity.name);
-        return response.build();
-//        String file_name = getFileName(fileID);
-//        return contents;
+        StreamingOutput stream = os -> {
+            os.write(contents);
+            os.flush();
+        };
+        return Response
+                .ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition", "attachment; filename=" + fileEntity.name)
+                .build();
     }
 }
