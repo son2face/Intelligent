@@ -54,13 +54,14 @@ public class EdgeService {
             return new EdgeEntity(edgeModel);
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
     public EdgeEntity create(int edgeId, Double startX, Double startY, Double endX, Double endY, Integer shapeId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             EdgeEntity edgeEntity = new EdgeEntity(edgeId, startX, startY, endX, endY, shapeId);
             EdgeModel edgeModel = edgeEntity.toModel();
@@ -71,16 +72,13 @@ public class EdgeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public EdgeEntity create(EdgeEntity edgeEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             EdgeModel edgeModel = edgeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(edgeModel)));
@@ -90,16 +88,13 @@ public class EdgeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public EdgeEntity update(int edgeId, Double startX, Double startY, Double endX, Double endY, Integer shapeId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             EdgeEntity edgeEntity = new EdgeEntity(edgeId, startX, startY, endX, endY, shapeId);
             session.update(edgeEntity.toModel());
@@ -109,16 +104,13 @@ public class EdgeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public EdgeEntity update(int edgeId, EdgeEntity edgeEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             session.update(edgeEntity.toModel());
             tx.commit();
@@ -127,16 +119,13 @@ public class EdgeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public boolean delete(int id) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             EdgeModel edgeModel = new EdgeModel();
             edgeModel.setEdgeId(id);
@@ -146,8 +135,6 @@ public class EdgeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return false;
     }
@@ -163,6 +150,8 @@ public class EdgeService {
                     .map(s -> new EdgeEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 }

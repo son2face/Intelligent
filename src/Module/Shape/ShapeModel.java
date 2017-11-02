@@ -18,6 +18,8 @@ public class ShapeModel {
     private Collection<EdgeModel> edgesByShapeId;
     private ProblemModel problemByProblemId;
     private UserModel userByUserId;
+    private Integer centerX;
+    private Integer centerY;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +72,26 @@ public class ShapeModel {
         this.code = code;
     }
 
+    @Basic
+    @Column(name = "centerX", nullable = true)
+    public Integer getCenterX() {
+        return centerX;
+    }
+
+    public void setCenterX(Integer centerX) {
+        this.centerX = centerX;
+    }
+
+    @Basic
+    @Column(name = "centerY", nullable = true)
+    public Integer getCenterY() {
+        return centerY;
+    }
+
+    public void setCenterY(Integer centerY) {
+        this.centerY = centerY;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,7 +104,8 @@ public class ShapeModel {
         if (level != null ? !level.equals(that.level) : that.level != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (code != null ? !code.equals(that.code) : that.code != null) return false;
-
+        if (centerX != null ? !centerX.equals(that.centerX) : that.centerX != null) return false;
+        if (centerY != null ? !centerY.equals(that.centerY) : that.centerY != null) return false;
         return true;
     }
 
@@ -93,10 +116,12 @@ public class ShapeModel {
         result = 31 * result + (level != null ? level.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (centerX != null ? centerX.hashCode() : 0);
+        result = 31 * result + (centerY != null ? centerY.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "shapeByShapeId")
+    @OneToMany(mappedBy = "shapeByShapeId", orphanRemoval = true)
     public Collection<EdgeModel> getEdgesByShapeId() {
         return edgesByShapeId;
     }

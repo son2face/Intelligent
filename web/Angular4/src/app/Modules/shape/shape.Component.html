@@ -126,12 +126,17 @@
                 <td>{{shape?.problemId}}</td>
                 <td>{{shape?.level}}</td>
                 <td>
-                    <ngvas [width]="500" [height]="500" *ngIf="shape.render != null">
+                    <ngvas [width]="250" [height]="200" *ngIf="shape.render != null">
                         <ng-template ngFor let-item [ngForOf]="shape.render">
-                            <ngvas-line [x]="100" [y]="100" [fill]="'#03ff5f'" [stroke]="{ width: 1 }" [lines]="item" origin="center" [scaleX]="4" [scaleY]="4"></ngvas-line>
+                            <ngvas-polygon [x]="2" [y]="2" [fill]="'#03ff5f'" [stroke]="{ width: 1 }"
+                                           (shape)="Test($event)"
+                                           [sides]="item" [scaleX]="4" [scaleY]="4" [hitArea]="pixelHitArea"
+                                           (drag)="Rotate($event,item)">
+                            </ngvas-polygon>
                         </ng-template>
                     </ngvas>
                 </td>
+                <td>{{shape?.code}}</td>
                 <!--<td>{{shape?.userId}}</td>-->
                 <td style="text-align: center">
                     <button type="button" class="btn btn-primary btn-circle" (click)="LoadDataToUpdateModal(shape,i)">

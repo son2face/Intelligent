@@ -58,7 +58,7 @@ import {PortletComponent} from "./Shared/MaterialComponent/Portlet/Portlet.Compo
 import {InputDiscussionComponent} from "./Shared/MaterialComponent/InputDiscussion/InputDiscussion.component";
 import {AuthGuard} from "./Auth.Guard.Service";
 import {BottomToastsManager} from "./Shared/CustomToaster";
-import {NgvasModule} from "ngvas";
+import {NgvasModule} from "./Shared/NgVas/ngvas.module";
 // import {[MODULE]Service} from "./Modules/[MODULE]/[MODULE].Service";
 //[END]
 

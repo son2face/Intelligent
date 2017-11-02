@@ -11,11 +11,15 @@
     }
 }
 
+table tbody tr td {
+    vertical-align: middle !important;
+}
 
 /* You can add global styles to this file, and also import other style files */
-.text-danger{
+.text-danger {
     opacity: 1 !important;
 }
+
 .fpt-navbar {
     background-color: #0064b4;
 }
@@ -198,9 +202,9 @@ btn-success {
     position: relative;
     cursor: pointer;
     color: #0064b4 !important;
-    padding: 0!important;
-    width: 19px!important;
-    height: 14px!important;
+    padding: 0 !important;
+    width: 19px !important;
+    height: 14px !important;
 }
 
 .adddown {
@@ -264,13 +268,16 @@ legend.scheduler-border {
     width: 260px;
     color: #0064b4;
 }
+
 .position-in-fieldset {
     padding-left: 1%;
     margin-top: 2%;
 }
-    .position-in-fieldset div p {
-        display: inline;
-    }
+
+.position-in-fieldset div p {
+    display: inline;
+}
+
 /*End css for fieldset*/
 /*END CSS chung*/
 /*-------------------------------------
@@ -876,33 +883,36 @@ ui-treenode-content ui-treenode-selectable {
     padding: 0.3rem !important;
 }
 
-.TagsInput input{
+.TagsInput input {
     border: 0;
     outline: 0;
 }
 
-.row-number{
+.row-number {
     text-align: right;
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-family: sans-serif;
     font-size: 12px;
-    opacity: .4!important;
+    opacity: .4 !important;
 }
+
 ::-moz-placeholder { /* Firefox 19+ */
     font-family: sans-serif;
-    opacity: .3!important;
+    opacity: .3 !important;
     font-size: 12px;
 }
+
 :-ms-input-placeholder { /* IE 10+ */
     font-family: sans-serif;
-    opacity: .3!important;
+    opacity: .3 !important;
     font-size: 12px;
 }
+
 :-moz-placeholder { /* Firefox 18- */
     font-family: sans-serif;
-    opacity: .3!important;
+    opacity: .3 !important;
     font-size: 12px;
 }
 
@@ -913,47 +923,49 @@ ui-treenode-content ui-treenode-selectable {
     padding: 2px 15px;
 }
 
-.fams-font-size{
+.fams-font-size {
     font-size: 12px !important;
 }
 
 .fams-active {
-    background: #2A92D8!important;
+    background: #2A92D8 !important;
 }
 
-.ui-widget{
+.ui-widget {
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 1em;
 }
 
 /*body{*/
-    /*font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
-    /*font-size: 1em;*/
+/*font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+/*font-size: 1em;*/
 /*}*/
 
 .ui-rating {
     font-size: 200% !important;
 }
 
-    .ui-rating a {
-        color: red;
-    }
-        .ui-rating a:focus, .ui-rating a:hover{
-            text-decoration:none;
-        }
-.mod-width{
+.ui-rating a {
+    color: red;
+}
+
+.ui-rating a:focus, .ui-rating a:hover {
+    text-decoration: none;
+}
+
+.mod-width {
     max-width: 100px;
 }
 
-.fams-style{
+.fams-style {
     width: 140px;
 }
 
-.n-p-l{
+.n-p-l {
     padding-left: 0px !important;
 }
 
-.n-p-r{
+.n-p-r {
     padding-right: 0px !important;
 }
 
@@ -962,20 +974,20 @@ ui-treenode-content ui-treenode-selectable {
     color: #000;
 }
 
-body{
+body {
     font-size: 12px;
 }
 
-.form-control{
+.form-control {
     font-size: 12px;
 }
 
 .top-place {
     bottom: 100%;
-    top:auto;
+    top: auto;
 }
 
-.input-dropdown::after{
+.input-dropdown::after {
     display: inline-block;
     width: 0;
     height: 0;
@@ -1053,7 +1065,7 @@ body{
     border-color: transparent black transparent transparent;
 }
 
-.MinHeightTable{
+.MinHeightTable {
     min-height: 486.67px;
 }
 

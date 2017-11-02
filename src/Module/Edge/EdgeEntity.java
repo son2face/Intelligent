@@ -33,7 +33,6 @@ public class EdgeEntity implements Serializable {
     }
 
     public EdgeEntity(EdgeModel EdgeModel, Object... objects) {
-        System.out.println(1);
         this.edgeId = EdgeModel.getEdgeId();
         this.startX = EdgeModel.getStartX();
         this.endX = EdgeModel.getEndX();

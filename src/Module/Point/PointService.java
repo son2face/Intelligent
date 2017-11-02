@@ -52,13 +52,14 @@ public class PointService {
             return new PointEntity(pointModel);
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
     public PointEntity create(PointEntity pointEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             PointModel pointModel = pointEntity.toModel();
             Object o = session.save(pointModel);
@@ -68,16 +69,13 @@ public class PointService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public PointEntity create(int pointId, Integer x, Integer y, Integer problemId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             PointEntity pointEntity = new PointEntity(pointId, x, y, problemId);
             PointModel pointModel = pointEntity.toModel();
@@ -88,16 +86,13 @@ public class PointService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public PointEntity update(int pointId, Integer x, Integer y, Integer problemId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             PointEntity pointEntity = new PointEntity(pointId, x, y, problemId);
             session.update(pointEntity.toModel());
@@ -107,16 +102,13 @@ public class PointService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public PointEntity update(int pointId, PointEntity pointEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             session.update(pointEntity.toModel());
             tx.commit();
@@ -125,16 +117,13 @@ public class PointService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public boolean delete(int id) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             PointModel pointModel = new PointModel();
             pointModel.setPointId(id);
@@ -144,8 +133,6 @@ public class PointService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return false;
     }
@@ -161,6 +148,8 @@ public class PointService {
                     .map(s -> new PointEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 }

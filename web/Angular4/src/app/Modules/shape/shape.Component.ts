@@ -8,9 +8,8 @@ import {ShapeEntity} from "./shape.Entity";
 import {EdgeEntity} from "../edge/edge.Entity";
 import {UserEntity} from "../user/user.Entity";
 import {ProblemEntity} from "../problem/problem.Entity";
-import {types} from "ngvas";
+import {hitAreas, types} from "ngvas";
 import Line = types.Line;
-import TweenInput = types.TweenInput;
 
 @Component({
     selector: 'App-shape',
@@ -43,6 +42,7 @@ export class ShapeComponent {
     SearchproblemName: string;
     SearchuserName: string;
     SearchedgeName: string;
+    public pixelHitArea = hitAreas.PixelHitArea;
 
     constructor(private shapeService: ShapeService,
                 private toastr: BottomToastsManager, vcr: ViewContainerRef) {
@@ -117,6 +117,16 @@ export class ShapeComponent {
         }, e => {
             this.toastr.ShowError(e);
         });
+    }
+
+    Rotate(event, data) {
+        debugger;
+        data[0]
+    }
+
+    Test(event) {
+        console.log(event);
+        debugger;
     }
 
     // Save(shapeEntity: ShapeEntity) {

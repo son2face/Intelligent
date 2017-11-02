@@ -95,7 +95,7 @@ public class ProblemModel {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fileId", referencedColumnName = "fileId", insertable=false, updatable=false)
+    @JoinColumn(name = "fileId", referencedColumnName = "fileId", insertable = false, updatable = false)
     public FileModel getFileByFileId() {
         return fileByFileId;
     }
@@ -105,7 +105,7 @@ public class ProblemModel {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId", insertable=false, updatable=false)
+    @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false)
     public UserModel getUserByUserId() {
         return userByUserId;
     }
@@ -114,7 +114,7 @@ public class ProblemModel {
         this.userByUserId = userByUserId;
     }
 
-    @OneToMany(mappedBy = "problemByProblemId")
+    @OneToMany(mappedBy = "problemByProblemId", orphanRemoval = true)
     public Collection<ShapeModel> getShapesByProblemId() {
         return shapesByProblemId;
     }

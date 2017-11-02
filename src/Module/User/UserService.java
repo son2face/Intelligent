@@ -53,6 +53,8 @@ public class UserService {
             return new UserEntity(userModel);
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
@@ -162,6 +164,8 @@ public class UserService {
                     .map(s -> new UserEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 }

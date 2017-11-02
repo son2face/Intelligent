@@ -5,8 +5,6 @@ import Manager.Interface.IDatabaseControllService;
 import Manager.Interface.IDatabaseService;
 import Manager.Service.DatabaseControllService;
 import Manager.Service.DatabaseService;
-import Module.Edge.EdgeEntity;
-import com.google.common.collect.Lists;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,6 +61,8 @@ public class FileService {
             return new FileEntity(fileModel);
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
@@ -77,90 +77,75 @@ public class FileService {
             return new FileEntity(fileModel);
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
     public FileEntity create(int fileId, String name, byte[] data, Timestamp createdTime, String type, Timestamp expiredTime, Integer userId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             FileEntity fileEntity = new FileEntity(fileId, name, data, createdTime, type, expiredTime, userId);
             fileEntity.createdTime = new Timestamp(System.currentTimeMillis());
             FileModel fileModel = fileEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(fileModel)));
             tx.commit();
-            FileEntity result = new FileEntity(fileModel);
-            return result;
+            return new FileEntity(fileModel);
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public FileEntity create(FileEntity fileEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             FileModel fileModel = fileEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(fileModel)));
             tx.commit();
-            FileEntity result = new FileEntity(fileModel);
-            return result;
+            return new FileEntity(fileModel);
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public FileEntity update(int fileId, String name, byte[] data, Timestamp createdTime, String type, Timestamp expiredTime, Integer userId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             FileEntity fileEntity = new FileEntity(fileId, name, data, createdTime, type, expiredTime, userId);
             session.update(fileEntity.toModel());
             tx.commit();
-            FileEntity result = get(fileId);
-            return result;
+            return get(fileId);
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public FileEntity update(int fileId, FileEntity fileEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             session.update(fileEntity.toModel());
             tx.commit();
-            FileEntity result = get(fileId);
-            return result;
+            return get(fileId);
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public boolean delete(int id) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             FileModel fileModel = new FileModel();
             fileModel.setFileId(id);
@@ -170,8 +155,6 @@ public class FileService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return false;
     }
@@ -187,6 +170,8 @@ public class FileService {
                     .map(s -> new FileEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 }

@@ -70,5 +70,5 @@
 @formLoaderPath: "@{imagePath}/loader-large.gif";
 @formLoaderPosition: 50% 50%;
 
-/* (x) Wide Field */
+/* (centerX) Wide Field */
 @gutterWidth: 1.5em;

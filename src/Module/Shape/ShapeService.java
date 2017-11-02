@@ -52,6 +52,8 @@ public class ShapeService {
                     .map(shapeModel -> new ShapeEntity(shapeModel, shapeModel.getEdgesByShapeId(), shapeModel.getUserByUserId())).collect(Collectors.toList());
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
@@ -66,15 +68,16 @@ public class ShapeService {
             return new ShapeEntity(shapeModel, shapeModel.getEdgesByShapeId(), shapeModel.getUserByUserId());
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
-    public ShapeEntity create(int shapeId, Integer problemId, Integer level, Integer userId, Integer code) {
-        Session session = factory.openSession();
+    public ShapeEntity create(int shapeId, Integer problemId, Integer level, Integer userId, Integer code, Integer centerX, Integer centerY) {
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
-            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId, code);
+            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId, code, centerX, centerY);
             ShapeModel shapeModel = shapeEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(shapeModel)));
             tx.commit();
@@ -83,37 +86,31 @@ public class ShapeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public ShapeEntity create(ShapeEntity shapeEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             ShapeModel shapeModel = shapeEntity.toModel();
-            Integer.valueOf(String.valueOf(session.save(shapeModel)));
+            session.save(shapeModel);
             tx.commit();
             ShapeEntity result = new ShapeEntity(shapeModel);
             return result;
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
-    public ShapeEntity update(int shapeId, Integer problemId, Integer level, Integer userId, Integer code) {
-        Session session = factory.openSession();
+    public ShapeEntity update(int shapeId, Integer problemId, Integer level, Integer userId, Integer code, Integer centerX, Integer centerY) {
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
-            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId, code);
+            ShapeEntity shapeEntity = new ShapeEntity(shapeId, problemId, level, userId, code, centerX, centerY);
             session.update(shapeEntity.toModel());
             tx.commit();
             ShapeEntity result = get(shapeId);
@@ -121,16 +118,13 @@ public class ShapeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public ShapeEntity update(int shapeId, ShapeEntity shapeEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             session.update(shapeEntity.toModel());
             tx.commit();
@@ -139,16 +133,13 @@ public class ShapeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public boolean delete(int id) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             ShapeModel shapeModel = new ShapeModel();
             shapeModel.setShapeId(id);
@@ -158,8 +149,6 @@ public class ShapeService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return false;
     }

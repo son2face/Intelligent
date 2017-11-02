@@ -10,6 +10,7 @@ import Module.Edge.EdgeService;
 import Module.File.FileEntity;
 import Module.File.FileService;
 import Module.Shape.ShapeEntity;
+import Module.Shape.ShapeModel;
 import Module.Shape.ShapeService;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -21,6 +22,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -83,6 +85,8 @@ public class ProblemService {
             return problemEntities;
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 
@@ -105,9 +109,8 @@ public class ProblemService {
     }
 
     public ProblemEntity create(int problemId, String status, Integer fileId, Integer userId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId);
             ProblemModel problemModel = problemEntity.toModel();
@@ -118,16 +121,13 @@ public class ProblemService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public ProblemEntity create(ProblemEntity problemEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             problemEntity.status = Status.toString(Status.CREATE);
             ProblemModel problemModel = problemEntity.toModel();
@@ -138,16 +138,13 @@ public class ProblemService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public ProblemEntity update(int problemId, String status, Integer fileId, Integer userId) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId);
             session.update(problemEntity.toModel());
@@ -157,16 +154,13 @@ public class ProblemService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public ProblemEntity update(int problemId, ProblemEntity problemEntity) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             session.update(problemEntity.toModel());
             tx.commit();
@@ -175,16 +169,13 @@ public class ProblemService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public boolean delete(int id) {
-        Session session = factory.openSession();
         Transaction tx = null;
-        try {
+        try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
             ProblemModel problemModel = new ProblemModel();
             problemModel.setProblemId(id);
@@ -194,8 +185,6 @@ public class ProblemService {
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return false;
     }
@@ -208,7 +197,9 @@ public class ProblemService {
         Root<ProblemModel> problemEntities = criteria.from(ProblemModel.class);
         criteria.where(builder.equal(problemEntities.get("problemId"), id));
         try {
+            Transaction tx = session.beginTransaction();
             ProblemModel problemModel = session.createQuery(criteria).getSingleResult();
+            problemModel.getShapesByProblemId().clear();
             ProblemEntity problemEntity = new ProblemEntity(problemModel);
             if (problemEntity.fileId == null) return 0;
             FileEntity fileEntity = fileService.download(problemEntity.fileId);
@@ -217,30 +208,56 @@ public class ProblemService {
             int totalShape = scanner.nextInt();
             for (int i = 0; i < totalShape; i++) {
                 int shapeCode = scanner.nextInt();
-                ShapeEntity shapeEntity = new ShapeEntity(0, id, 1, null, shapeCode);
-                shapeEntity = shapeService.create(shapeEntity);
+                ShapeEntity shapeEntity = new ShapeEntity(0, id, 1, null, shapeCode,0,0);
+                ShapeModel shapeModel = shapeEntity.toModel();
+                session.save(shapeModel);
                 int numberOfShape = scanner.nextInt();
                 if (numberOfShape < 3) return 0;
                 int x0 = scanner.nextInt();
                 int y0 = scanner.nextInt();
+                int xn = x0;
+                int yn = y0;
+                List<EdgeEntity> edgeEntities = new ArrayList<>();
+                int minX = x0;
+                int minY = y0;
+                int maxX = x0;
+                int maxY = y0;
                 for (int j = 1; j < numberOfShape; j++) {
                     try {
                         int x = scanner.nextInt();
                         int y = scanner.nextInt();
-                        EdgeEntity edgeEntity = new EdgeEntity(0, Double.valueOf(x0), Double.valueOf(y0), Double.valueOf(x), Double.valueOf(y), shapeEntity.shapeId);
-                        edgeService.create(edgeEntity);
+                        edgeEntities.add(new EdgeEntity(0, Double.valueOf(x0), Double.valueOf(y0), Double.valueOf(x), Double.valueOf(y), shapeModel.getShapeId()));
                         x0 = x;
                         y0 = y;
-                    } catch (Exception e) {
+                        minX = Math.min(minX, x0);
+                        minY = Math.min(minY, y0);
+                        maxX = Math.max(maxX, x0);
+                        maxY = Math.max(maxY, y0);
+                    } catch (Exception ignored) {
 
                     }
                 }
+                edgeEntities.add(new EdgeEntity(0, Double.valueOf(x0), Double.valueOf(y0), Double.valueOf(xn), Double.valueOf(yn), shapeEntity.shapeId));
+                int finalMinX = minX;
+                int finalMinY = minY;
+                shapeModel.setCenterX((maxX-minX)/2);
+                shapeModel.setCenterY((maxY-minY)/2);
+                session.save(shapeModel);
+                tx.commit();
+                edgeEntities.forEach(edgeEntity -> {
+                    edgeEntity.startX = edgeEntity.startX - finalMinX;
+                    edgeEntity.endX = edgeEntity.endX - finalMinX;
+                    edgeEntity.startY = edgeEntity.startY - finalMinY;
+                    edgeEntity.endY = edgeEntity.endY - finalMinY;
+                    edgeService.create(edgeEntity);
+                });
             }
+            tx.commit();
             return totalShape;
-        } catch (NoResultException e) {
-//            return null;
+        } catch (Exception e) {
+            return 10;
+        } finally {
+            session.close();
         }
-        return 10;
     }
-
 }

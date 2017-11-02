@@ -1,5 +1,7 @@
 <ngvas [width]="1000" [height]="1000" *ngIf="shapes != null">
-    <template ngFor let-item [ngForOf]="shapes">
-        <ngvas-line [fill]="'#03ff5f'" [stroke]="{ width: 4 }" [lines]="item" ></ngvas-line>
-    </template>
+    <ng-template ngFor let-item [ngForOf]="shapes">
+        <ngvas-polygon [fill]="'#03ff5f'" [stroke]="{ width: 2 }" [sides]="item" [scaleX]="4" [scaleY]="4" [x]="10" [hitArea]="pixelHitArea"
+                    [y]="10"  (click)="onDrag($event)" (shape)="Test($event)">
+        </ngvas-polygon>
+    </ng-template>
 </ngvas>

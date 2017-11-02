@@ -24,7 +24,7 @@ A simple angular 4.0+ directive to display a bootstrap styled confirmation popov
 
 Pull requests are welcome.
 
-[AngularJS 1.x version](https://github.com/mattlewis92/angular-bootstrap-confirm)
+[AngularJS 1.centerX version](https://github.com/mattlewis92/angular-bootstrap-confirm)
 
 ## Installation
 

@@ -695,7 +695,7 @@ i.icon.pinterest:before { content: "\f231"; }
 i.icon.whatsapp:before { content: "\f232"; }
 i.icon.viacoin:before { content: "\f237"; }
 i.icon.medium:before { content: "\f23a"; }
-i.icon.y.combinator:before { content: "\f23b"; }
+i.icon.centerY.combinator:before { content: "\f23b"; }
 i.icon.optinmonster:before { content: "\f23c"; }
 i.icon.opencart:before { content: "\f23d"; }
 i.icon.expeditedssl:before { content: "\f23e"; }
@@ -768,7 +768,7 @@ i.icon.check:before { content: "\f00c"; }
 i.icon.close:before { content: "\f00d"; }
 i.icon.cancel:before { content: "\f00d"; }
 i.icon.delete:before { content: "\f00d"; }
-i.icon.x:before { content: "\f00d"; }
+i.icon.centerX:before { content: "\f00d"; }
 i.icon.zoom.in:before { content: "\f00e"; }
 i.icon.magnify:before { content: "\f00e"; }
 i.icon.shutdown:before { content: "\f011"; }
@@ -926,7 +926,7 @@ i.icon.user.times:before { content: "\f235"; }
 i.icon.user.close:before { content: "\f235"; }
 i.icon.user.cancel:before { content: "\f235"; }
 i.icon.user.delete:before { content: "\f235"; }
-i.icon.user.x:before { content: "\f235"; }
+i.icon.user.centerX:before { content: "\f235"; }
 i.icon.bed:before { content: "\f236"; }
 i.icon.yc:before { content: "\f23b"; }
 i.icon.ycombinator:before { content: "\f23b"; }
