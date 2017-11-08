@@ -1,12 +1,32 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Angular4</title>
+    <title>Trí tuệ nhân tạo</title>
     <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/centerX-icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/assets/semantic.css">
+    <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/font-awesome-4.7.0/css/font-awesome.css"/>
+    <link href="/assets/toastr/ng2-toastr.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/centerX-icon" href="/assets/VNU-UET.jpg">
+    <script type="text/javascript" src="/assets/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/assets/tether.min.js"></script>
+    <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-<my-app></my-app>
+<div id="SpinnerBar">
+    <div class="SpinnerBarBackdrop"></div>
+    <div class="page-spinner-bar">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+<my-app>
+    <div id="Loading">
+        <div class="loader">Loading...</div>
+    </div>
+</my-app>
 </body>
+</html>

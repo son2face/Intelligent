@@ -1,3 +1,4 @@
+<script src="shape.Component.ts"></script>
 <div>
     <div class="row">
         <div class="caption">
@@ -127,12 +128,20 @@
                 <td>{{shape?.level}}</td>
                 <td>
                     <ngvas [width]="250" [height]="200" *ngIf="shape.render != null">
-                        <ng-template ngFor let-item [ngForOf]="shape.render">
-                            <ngvas-polygon [x]="2" [y]="2" [fill]="'#03ff5f'" [stroke]="{ width: 1 }"
-                                           (shape)="Test($event)"
-                                           [sides]="item" [scaleX]="4" [scaleY]="4" [hitArea]="pixelHitArea"
-                                           (drag)="Rotate($event,item)">
-                            </ngvas-polygon>
+                        <!--<ng-template ngFor let-item [ngForOf]="shape.edgeEntities">-->
+                        <ngvas-polygon [x]="10" [y]="10" [fill]="'#03ff5f'" [stroke]="{ width: 1 }"
+                                       (shape)="Test($event)"
+                                       [sides]="shape.render" [scaleX]="4" [scaleY]="4" [hitArea]="pixelHitArea"
+                                       (drag)="Rotate($event,shape)">
+                        </ngvas-polygon>
+                        <!--</ng-template>-->
+                        <ngvas-text [fill]="'#ff1493'" [textStyle]="{ font: '16px TimeNewRoman' }"
+                                    [x]="10+shape.maxX*2" [y]="10+shape.maxY*2"
+                                    [text]="shape.shapeId"></ngvas-text>
+                        <ng-template ngFor let-item [ngForOf]="shape.edgeEntities">
+                            <ngvas-text [fill]="'#ff1493'" [textStyle]="{ font: '12px TimeNewRoman' }"
+                                        [x]="10+item.centerX*4" [y]="10+item.centerY*4"
+                                        [text]="item.edgeId"></ngvas-text>
                         </ng-template>
                     </ngvas>
                 </td>

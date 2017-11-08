@@ -5,12 +5,13 @@ import {HttpService} from "../../Shared/HttpService";
 import {Injectable} from '@angular/core';
 import {UserEntity} from "./user.Entity";
 import {SearchuserEntity} from "./user.SearchEntity";
+import {HOSTNAME} from "../../app.module";
 @Injectable()
 export class userService {
     public url: string;
 
     constructor(private Http: Http) {
-        this.url = "api/users";
+        this.url = HOSTNAME+"api/users";
     }
 
     GetData(url: string, data: any): Observable<any> {

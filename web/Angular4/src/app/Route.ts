@@ -5,12 +5,13 @@ import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./Modules/Home/Home.Component";
 //[IMPORT MODULE]
 // import {[MODULE]Component} from "./Modules/[MODULE]/[MODULE].Component";
- import {edgeComponent} from "./Modules/edge/edge.Component";
- import {fileComponent} from "./Modules/file/file.Component";
- import {pointComponent} from "./Modules/point/point.Component";
- import {problemComponent} from "./Modules/problem/problem.Component";
- import {ShapeComponent} from "./Modules/shape/shape.Component";
- import {userComponent} from "./Modules/user/user.Component";
+import {edgeComponent} from "./Modules/edge/edge.Component";
+import {fileComponent} from "./Modules/file/file.Component";
+import {pointComponent} from "./Modules/point/point.Component";
+import {problemComponent} from "./Modules/problem/problem.Component";
+import {ShapeComponent} from "./Modules/shape/shape.Component";
+import {userComponent} from "./Modules/user/user.Component";
+import {BoardComponent} from "./Modules/Board/Board.Component";
 // import {[MODULE]Component} from "./Modules/[MODULE]/[MODULE].Component";
 //[END]
 const routes: Routes = [
@@ -25,12 +26,13 @@ const routes: Routes = [
     },
 //[IMPORT MODULE]
 // {    path: '[MODULE]',    component: [MODULE]Component},
- {    path: 'edges',    component: edgeComponent},
- {    path: 'files',    component: fileComponent},
- {    path: 'points',    component: pointComponent},
- {    path: 'problems',    component: problemComponent},
- {    path: 'shapes',    component: ShapeComponent},
- {    path: 'users',    component: userComponent},
+    {path: 'edges', component: edgeComponent},
+    {path: 'files', component: fileComponent},
+    {path: 'points', component: pointComponent},
+    {path: 'problems', component: problemComponent},
+    {path: 'shapes', component: ShapeComponent},
+    {path: 'users', component: userComponent},
+    {path: 'board', component: BoardComponent},
 // {    path: '[MODULE]',    component: [MODULE]Component},
     //[END]
     {

@@ -59,6 +59,8 @@ import {InputDiscussionComponent} from "./Shared/MaterialComponent/InputDiscussi
 import {AuthGuard} from "./Auth.Guard.Service";
 import {BottomToastsManager} from "./Shared/CustomToaster";
 import {NgvasModule} from "./Shared/NgVas/ngvas.module";
+import {VisualizeComponent} from "./Modules/Visualize/Visualize.Component";
+import {BoardComponent} from "./Modules/Board/Board.Component";
 // import {[MODULE]Service} from "./Modules/[MODULE]/[MODULE].Service";
 //[END]
 
@@ -71,7 +73,7 @@ import {NgvasModule} from "./Shared/NgVas/ngvas.module";
         // LayerAccessControlComponent, RuleComponent,
         //[IMPORT MODULE] [
         //[MODULE]Component,
-        edgeComponent, fileComponent, pointComponent, problemComponent, ShapeComponent, userComponent,        //[MODULE]Component,
+        edgeComponent, fileComponent, pointComponent, problemComponent, ShapeComponent, userComponent, VisualizeComponent, BoardComponent        //[MODULE]Component,
         //[END],DropdownComponent2
     ],
     providers: [
@@ -107,6 +109,7 @@ export function HttpFactory(backend: XHRBackend, options: RequestOptions) {
     return new HttpService(backend, options);
 }
 
+export const HOSTNAME = "http://localhost:8080/";
 // export function AuthFactory(Http: Http, RoleService: RoleService): AuthService {
 //     return new AuthService(Http, RoleService);
 // }

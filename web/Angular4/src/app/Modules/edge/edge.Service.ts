@@ -5,13 +5,14 @@ import {HttpService} from "../../Shared/HttpService";
 import {Injectable} from '@angular/core';
 import {EdgeEntity} from "./edge.Entity";
 import {SearchedgeEntity} from "./edge.SearchEntity";
+import {HOSTNAME} from "../../app.module";
 
 @Injectable()
 export class EdgeService {
     public url: string;
 
     constructor(private Http: Http) {
-        this.url = "api/edges";
+        this.url = HOSTNAME + "api/edges";
     }
 
     GetData(url: string, data: any): Observable<any> {

@@ -8,13 +8,14 @@ import {SearchproblemEntity} from "./problem.SearchEntity";
 import {UserEntity} from "../user/user.Entity";
 import {PointEntity} from "../point/point.Entity";
 import {ShapeEntity} from "../shape/shape.Entity";
+import {HOSTNAME} from "../../app.module";
 
 @Injectable()
 export class ProblemService {
     public url: string;
 
     constructor(private Http: Http) {
-        this.url = "api/problems";
+        this.url = HOSTNAME + "api/problems";
     }
 
     GetData(url: string, data: any): Observable<any> {

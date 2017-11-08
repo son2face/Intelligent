@@ -8,6 +8,7 @@ import {ProblemEntity} from "./problem.Entity";
 import {DataEntity} from "../../Shared/MaterialComponent/inputfile/Data.Entity";
 import {FileService} from "../file/file.Service";
 import {FileEntity} from "../file/file.Entity";
+import {HOSTNAME} from "../../app.module";
 
 @Component({
     selector: 'App-problem',
@@ -23,6 +24,7 @@ export class problemComponent {
             this.problemEntities = p;
         });
     });
+    HOSTNAME = HOSTNAME;
     Trick: string = "&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp";
     CreatedproblemEntity: ProblemEntity;
     EditedproblemEntity: ProblemEntity;

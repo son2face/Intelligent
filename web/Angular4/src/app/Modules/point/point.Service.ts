@@ -5,13 +5,14 @@ import {HttpService} from "../../Shared/HttpService";
 import {Injectable} from '@angular/core';
 import {PointEntity} from "./point.Entity";
 import {SearchpointEntity} from "./point.SearchEntity";
+import {HOSTNAME} from "../../app.module";
 
 @Injectable()
 export class pointService {
     public url: string;
 
     constructor(private Http: Http) {
-        this.url = "api/points";
+        this.url = HOSTNAME+"api/points";
     }
 
     GetData(url: string, data: any): Observable<any> {

@@ -5,13 +5,14 @@ import {HttpService} from "../../Shared/HttpService";
 import {Injectable} from '@angular/core';
 import {FileEntity} from "./file.Entity";
 import {SearchfileEntity} from "./file.SearchEntity";
+import {HOSTNAME} from "../../app.module";
 
 @Injectable()
 export class FileService {
     public url: string;
 
     constructor(private Http: Http) {
-        this.url = "api/files";
+        this.url = HOSTNAME + "api/files";
     }
 
     GetData(url: string, data: FileEntity): Observable<any> {

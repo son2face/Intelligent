@@ -32,6 +32,13 @@ public class EdgeEntity implements Serializable {
         this.shapeId = shapeId;
     }
 
+    public EdgeEntity(Double startX, Double startY, Double endX, Double endY) {
+        this.startX = startX;
+        this.startY = startY;
+        this.endX = endX;
+        this.endY = endY;
+    }
+
     public EdgeEntity(EdgeModel EdgeModel, Object... objects) {
         this.edgeId = EdgeModel.getEdgeId();
         this.startX = EdgeModel.getStartX();

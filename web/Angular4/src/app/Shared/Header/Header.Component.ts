@@ -35,6 +35,8 @@ export class HeaderComponent {
         let points = new MenuModel("Tọa độ điểm", "points");
         let files = new MenuModel("File", "files");
         let edges = new MenuModel("Cạnh", "edges");
+        let board = new MenuModel("Bảng vẽ", "board");
+
         this.MenuList.push(Home);
         this.MenuList.push(problems);
         this.MenuList.push(shapes);
@@ -42,6 +44,6 @@ export class HeaderComponent {
         this.MenuList.push(files);
         this.MenuList.push(edges);
         this.MenuList.push(users);
-
+        this.MenuList.push(board);
     }
 }

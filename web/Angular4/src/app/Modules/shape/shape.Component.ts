@@ -61,13 +61,16 @@ export class ShapeComponent {
         this.shapeService.Get(this.SearchshapeEntity).subscribe(p => {
             this.shapeEntities = p;
             this.shapeEntities.forEach(h => {
-                h.render = [];
+                h.maxX = 0;
+                h.maxY = 0;
                 let t: Array<Line> = [];
                 h.edgeEntities.forEach(edge => {
                     t.push([[edge.startX, edge.startY], [edge.endX, edge.endY]]);
+                    h.maxX = Math.max(h.maxX, edge.startX, edge.endX);
+                    h.maxY = Math.max(h.maxY, edge.startY, edge.endY);
                 });
-                h.render.push(t);
-            })
+                h.render = t;
+            });
             this.Count();
         });
     }
@@ -120,13 +123,13 @@ export class ShapeComponent {
     }
 
     Rotate(event, data) {
-        debugger;
-        data[0]
+        // debugger;
+        // data[0];
     }
 
     Test(event) {
         console.log(event);
-        debugger;
+        // debugger;
     }
 
     // Save(shapeEntity: ShapeEntity) {

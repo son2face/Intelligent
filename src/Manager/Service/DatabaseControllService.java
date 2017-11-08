@@ -27,6 +27,7 @@ public class DatabaseControllService implements IDatabaseControllService {
 
     public Configuration createConfiguration(DatabaseModel databaseModel) {
         Configuration cfg;
+        if (databaseModel == null) return new Configuration();
         switch (databaseModel.typeDB) {
             case 0:
                 cfg = new Configuration()
@@ -37,7 +38,7 @@ public class DatabaseControllService implements IDatabaseControllService {
                         .setProperty("hibernate.connection.password", databaseModel.passWord)
                         .setProperty("hibernate.hbm2ddl.auto", "update")
                         .setProperty("hibernate.connection.autoReconnect", "true")
-                        .setProperty("hibernate.connection.verifyServerCertificate","false")
+                        .setProperty("hibernate.connection.verifyServerCertificate", "false")
 //                        .setProperty("hibernate.c3p0.min_size","5")
 //                        .setProperty("hibernate.c3p0.max_size","50")
 //                        .setProperty("hibernate.c3p0.timeout","1")
@@ -58,9 +59,9 @@ public class DatabaseControllService implements IDatabaseControllService {
                         .setProperty("hibernate.connection.username", databaseModel.userName)
                         .setProperty("hibernate.connection.password", databaseModel.passWord)
                         .setProperty("hibernate.hbm2ddl.auto", "update")
-                        .setProperty("hibernate.id.new_generator_mappings","false")
+                        .setProperty("hibernate.id.new_generator_mappings", "false")
                         .setProperty("hibernate.connection.autoReconnect", "true")
-                        .setProperty("hibernate.connection.verifyServerCertificate","false")
+                        .setProperty("hibernate.connection.verifyServerCertificate", "false")
 //                        .setProperty("hibernate.c3p0.min_size","5")
 //                        .setProperty("hibernate.c3p0.max_size","50")
 //                        .setProperty("hibernate.c3p0.timeout","1")

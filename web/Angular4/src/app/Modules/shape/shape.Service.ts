@@ -5,13 +5,14 @@ import {HttpService} from "../../Shared/HttpService";
 import {Injectable} from '@angular/core';
 import {ShapeEntity} from "./shape.Entity";
 import {SearchshapeEntity} from "./shape.SearchEntity";
+import {HOSTNAME} from "../../app.module";
 
 @Injectable()
 export class ShapeService {
     public url: string;
 
     constructor(private Http: Http) {
-        this.url = "api/shapes";
+        this.url = HOSTNAME+"api/shapes";
     }
 
     GetData(url: string, data: any): Observable<any> {
