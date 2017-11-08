@@ -17,10 +17,7 @@ import Module.User.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rits.cloning.Cloner;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,17 +49,16 @@ public class Test {
 
     public static void main(String[] args) {
         Test test = new Test();
-        EdgeEntity edgeEntityA = new EdgeEntity(0, Double.valueOf(39), Double.valueOf(7), Double.valueOf(39), Double.valueOf(12), Integer.valueOf(1));
-        EdgeEntity edgeEntityB = new EdgeEntity(0, Double.valueOf(39), Double.valueOf(17), Double.valueOf(39), Double.valueOf(12), Integer.valueOf(1));
-//        test.findIntersectPoint(edgeEntityA, edgeEntityB);
-        //        test.findShapeToCompare();
+//        EdgeEntity edgeEntityA = new EdgeEntity(0, Double.valueOf(0), Double.valueOf(23), Double.valueOf(25), Double.valueOf(23), Integer.valueOf(1));
+//        EdgeEntity edgeEntityB = new EdgeEntity(0, Double.valueOf(25), Double.valueOf(23), Double.valueOf(43), Double.valueOf(23), Integer.valueOf(1));
+//        Point sx = test.findIntersectPoint(edgeEntityA, edgeEntityB);
+//        System.out.println(sx);
 //        test.Print();
-//        test.PrintShape(67);
-//        test.PrintShape(70);
 //        test.combineShape();
-        test.Process(1);
-// print as WKT
+        test.Process(2);
+        System.out.println("Done!");
     }
+
 
     void Process(int problemId) {
         ObjectMapper mapper = new ObjectMapper();
@@ -72,74 +68,72 @@ public class Test {
             ShapeEntity shapeEntity = problemEntity.shapeEntities.get(i);
             problemEntity.shapeEntities.get(i).edgeEntities = shapeService.get(shapeEntity.shapeId).edgeEntities;
         }
+        call(problemEntity.shapeEntities);
+//        for (int i = 0; i < shapeSize - 1; i++) {
+//            for (int j = i + 1; j < shapeSize; j++) {
+//                ShapeEntity shapeA = problemEntity.shapeEntities.get(i);
+//                ShapeEntity shapeB = problemEntity.shapeEntities.get(j);
+//                List<ShapeEntity> shapeEntities = combineShape(shapeA, shapeB);
+//                try {
+//                    System.out.println(mapper.writeValueAsString(shapeEntities));
+//                    System.out.println(shapeA.shapeId);
+//                    System.out.println(shapeB.shapeId);
+//                    System.out.println();
+//                } catch (JsonProcessingException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+    }
+
+    boolean call(List<ShapeEntity> shapeEntities) {
+        ObjectMapper mapper = new ObjectMapper();
+        if (shapeEntities.size() == 1) {
+            try {
+                System.out.println(mapper.writeValueAsString(shapeEntities));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+        Cloner cloner = new Cloner();
+        int shapeSize = shapeEntities.size();
         for (int i = 0; i < shapeSize - 1; i++) {
             for (int j = i + 1; j < shapeSize; j++) {
-                ShapeEntity shapeA = problemEntity.shapeEntities.get(i);
-                ShapeEntity shapeB = problemEntity.shapeEntities.get(j);
-                List<ShapeEntity> shapeEntities = combineShape(shapeA, shapeB);
-                try {
-                    System.out.println(mapper.writeValueAsString(shapeEntities));
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+                ShapeEntity shapeA = shapeEntities.get(i);
+                ShapeEntity shapeB = shapeEntities.get(j);
+                List<ShapeEntity> shapeListT = combineShape(shapeA, shapeB);
+                for (ShapeEntity shapeEntity : shapeListT) {
+                    List<ShapeEntity> clone = cloner.deepClone(shapeEntities);
+                    for (int t = 0; t < clone.size(); t++) {
+                        if (clone.get(t).shapeId == shapeEntity.combineA.shapeId) {
+                            clone.remove(t);
+                        } else if (clone.get(t).shapeId == shapeEntity.combineB.shapeId) {
+                            clone.remove(t);
+                        }
+                    }
+                    clone.add(shapeEntity);
+                    call(clone);
                 }
             }
         }
+        return false;
     }
 
-    void Print() {
-        ProblemEntity problemEntity = problemService.get(1);
-        problemEntity.shapeEntities.forEach(se -> {
-            ShapeEntity shapeEntity = shapeService.get(se.shapeId);
-            shapeEntity.edgeEntities.forEach(edgeEntity -> {
-                System.out.println(
-                        Math.sqrt(Math.pow((edgeEntity.endY - edgeEntity.startY), 2) + Math.pow((edgeEntity.endX - edgeEntity.startX), 2))
-                );
-            });
-            System.out.println();
-            System.out.println();
-            System.out.println();
-        });
-    }
 
-    void findShapeToCompare() {
-        ProblemEntity problemEntity = problemService.get(1);
-        int shapeSize = problemEntity.shapeEntities.size();
-        for (int i = 0; i < shapeSize; i++) {
-            ShapeEntity shapeEntity = problemEntity.shapeEntities.get(i);
-            problemEntity.shapeEntities.get(i).edgeEntities = shapeService.get(shapeEntity.shapeId).edgeEntities;
-        }
-        for (int i = 0; i < shapeSize - 1; i++) {
-            for (int j = i + 1; j < shapeSize; j++) {
-                ShapeEntity shapeA = problemEntity.shapeEntities.get(i);
-                ShapeEntity shapeB = problemEntity.shapeEntities.get(j);
-                shapeA.edgeEntities.forEach(edgeEntityA -> {
-                    shapeB.edgeEntities.forEach(edgeEntityB -> {
-                        if (squareLengthOfEdge(edgeEntityA) == squareLengthOfEdge(edgeEntityB)) {
-                            System.out.println(shapeA.shapeId);
-                            System.out.println(shapeB.shapeId);
-                            System.out.println(edgeEntityA.edgeId);
-                            System.out.println(squareLengthOfEdge(edgeEntityA));
-                            System.out.println(edgeEntityB.edgeId);
-                            System.out.println(squareLengthOfEdge(edgeEntityB));
-                            System.out.println();
-                            ShapeEntity[] shapeEntities = {shapeA, shapeB};
-                            ObjectMapper mapper = new ObjectMapper();
-                            try {
-                                System.out.println(mapper.writeValueAsString(shapeEntities));
-                            } catch (JsonProcessingException e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println();
-                            System.out.println();
-                            System.out.println();
-                            System.out.println();
-                        }
-                    });
-                });
-            }
-        }
-    }
-
+//    void Print() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        ShapeEntity shapeA = shapeService.get(74);
+//        ShapeEntity shapeB = shapeService.get(75);
+//        List<ShapeEntity> shapeEntities = combineShape(shapeA, shapeB);
+//        try {
+//            System.out.println(mapper.writeValueAsString(shapeEntities));
+//            System.out.println(shapeA.shapeId);
+//            System.out.println(shapeB.shapeId);
+//            System.out.println();
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     List<ShapeEntity> combineShape(ShapeEntity shapeEntityA, ShapeEntity shapeEntityB) {
         List<ShapeEntity> result = new ArrayList<>();
@@ -149,25 +143,142 @@ public class Test {
                     ShapeEntity flipXShape = flipX(shapeEntityB, edgeEntityB);
                     ShapeEntity flipYShape = flipY(shapeEntityB, edgeEntityB);
                     ShapeEntity flipXYShape = flipXY(shapeEntityB, edgeEntityB);
+                    ShapeEntity newShape = mergeShape(shapeEntityA, shapeEntityB, edgeEntityA, edgeEntityB);
                     ShapeEntity mergedFlipXShape = mergeShape(shapeEntityA, flipXShape, edgeEntityA, edgeEntityB);
                     ShapeEntity mergedFlipYShape = mergeShape(shapeEntityA, flipYShape, edgeEntityA, edgeEntityB);
                     ShapeEntity mergedFlipXYShape = mergeShape(shapeEntityA, flipXYShape, edgeEntityA, edgeEntityB);
-                    if (mergedFlipXShape != null) result.add(mergedFlipXShape);
-                    if (mergedFlipYShape != null) result.add(mergedFlipYShape);
-                    if (mergedFlipXYShape != null) result.add(mergedFlipXYShape);
+//                    if (newShape != null) result.add((newShape));
+                    if (newShape != null) {
+                        newShape = (joinShapeLines(newShape));
+                        newShape.combineA = shapeEntityA;
+                        newShape.combineB = shapeEntityB;
+                        result.add(newShape);
+                    }
+//                    if (mergedFlipXShape != null) result.add((mergedFlipXShape));
+                    if (mergedFlipXShape != null) {
+//                        result.add(mergedFlipXShape);
+                        mergedFlipXShape = (joinShapeLines(mergedFlipXShape));
+                        if (!isShapeInList(result, mergedFlipXShape)) {
+                            mergedFlipXShape.combineA = shapeEntityA;
+                            mergedFlipXShape.combineB = shapeEntityB;
+                            result.add(mergedFlipXShape);
+                        }
+                    }
+//                    if (mergedFlipYShape != null) result.add((mergedFlipYShape));
+                    if (mergedFlipYShape != null) {
+//                        result.add(mergedFlipYShape);
+                        mergedFlipYShape = (joinShapeLines(mergedFlipYShape));
+                        if (!isShapeInList(result, mergedFlipYShape)) {
+                            mergedFlipYShape.combineA = shapeEntityA;
+                            mergedFlipYShape.combineB = shapeEntityB;
+                            result.add(mergedFlipYShape);
+                        }
+                    }
+//                    if (mergedFlipXYShape != null) result.add((mergedFlipXYShape));
+                    if (mergedFlipXYShape != null) {
+//                        result.add(mergedFlipXYShape);
+                        mergedFlipXYShape = (joinShapeLines(mergedFlipXYShape));
+                        if (!isShapeInList(result, mergedFlipXYShape)) {
+                            mergedFlipXYShape.combineA = shapeEntityA;
+                            mergedFlipXYShape.combineB = shapeEntityB;
+                            result.add(mergedFlipXYShape);
+                        }
+                    }
+
                 }
             });
         });
         return result;
     }
 
+    boolean isShapeInList(List<ShapeEntity> shapeEntities, ShapeEntity shape) {
+        for (ShapeEntity shapeEntity : shapeEntities) {
+            List<Coordinate> coordinateListA = shapeEntity.edgeEntities.parallelStream().map(edgeEntity ->
+                    new Coordinate(edgeEntity.startX, edgeEntity.startY)
+            ).collect(Collectors.toList());
+            coordinateListA.add(new Coordinate(shapeEntity.edgeEntities.get(0).startX, shapeEntity.edgeEntities.get(0).startY));
+            List<Coordinate> coordinateListB = shape.edgeEntities.parallelStream().map(edgeEntity ->
+                    new Coordinate(edgeEntity.startX, edgeEntity.startY)
+            ).collect(Collectors.toList());
+            coordinateListB.add(new Coordinate(shape.edgeEntities.get(0).startX, shape.edgeEntities.get(0).startY));
+            Polygon p1 = new GeometryFactory().createPolygon(coordinateListA.toArray(new Coordinate[coordinateListA.size()]));
+            Polygon p2 = new GeometryFactory().createPolygon(coordinateListB.toArray(new Coordinate[coordinateListB.size()]));
+            try{
+                if (p1.equals(p2)) return true;
+            } catch (TopologyException e ){
+                return  false;
+            }
+        }
+        return false;
+    }
+
+    ShapeEntity joinShapeLines(ShapeEntity shapeEntity) {
+        Cloner cloner = new Cloner();
+        ShapeEntity clone = cloner.deepClone(shapeEntity);
+        clone.edgeEntities = new ArrayList<>();
+        Integer startPoint = null;
+        int size = shapeEntity.edgeEntities.size();
+        for (int i = 0; i < size; i++) {
+            if (findIntersectPoint(shapeEntity.edgeEntities.get(i), shapeEntity.edgeEntities.get((i + 1) % size)) != null) {
+                startPoint = (i + 1) % size;
+                break;
+            }
+        }
+        if (startPoint != null) {
+            for (int i = 0; i < size; i++) {
+                int k = i + startPoint;
+                if (findIntersectPoint(shapeEntity.edgeEntities.get(k % size), shapeEntity.edgeEntities.get((k + 1) % size)) == null) {
+                    for (int j = 0; j < size; j++) {
+                        if (findIntersectPoint(shapeEntity.edgeEntities.get((k + j + 1) % size), shapeEntity.edgeEntities.get((k + j + 2) % size)) != null) {
+                            EdgeEntity edgeToClone = shapeEntity.edgeEntities.get(k % size);
+                            EdgeEntity edgeEntity = cloner.deepClone(edgeToClone);
+//                            edgeEntity.startX = edgeEntity.endX;
+//                            edgeEntity.startY = edgeEntity.endY;
+                            edgeEntity.endX = shapeEntity.edgeEntities.get((k + 1 + j) % size).endX;
+                            edgeEntity.endY = shapeEntity.edgeEntities.get((k + 1 + j) % size).endY;
+                            clone.edgeEntities.add(edgeEntity);
+                            i += (j + 1);
+                            break;
+                        }
+                    }
+                } else {
+                    clone.edgeEntities.add(cloner.deepClone(shapeEntity.edgeEntities.get(k % size)));
+                }
+            }
+            startPoint--;
+            int endPoint = (startPoint + 2 * size) % size;
+            startPoint--;
+            boolean check = false;
+            EdgeEntity edgeEndPointEntity = null;
+            for (int i = 0; i < size; i++) {
+                int k = startPoint - i + 2 * size;
+                if (findIntersectPoint(shapeEntity.edgeEntities.get(endPoint), shapeEntity.edgeEntities.get(k % size)) == null) {
+                    edgeEndPointEntity = shapeEntity.edgeEntities.get(k % size);
+                    check = true;
+                } else {
+                    break;
+                }
+            }
+            if (check) {
+                EdgeEntity edgeEntity = cloner.deepClone(shapeEntity.edgeEntities.get(endPoint));
+                clone.edgeEntities.remove(clone.edgeEntities.size() - 1);
+                edgeEndPointEntity = cloner.deepClone(edgeEndPointEntity);
+                EdgeEntity edgeEntity1 = clone.edgeEntities.get(clone.edgeEntities.size() - 1);
+                edgeEntity.startX = edgeEndPointEntity.startX;
+                edgeEntity.startY = edgeEndPointEntity.startY;
+                edgeEndPointEntity.startX = edgeEntity1.endX;
+                edgeEndPointEntity.startY = edgeEntity1.endY;
+                clone.edgeEntities.add(edgeEndPointEntity);
+            }
+
+        }
+        return clone;
+    }
 
     Point findIntersectPoint(EdgeEntity edgeEntityA, EdgeEntity edgeEntityB) {
         double a1 = edgeEntityA.endY - edgeEntityA.startY;
         double b1 = edgeEntityA.startX - edgeEntityA.endX;
         double c1 = a1 * (edgeEntityA.startX) + b1 * (edgeEntityA.startY);
-
-        // Line CD represented as a2x + b2y = c2
         double a2 = edgeEntityB.endY - edgeEntityB.startY;
         double b2 = edgeEntityB.startX - edgeEntityB.endX;
         double c2 = a2 * (edgeEntityB.startX) + b2 * (edgeEntityB.startY);
@@ -186,7 +297,7 @@ public class Test {
         Cloner cloner = new Cloner();
         ShapeEntity clone = cloner.deepClone(shapeEntity);
         if (findIntersectPoint(edgeEntityA, edgeEntityB) != null) {
-            System.out.println("Khong dich chuyen duoc");
+//            System.out.println("Khong dich chuyen duoc");
             return null;
         }
         double x = Math.max(edgeEntityB.startX, edgeEntityB.endX) - Math.max(edgeEntityA.startX, edgeEntityA.endX);
@@ -217,16 +328,16 @@ public class Test {
             coordinateListB.add(new Coordinate(edgeEntityListB.get(0).startX, edgeEntityListB.get(0).startY));
             Polygon p1 = new GeometryFactory().createPolygon(coordinateListA.toArray(new Coordinate[coordinateListA.size()]));
             Polygon p2 = new GeometryFactory().createPolygon(coordinateListB.toArray(new Coordinate[coordinateListB.size()]));
-            com.vividsolutions.jts.geom.Point point1;
-            Geometry union = p1.union(p2);
-            Coordinate[] newCoordinates = union.getCoordinates();
-            int count = 1;
-            mergedShape.edgeEntities = new ArrayList<EdgeEntity>();
-            for (int i = 0; i < newCoordinates.length - 1; i++) {
-                mergedShape.edgeEntities.add(new EdgeEntity(count++, newCoordinates[i].x, newCoordinates[i].y, newCoordinates[i + 1].x, newCoordinates[i + 1].y, 1));
-            }
-            mergedShape.edgeEntities.add(new EdgeEntity(count++, newCoordinates[newCoordinates.length - 1].x, newCoordinates[newCoordinates.length - 1].y, newCoordinates[0].x, newCoordinates[0].y, 1));
-            if (getShapeArea(shapeEntityA) + getShapeArea(newShapeEntityB) == getShapeArea(mergedShape)) {
+            try {
+                Geometry union = p1.union(p2);
+                Coordinate[] newCoordinates = union.getCoordinates();
+                int count = 1;
+                mergedShape.edgeEntities = new ArrayList<EdgeEntity>();
+                for (int i = 0; i < newCoordinates.length - 1; i++) {
+                    mergedShape.edgeEntities.add(new EdgeEntity(count++, newCoordinates[i].x, newCoordinates[i].y, newCoordinates[i + 1].x, newCoordinates[i + 1].y, 1));
+                }
+                mergedShape.edgeEntities.add(new EdgeEntity(count++, newCoordinates[newCoordinates.length - 1].x, newCoordinates[newCoordinates.length - 1].y, newCoordinates[0].x, newCoordinates[0].y, 1));
+                if (getShapeArea(shapeEntityA) + getShapeArea(newShapeEntityB) == getShapeArea(mergedShape)) {
 //                ObjectMapper mapper = new ObjectMapper();
 //                ShapeEntity[] shapeEntities = {shapeEntityA, newShapeEntityB, mergedShape};
 //                try {
@@ -234,8 +345,12 @@ public class Test {
 //                } catch (JsonProcessingException e) {
 //                    e.printStackTrace();
 //                }
-                return mergedShape;
+                    return mergedShape;
+                }
+            } catch (TopologyException e) {
+                return null;
             }
+
         }
         return null;
     }
@@ -300,7 +415,6 @@ public class Test {
         coordinateListA.add(new Coordinate(edgeEntityListA.get(0).startX, edgeEntityListA.get(0).startY));
         Polygon p1 = new GeometryFactory().createPolygon(coordinateListA.toArray(new Coordinate[coordinateListA.size()]));
         return p1.getArea();
-// calculate union
     }
 
     boolean isSameEdge(EdgeEntity edgeEntityA, EdgeEntity edgeEntityB) {
@@ -316,67 +430,7 @@ public class Test {
         return false;
     }
 
-//    boolean arePolygonsOverlapped(ShapeEntity shapeEntityA, ShapeEntity shapeEntityB) {
-//        for (EdgeEntity edgeEntityA : shapeEntityA.edgeEntities
-//                ) {
-//            for (EdgeEntity edgeEntityB : shapeEntityB.edgeEntities
-//                    ) {
-//                Point intersect = findIntersectPoint(edgeEntityA, edgeEntityB);
-//                if (intersect != null) {
-//                    if (!(intersect.x == edgeEntityA.startX && intersect.y == edgeEntityA.startY)
-//                            && !(intersect.x == edgeEntityB.startX && intersect.y == edgeEntityB.startY)
-//                            && !(intersect.x == edgeEntityA.endX && intersect.y == edgeEntityA.endY)
-//                            && !(intersect.x == edgeEntityB.endX && intersect.y == edgeEntityB.endY)
-//                            && Line2D.linesIntersect(
-//                            edgeEntityA.startX.floatValue(), edgeEntityA.startY.floatValue(),
-//                            edgeEntityA.endX.floatValue(), edgeEntityA.endY.floatValue(),
-//                            edgeEntityB.startX.floatValue(), edgeEntityB.startY.floatValue(),
-//                            edgeEntityB.endX.floatValue(), edgeEntityB.endY.floatValue())) {
-//                        System.out.println("Cat nhau");
-////                    System.out.println(intersect.x);
-////                    System.out.println(intersect.y);
-////                    System.out.println(edgeEntityA.edgeId);
-////                    System.out.println(edgeEntityB.edgeId);
-////                    ShapeEntity[] shapeEntities = {shapeEntityA, shapeEntityB};
-////                    ObjectMapper mapper = new ObjectMapper();
-////                    try {
-////                        System.out.println(mapper.writeValueAsString(shapeEntities));
-////                    } catch (JsonProcessingException e) {
-////                        e.printStackTrace();
-////                    }
-////                    System.out.println("-------------------");
-//                        return false;
-//                    }
-//                } else {
-//
-//                }
-//            }
-//        }
-//        return true;
-//    }
-
-    EdgeEntity rotate90(EdgeEntity edgeEntity) {
-        double temp = edgeEntity.startY;
-        edgeEntity.startY = edgeEntity.startX;
-        edgeEntity.startX = temp;
-        temp = edgeEntity.endY;
-        edgeEntity.endY = edgeEntity.endX;
-        edgeEntity.endX = temp;
-        return edgeEntity;
-    }
-
     double squareLengthOfEdge(EdgeEntity edgeEntity) {
         return (Math.pow((edgeEntity.endY - edgeEntity.startY), 2) + Math.pow((edgeEntity.endX - edgeEntity.startX), 2));
-    }
-
-    void PrintShape(int id) {
-        ShapeEntity shapeEntity = shapeService.get(id);
-        shapeEntity.edgeEntities.forEach(edgeEntity -> {
-            System.out.println(
-            );
-        });
-        System.out.println();
-        System.out.println();
-        System.out.println();
     }
 }

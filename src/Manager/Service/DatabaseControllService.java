@@ -36,7 +36,7 @@ public class DatabaseControllService implements IDatabaseControllService {
                         .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect")
                         .setProperty("hibernate.connection.username", databaseModel.userName)
                         .setProperty("hibernate.connection.password", databaseModel.passWord)
-                        .setProperty("hibernate.hbm2ddl.auto", "update")
+//                        .setProperty("hibernate.hbm2ddl.auto", "update")
                         .setProperty("hibernate.connection.autoReconnect", "true")
                         .setProperty("hibernate.connection.verifyServerCertificate", "false")
 //                        .setProperty("hibernate.c3p0.min_size","5")

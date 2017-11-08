@@ -206,6 +206,7 @@ public class ProblemService {
             ByteArrayInputStream bis = new ByteArrayInputStream(fileEntity.toModel().getData());
             Scanner scanner = new Scanner(bis);
             int totalShape = scanner.nextInt();
+            List<ShapeEntity> shapeEntities = new ArrayList<>();
             for (int i = 0; i < totalShape; i++) {
                 int shapeCode = scanner.nextInt();
                 ShapeEntity shapeEntity = new ShapeEntity(0, id, 1, null, shapeCode,0,0);
@@ -243,18 +244,25 @@ public class ProblemService {
                 shapeModel.setCenterX((maxX-minX)/2);
                 shapeModel.setCenterY((maxY-minY)/2);
                 session.save(shapeModel);
-                tx.commit();
                 edgeEntities.forEach(edgeEntity -> {
                     edgeEntity.startX = edgeEntity.startX - finalMinX;
                     edgeEntity.endX = edgeEntity.endX - finalMinX;
                     edgeEntity.startY = edgeEntity.startY - finalMinY;
                     edgeEntity.endY = edgeEntity.endY - finalMinY;
+                    edgeEntity.shapeId = shapeModel.getShapeId();
+                });
+                shapeEntity.edgeEntities = edgeEntities;
+                shapeEntities.add(shapeEntity);
+            }
+            tx.commit();
+            for (ShapeEntity shapeEntity : shapeEntities){
+                shapeEntity.edgeEntities.forEach(edgeEntity -> {
                     edgeService.create(edgeEntity);
                 });
             }
-            tx.commit();
             return totalShape;
         } catch (Exception e) {
+            e.printStackTrace();
             return 10;
         } finally {
             session.close();
