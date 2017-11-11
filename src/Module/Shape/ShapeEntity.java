@@ -28,9 +28,9 @@ public class ShapeEntity implements Serializable {
     public Integer code;
     private Integer centerX;
     private Integer centerY;
+    public int weight;
     public ShapeEntity combineA;
     public ShapeEntity combineB;
-    public int weight;
     public ShapeEntity() {
     }
 

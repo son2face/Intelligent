@@ -1,6 +1,6 @@
 import {FilterEntity} from "../../Shared/Filter.Entity";
 
-export class SearchproblemEntity extends FilterEntity {
+export class SearchProblemEntity extends FilterEntity {
     problemId: number;
     status: string;
     fileId: string;

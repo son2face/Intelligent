@@ -4,7 +4,7 @@ import {Http} from '@angular/http';
 import {HttpService} from "../../Shared/HttpService";
 import {Injectable} from '@angular/core';
 import {ProblemEntity} from "./problem.Entity";
-import {SearchproblemEntity} from "./problem.SearchEntity";
+import {SearchProblemEntity} from "./problem.SearchEntity";
 import {UserEntity} from "../user/user.Entity";
 import {PointEntity} from "../point/point.Entity";
 import {ShapeEntity} from "../shape/shape.Entity";
@@ -26,7 +26,7 @@ export class ProblemService {
             });
     }
 
-    Get(Search?: SearchproblemEntity): Observable<any> {
+    Get(Search?: SearchProblemEntity): Observable<any> {
         return this.Http.get(this.url, {params: Search === undefined ? null : Search.ToParams()})
             .map(res => {
                 return res.json().map((item: any) => {
@@ -35,8 +35,8 @@ export class ProblemService {
             });
     }
 
-    Count(Search?: SearchproblemEntity): Observable<number> {
-        Search = Search === undefined ? new SearchproblemEntity() : Search;
+    Count(Search?: SearchProblemEntity): Observable<number> {
+        Search = Search === undefined ? new SearchProblemEntity() : Search;
         return this.Http.get(this.url + "/Count", {params: Search.ToParams()})
             .map(res => {
                 return res.json();

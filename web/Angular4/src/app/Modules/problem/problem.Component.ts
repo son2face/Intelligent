@@ -2,7 +2,7 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {BottomToastsManager} from "../../Shared/CustomToaster";
 import {PagingModel} from "app/Shared/MaterialComponent/paging/paging.model";
 import {ModalComponent} from "../../Shared/MaterialComponent/modal/modal.component";
-import {SearchproblemEntity} from "./problem.SearchEntity";
+import {SearchProblemEntity} from "./problem.SearchEntity";
 import {ProblemService} from "./problem.Service";
 import {ProblemEntity} from "./problem.Entity";
 import {DataEntity} from "../../Shared/MaterialComponent/inputfile/Data.Entity";
@@ -29,7 +29,7 @@ export class problemComponent {
     CreatedproblemEntity: ProblemEntity;
     EditedproblemEntity: ProblemEntity;
     EditPosition: number;
-    SearchproblemEntity: SearchproblemEntity;
+    SearchproblemEntity: SearchProblemEntity;
     DeleteData: ProblemEntity;
     DataEntity: DataEntity;
     EditModalComponent: ModalComponent;
@@ -49,7 +49,7 @@ export class problemComponent {
         this.DataEntity = new DataEntity();
         this.CreatedproblemEntity = new ProblemEntity();
         this.EditedproblemEntity = new ProblemEntity();
-        this.SearchproblemEntity = new SearchproblemEntity();
+        this.SearchproblemEntity = new SearchProblemEntity();
         this.Search();
         this.EditModalComponent = new ModalComponent();
         this.DeleteModalComponent = new ModalComponent();
