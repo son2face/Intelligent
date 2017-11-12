@@ -27,7 +27,7 @@ export declare abstract class NgbCalendarHijri extends NgbCalendar {
     abstract getToday(): NgbDate;
 
     /**
-     * Returns the equivalent Hijri date value for a give input Gregorian date.
+     * Returns the equivalent Hijri date value for shapeEntityA give input Gregorian date.
      * `gDate` is s JS Date to be converted to Hijri.
      */
     abstract fromGregorian(gDate: Date): NgbDate;
@@ -38,7 +38,7 @@ export declare abstract class NgbCalendarHijri extends NgbCalendar {
     abstract toGregorian(hijriDate: NgbDate): Date;
 
     /**
-     * Returns the number of days in a specific Hijri month.
+     * Returns the number of days in shapeEntityA specific Hijri month.
      * `month` is 1 for Muharram, 2 for Safar, etc.
      * `year` is any Hijri year.
      */

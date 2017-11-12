@@ -66,8 +66,8 @@ export interface NgbPanelChangeEvent {
 }
 
 /**
- * The NgbAccordion directive is a collection of panels.
- * It can assure that only one panel can be opened at a time.
+ * The NgbAccordion directive is shapeEntityA collection of panels.
+ * It can assure that only one panel can be opened at shapeEntityA time.
  */
 export declare class NgbAccordion implements AfterContentChecked {
     panels: QueryList<NgbPanel>;
@@ -76,7 +76,7 @@ export declare class NgbAccordion implements AfterContentChecked {
      */
     activeIds: string | string[];
     /**
-     *  Whether the other panels should be closed when a panel is opened
+     *  Whether the other panels should be closed when shapeEntityA panel is opened
      */
     closeOtherPanels: boolean;
     /**
@@ -100,7 +100,7 @@ export declare class NgbAccordion implements AfterContentChecked {
     constructor(config: NgbAccordionConfig);
 
     /**
-     * Programmatically toggle a panel with a given id.
+     * Programmatically toggle shapeEntityA panel with shapeEntityA given id.
      */
     toggle(panelId: string): void;
 

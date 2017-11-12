@@ -22,7 +22,9 @@ import com.vividsolutions.jts.util.AssertionFailedException;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 class PairShape {
@@ -74,7 +76,7 @@ public class Test {
 //        test.combineShape();
 
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(11);
+        test.Process(2);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
@@ -88,6 +90,8 @@ public class Test {
         problemEntity.shapeEntities.parallelStream().forEach(shapeEntity -> {
             shapeEntity.edgeEntities = shapeService.get(shapeEntity.shapeId).edgeEntities;
         });
+        widthFrame = problemEntity.width;
+        heighFrame = problemEntity.height;
         call(problemEntity.shapeEntities, new ArrayList<>());
 //        for (int i = 0; i < shapeSize - 1; i++) {
 //            for (int j = i + 1; j < shapeSize; j++) {
@@ -421,58 +425,70 @@ public class Test {
         return clone;
     }
 
-    ShapeEntity mergeShape(ShapeEntity shapeEntityA, ShapeEntity shapeEntityB, EdgeEntity edgeEntityA, EdgeEntity edgeEntityB) {
-        ShapeEntity newShapeEntityB = translate(shapeEntityB, edgeEntityA, edgeEntityB);
+    ShapeEntity mergeShape(ShapeEntity shapeEntityA, ShapeEntity newShapeEntityB, EdgeEntity edgeEntityA, EdgeEntity edgeEntityB) {
         Cloner cloner = new Cloner();
         if (newShapeEntityB != null) {
             ShapeEntity mergedShape = cloner.deepClone(shapeEntityA);
             boolean check = true;
-            for (int i = 0; i < shapeEntityA.edgeEntities.size(); i++) {
-                EdgeEntity aEdgeEntity = shapeEntityA.edgeEntities.get(i);
+            int sizeA = shapeEntityA.edgeEntities.size();
+            int sizeB = newShapeEntityB.edgeEntities.size();
+            for (int positionEdgeEntityA = 0; positionEdgeEntityA < sizeA; positionEdgeEntityA++) {
+                EdgeEntity aEdgeEntity = shapeEntityA.edgeEntities.get(positionEdgeEntityA);
                 if (isSameEdge(aEdgeEntity, edgeEntityA)) {
-                    int positionEdgeEntityA = i;
-                    for (i = 0; i < newShapeEntityB.edgeEntities.size(); i++) {
-                        EdgeEntity bEdgeEntity = newShapeEntityB.edgeEntities.get(i);
+                    for (int positionEdgeEntityB = 0; positionEdgeEntityB < sizeB; positionEdgeEntityB++) {
+                        EdgeEntity bEdgeEntity = newShapeEntityB.edgeEntities.get(positionEdgeEntityB);
                         if (isSameEdge(bEdgeEntity, edgeEntityA)) {
-                            int positionEdgeEntityB = i;
-                            int sizeA = shapeEntityA.edgeEntities.size();
-                            int sizeB = newShapeEntityB.edgeEntities.size();
                             int pre = 0;
                             int next = 0;
-                            for (i = 0; i < sizeA; i++) {
+                            for (int i = 0; i < sizeA; i++) {
                                 aEdgeEntity = shapeEntityA.edgeEntities.get((i + positionEdgeEntityA + 1) % sizeA);
                                 bEdgeEntity = newShapeEntityB.edgeEntities.get((i + positionEdgeEntityB + 1) % sizeB);
                                 if (isSameEdge(aEdgeEntity, bEdgeEntity)) {
                                     next++;
                                 } else {
                                     if (findIntersectPoint(aEdgeEntity, bEdgeEntity) == null) {
-                                        next++;
+                                        Double ax = aEdgeEntity.startX;
+                                        Double ay = aEdgeEntity.startY;
+                                        Double bx = aEdgeEntity.endX;
+                                        Double by = aEdgeEntity.endY;
+                                        if (Objects.equals(bEdgeEntity.startX, ax) && Objects.equals(bEdgeEntity.startY, ay)) {
+                                            if ((bx - ax) * (bEdgeEntity.endX - ax) >= 0 && (by - ay) * (bEdgeEntity.endY - ay) >= 0) {
+                                                next++;
+                                            }
+                                        } else {
+                                            if ((ax - bx) * (bEdgeEntity.startX - bx) >= 0 && (ay - by) * (bEdgeEntity.startY - by) >= 0) {
+                                                next++;
+                                            }
+                                        }
                                     }
                                     break;
                                 }
                             }
-                            for (i = 0; i < sizeA; i++) {
-                                aEdgeEntity = shapeEntityA.edgeEntities.get((positionEdgeEntityA - i - 1) % sizeA);
-                                bEdgeEntity = newShapeEntityB.edgeEntities.get((positionEdgeEntityB - i - 1) % sizeB);
+                            for (int i = 0; i < sizeA; i++) {
+                                aEdgeEntity = shapeEntityA.edgeEntities.get((positionEdgeEntityA - i - 1 + sizeA) % sizeA);
+                                bEdgeEntity = newShapeEntityB.edgeEntities.get((positionEdgeEntityB - i - 1 + sizeB) % sizeB);
                                 if (isSameEdge(aEdgeEntity, bEdgeEntity)) {
                                     pre++;
                                 } else {
                                     if (findIntersectPoint(aEdgeEntity, bEdgeEntity) == null) {
-                                        pre++;
+                                        Double ax = aEdgeEntity.startX;
+                                        Double ay = aEdgeEntity.startY;
+                                        Double bx = aEdgeEntity.endX;
+                                        Double by = aEdgeEntity.endY;
+                                        if (Objects.equals(bEdgeEntity.startX, ax) && Objects.equals(bEdgeEntity.startY, ay)) {
+                                            if ((bx - ax) * (bEdgeEntity.endX - ax) >= 0 && (by - ay) * (bEdgeEntity.endY - ay) >= 0) {
+                                                pre++;
+                                            }
+                                        } else {
+                                            if ((ax - bx) * (bEdgeEntity.startX - bx) >= 0 && (ay - by) * (bEdgeEntity.startY - by) >= 0) {
+                                                pre++;
+                                            }
+                                        }
                                     }
                                     break;
                                 }
                             }
                             int weight = next + pre + 1;
-                            for (i = 0; i < sizeA - weight; i++) {
-                                aEdgeEntity = shapeEntityA.edgeEntities.get((i + next + positionEdgeEntityA + 1) % sizeA);
-                                for (int j = 0; j < sizeB - weight; j++) {
-                                    bEdgeEntity = newShapeEntityB.edgeEntities.get((j + next + positionEdgeEntityB + 1) % sizeB);
-                                    if (isOnTheSameLine(aEdgeEntity, bEdgeEntity)) {
-                                        return null;
-                                    }
-                                }
-                            }
                             mergedShape.weight = weight;
                             break;
                         }
@@ -498,17 +514,22 @@ public class Test {
                 try {
                     Geometry union = p1.union(p2);
                     Coordinate[] newCoordinates = union.getCoordinates();
-                    int count = 1;
                     mergedShape.edgeEntities = new ArrayList<EdgeEntity>();
+                    HashMap<Coordinate, Integer> emptyCenter = new HashMap<>();
                     for (int i = 0; i < newCoordinates.length - 1; i++) {
-                        mergedShape.edgeEntities.add(new EdgeEntity(count++, newCoordinates[i].x, newCoordinates[i].y, newCoordinates[i + 1].x, newCoordinates[i + 1].y, 1));
+                        if (emptyCenter.containsKey(newCoordinates[i])) {
+//                            isCenterEmpty = true;
+                            return null;
+                        } else {
+                            emptyCenter.put(newCoordinates[i], 1);
+                        }
+                        mergedShape.edgeEntities.add(new EdgeEntity(0, newCoordinates[i].x, newCoordinates[i].y, newCoordinates[i + 1].x, newCoordinates[i + 1].y, 1));
                     }
 //                mergedShape.edgeEntities.add(new EdgeEntity(count++, newCoordinates[newCoordinates.length - 1].x, newCoordinates[newCoordinates.length - 1].y, newCoordinates[0].x, newCoordinates[0].y, 1));
 //                if (getShapeArea(mergedShape) != union.getArea()) {
 //                    System.out.println("Out!");
 //                }
                     if (getShapeArea(shapeEntityA) + getShapeArea(newShapeEntityB) == getShapeArea(mergedShape)) {
-//                ObjectMapper mapper = new ObjectMapper();
 //                ShapeEntity[] shapeEntities = {shapeEntityA, newShapeEntityB, mergedShape};
 //                try {
 //                    System.out.println(mapper.writeValueAsString(shapeEntities));
@@ -517,12 +538,21 @@ public class Test {
 //                }
                         mergedShape.shapeId = idShape++;
                         return mergedShape;
+                    } else {
+                        return null;
                     }
                 } catch (TopologyException e) {
-//                    System.out.println("topo Test");
                     return null;
-                } catch (AssertionFailedException e){
+                } catch (AssertionFailedException e) {
                     System.out.println("Assert Test");
+//                    isAssert = true;
+//                    ShapeEntity[] s = {shapeEntityA,shapeEntityB};
+//                    try {
+//                        System.out.println(mapper.writeValueAsString(s));
+//                        e.printStackTrace();
+//                    } catch (JsonProcessingException e1) {
+//                        e1.printStackTrace();
+//                    }
                     return null;
                 }
             }
@@ -594,12 +624,12 @@ public class Test {
     }
 
     boolean isSameEdge(EdgeEntity edgeEntityA, EdgeEntity edgeEntityB) {
-        if (edgeEntityA.startX == edgeEntityB.startX && edgeEntityA.startY == edgeEntityB.startY) {
-            if (edgeEntityA.endX == edgeEntityB.endX && edgeEntityA.endY == edgeEntityB.endY) {
+        if (Objects.equals(edgeEntityA.startX, edgeEntityB.startX) && Objects.equals(edgeEntityA.startY, edgeEntityB.startY)) {
+            if (Objects.equals(edgeEntityA.endX, edgeEntityB.endX) && Objects.equals(edgeEntityA.endY, edgeEntityB.endY)) {
                 return true;
             }
-        } else if (edgeEntityA.startX == edgeEntityB.endX && edgeEntityA.startY == edgeEntityB.endY) {
-            if (edgeEntityA.endX == edgeEntityB.startX && edgeEntityA.endY == edgeEntityB.startY) {
+        } else if (Objects.equals(edgeEntityA.startX, edgeEntityB.endX) && Objects.equals(edgeEntityA.startY, edgeEntityB.endY)) {
+            if (Objects.equals(edgeEntityA.endX, edgeEntityB.startX) && Objects.equals(edgeEntityA.endY, edgeEntityB.startY)) {
                 return true;
             }
         }

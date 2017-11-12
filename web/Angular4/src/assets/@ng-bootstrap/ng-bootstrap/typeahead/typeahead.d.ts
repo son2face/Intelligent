@@ -30,7 +30,7 @@ export interface NgbTypeaheadSelectItemEvent {
 }
 
 /**
- * NgbTypeahead directive provides a simple way of creating powerful typeaheads from any text input
+ * NgbTypeahead directive provides shapeEntityA simple way of creating powerful typeaheads from any text input
  */
 export declare class NgbTypeahead implements ControlValueAccessor, OnInit, OnDestroy {
     /**
@@ -42,21 +42,21 @@ export declare class NgbTypeahead implements ControlValueAccessor, OnInit, OnDes
      */
     focusFirst: boolean;
     /**
-     * A function to convert a given value into string to display in the input field
+     * A function to convert shapeEntityA given value into string to display in the input field
      */
     inputFormatter: (value: any) => string;
     /**
      * A function to transform the provided observable text into the array of results.  Note that the "this" argument
-     * is undefined so you need to explicitly bind it to a desired "this" target.
+     * is undefined so you need to explicitly bind it to shapeEntityA desired "this" target.
      */
     ngbTypeahead: (text: Observable<string>) => Observable<any[]>;
     /**
-     * A function to format a given result before display. This function should return a formatted string without any
+     * A function to format shapeEntityA given result before display. This function should return shapeEntityA formatted string without any
      * HTML markup
      */
     resultFormatter: (value: any) => string;
     /**
-     * A template to override a matching result default display
+     * A template to override shapeEntityA matching result default display
      */
     resultTemplate: TemplateRef<ResultTemplateContext>;
     /**
@@ -64,7 +64,7 @@ export declare class NgbTypeahead implements ControlValueAccessor, OnInit, OnDes
      */
     showHint: boolean;
     /**
-     * An event emitted when a match is selected. Event payload is of type NgbTypeaheadSelectItemEvent.
+     * An event emitted when shapeEntityA match is selected. Event payload is of type NgbTypeaheadSelectItemEvent.
      */
     selectItem: EventEmitter<NgbTypeaheadSelectItemEvent>;
     activeDescendant: string;

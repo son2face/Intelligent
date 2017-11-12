@@ -2,7 +2,7 @@ import {AfterContentChecked, EventEmitter, OnDestroy, OnInit, QueryList, Templat
 import {NgbCarouselConfig} from './carousel-config';
 
 /**
- * Represents an individual slide to be used within a carousel.
+ * Represents an individual slide to be used within shapeEntityA carousel.
  */
 export declare class NgbSlide {
     tplRef: TemplateRef<any>;
@@ -52,7 +52,7 @@ export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnIn
     ngOnDestroy(): void;
 
     /**
-     * Navigate to a slide with the specified identifier.
+     * Navigate to shapeEntityA slide with the specified identifier.
      */
     select(slideId: string): void;
 

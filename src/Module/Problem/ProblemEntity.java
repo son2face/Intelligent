@@ -28,15 +28,21 @@ public class ProblemEntity implements Serializable {
     public UserEntity userEntity;
     public List<PointEntity> pointEntities;
     public List<ShapeEntity> shapeEntities;
+    public Integer frameId;
+    public Integer width;
+    public Integer height;
 
     public ProblemEntity() {
     }
 
-    public ProblemEntity(int problemId, String status, Integer fileId, Integer userId) {
+    public ProblemEntity(int problemId, String status, Integer fileId, Integer userId, Integer frameId, Integer width, Integer height) {
         this.problemId = problemId;
         this.status = status;
         this.fileId = fileId;
         this.userId = userId;
+        this.frameId = frameId;
+        this.width = width;
+        this.height = height;
     }
 
     public ProblemEntity(ProblemModel ProblemModel, Object... objects) {
@@ -44,6 +50,9 @@ public class ProblemEntity implements Serializable {
         this.status = ProblemModel.getStatus();
         this.fileId = ProblemModel.getFileId();
         this.userId = ProblemModel.getUserId();
+        this.frameId = ProblemModel.getFrameId();
+        this.height = ProblemModel.getHeight();
+        this.width = ProblemModel.getWidth();
         for (Object object : objects) {
             if (object instanceof FileModel) {
                 this.fileEntity = new FileEntity((FileModel) object);
@@ -74,6 +83,9 @@ public class ProblemEntity implements Serializable {
         ProblemModel.setStatus(status);
         ProblemModel.setFileId(fileId);
         ProblemModel.setUserId(userId);
+        ProblemModel.setFrameId(frameId);
+        ProblemModel.setWidth(width);
+        ProblemModel.setHeight(height);
 //        if (fileEntity != null) ProblemModel.setFileByFileId(fileEntity.toModel());
 //        if (userEntity != null) ProblemModel.setUserByUserId(userEntity.toModel());
 //        if (pointEntities != null)

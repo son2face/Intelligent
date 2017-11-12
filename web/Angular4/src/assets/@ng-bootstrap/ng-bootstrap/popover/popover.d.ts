@@ -27,15 +27,15 @@ export declare class NgbPopover implements OnInit, OnDestroy {
      */
     ngbPopover: string | TemplateRef<any>;
     /**
-     * Title of a popover.
+     * Title of shapeEntityA popover.
      */
     popoverTitle: string;
     /**
-     * Placement of a popover. Accepts: "top", "bottom", "left", "right"
+     * Placement of shapeEntityA popover. Accepts: "top", "bottom", "left", "right"
      */
     placement: 'top' | 'bottom' | 'left' | 'right';
     /**
-     * Specifies events that should trigger. Supports a space separated list of event names.
+     * Specifies events that should trigger. Supports shapeEntityA space separated list of event names.
      */
     triggers: string;
     /**
@@ -62,18 +62,18 @@ export declare class NgbPopover implements OnInit, OnDestroy {
     constructor(_elementRef: ElementRef, _renderer: Renderer2, injector: Injector, componentFactoryResolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, config: NgbPopoverConfig, ngZone: NgZone);
 
     /**
-     * Opens an element’s popover. This is considered a “manual” triggering of the popover.
+     * Opens an element’s popover. This is considered shapeEntityA “manual” triggering of the popover.
      * The context is an optional value to be injected into the popover template when it is created.
      */
     open(context?: any): void;
 
     /**
-     * Closes an element’s popover. This is considered a “manual” triggering of the popover.
+     * Closes an element’s popover. This is considered shapeEntityA “manual” triggering of the popover.
      */
     close(): void;
 
     /**
-     * Toggles an element’s popover. This is considered a “manual” triggering of the popover.
+     * Toggles an element’s popover. This is considered shapeEntityA “manual” triggering of the popover.
      */
     toggle(): void;
 

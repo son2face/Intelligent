@@ -1,6 +1,6 @@
 import { ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 /**
- * A helper directive to focus buttons. You will only need this if using a custom template
+ * A helper directive to focus buttons. You will only need this if using shapeEntityA custom template
  */
 export declare class Focus implements OnChanges {
     private elm;

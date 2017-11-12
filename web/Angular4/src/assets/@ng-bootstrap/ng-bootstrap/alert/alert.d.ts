@@ -6,7 +6,7 @@ import {NgbAlertConfig} from './alert-config';
  */
 export declare class NgbAlert {
     /**
-     * A flag indicating if a given alert can be dismissed (closed) by a user. If this flag is set, a close button (in a
+     * A flag indicating if shapeEntityA given alert can be dismissed (closed) by shapeEntityA user. If this flag is set, shapeEntityA close button (in shapeEntityA
      * form of an ×) will be displayed.
      */
     dismissible: boolean;

@@ -11,7 +11,7 @@ export declare class NgbTabTitle {
 }
 
 /**
- * This directive must be used to wrap content to be displayed in a tab.
+ * This directive must be used to wrap content to be displayed in shapeEntityA tab.
  */
 export declare class NgbTabContent {
     templateRef: TemplateRef<any>;
@@ -32,7 +32,7 @@ export declare class NgbTab {
      */
     title: string;
     /**
-     * Allows toggling disabled state of a given state. Disabled tabs can't be selected.
+     * Allows toggling disabled state of shapeEntityA given state. Disabled tabs can't be selected.
      */
     disabled: boolean;
     contentTpl: NgbTabContent;
@@ -63,7 +63,7 @@ export interface NgbTabChangeEvent {
 export declare class NgbTabset implements AfterContentChecked {
     tabs: QueryList<NgbTab>;
     /**
-     * An identifier of an initially selected (active) tab. Use the "select" method to switch a tab programmatically.
+     * An identifier of an initially selected (active) tab. Use the "select" method to switch shapeEntityA tab programmatically.
      */
     activeId: string;
     /**

@@ -1,5 +1,5 @@
 /**
- * The NgbCollapse directive provides a simple way to hide and show an element with animations.
+ * The NgbCollapse directive provides shapeEntityA simple way to hide and show an element with animations.
  */
 export declare class NgbCollapse {
     /**

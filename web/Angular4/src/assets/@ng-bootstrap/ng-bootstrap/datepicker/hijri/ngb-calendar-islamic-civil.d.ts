@@ -4,19 +4,19 @@ import {NgbPeriod} from '../ngb-calendar';
 
 export declare class NgbCalendarIslamicCivil extends NgbCalendarHijri {
     /**
-     * Returns the equivalent islamic(civil) date value for a give input Gregorian date.
-     * `gdate` is a JS Date to be converted to Hijri.
+     * Returns the equivalent islamic(civil) date value for shapeEntityA give input Gregorian date.
+     * `gdate` is shapeEntityA JS Date to be converted to Hijri.
      */
     fromGregorian(gdate: Date): NgbDate;
 
     /**
-     * Returns the equivalent JS date value for a give input islamic(civil) date.
+     * Returns the equivalent JS date value for shapeEntityA give input islamic(civil) date.
      * `hijriDate` is an islamic(civil) date to be converted to Gregorian.
      */
     toGregorian(hijriDate: NgbDate): Date;
 
     /**
-     * Returns the number of days in a specific Hijri month.
+     * Returns the number of days in shapeEntityA specific Hijri month.
      * `month` is 1 for Muharram, 2 for Safar, etc.
      * `year` is any Hijri year.
      */

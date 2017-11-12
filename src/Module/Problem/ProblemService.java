@@ -108,11 +108,11 @@ public class ProblemService {
         }
     }
 
-    public ProblemEntity create(int problemId, String status, Integer fileId, Integer userId) {
+    public ProblemEntity create(int problemId, String status, Integer fileId, Integer userId, Integer frameId, Integer width, Integer height) {
         Transaction tx = null;
         try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
-            ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId);
+            ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId, frameId, width, height);
             ProblemModel problemModel = problemEntity.toModel();
             Integer.valueOf(String.valueOf(session.save(problemModel)));
             tx.commit();
@@ -142,11 +142,11 @@ public class ProblemService {
         return null;
     }
 
-    public ProblemEntity update(int problemId, String status, Integer fileId, Integer userId) {
+    public ProblemEntity update(int problemId, String status, Integer fileId, Integer userId, Integer frameId, Integer width, Integer height) {
         Transaction tx = null;
         try (Session session = factory.openSession()) {
             tx = session.beginTransaction();
-            ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId);
+            ProblemEntity problemEntity = new ProblemEntity(problemId, status, fileId, userId, frameId, width, height);
             session.update(problemEntity.toModel());
             tx.commit();
             ProblemEntity result = get(problemId);
@@ -209,7 +209,7 @@ public class ProblemService {
             List<ShapeEntity> shapeEntities = new ArrayList<>();
             for (int i = 0; i < totalShape; i++) {
                 int shapeCode = scanner.nextInt();
-                ShapeEntity shapeEntity = new ShapeEntity(0, id, 1, null, shapeCode,0,0);
+                ShapeEntity shapeEntity = new ShapeEntity(0, id, 1, null, shapeCode, 0, 0);
                 ShapeModel shapeModel = shapeEntity.toModel();
                 session.save(shapeModel);
                 int numberOfShape = scanner.nextInt();
@@ -241,8 +241,8 @@ public class ProblemService {
                 edgeEntities.add(new EdgeEntity(0, Double.valueOf(x0), Double.valueOf(y0), Double.valueOf(xn), Double.valueOf(yn), shapeEntity.shapeId));
                 int finalMinX = minX;
                 int finalMinY = minY;
-                shapeModel.setCenterX((maxX-minX)/2);
-                shapeModel.setCenterY((maxY-minY)/2);
+                shapeModel.setCenterX((maxX - minX) / 2);
+                shapeModel.setCenterY((maxY - minY) / 2);
                 session.save(shapeModel);
                 edgeEntities.forEach(edgeEntity -> {
                     edgeEntity.startX = edgeEntity.startX - finalMinX;
@@ -254,8 +254,30 @@ public class ProblemService {
                 shapeEntity.edgeEntities = edgeEntities;
                 shapeEntities.add(shapeEntity);
             }
+            int idFrame = scanner.nextInt();
+            int kVertical = scanner.nextInt();
+            int minX = 9999;
+            int minY = 9999;
+            int maxX = -9999;
+            int maxY = -9999;
+            for (int i = 0; i < kVertical; i++) {
+                try {
+                    int x = scanner.nextInt();
+                    int y = scanner.nextInt();
+                    minX = Math.min(minX, x);
+                    minY = Math.min(minY, y);
+                    maxX = Math.max(maxX, x);
+                    maxY = Math.max(maxY, y);
+                } catch (Exception ignored) {
+
+                }
+            }
+            problemModel.setHeight(maxY - minY);
+            problemModel.setWidth(maxX - minX);
+            problemModel.setFrameId(idFrame);
+            session.update(problemModel);
             tx.commit();
-            for (ShapeEntity shapeEntity : shapeEntities){
+            for (ShapeEntity shapeEntity : shapeEntities) {
                 shapeEntity.edgeEntities.forEach(edgeEntity -> {
                     edgeService.create(edgeEntity);
                 });

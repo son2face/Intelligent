@@ -3,18 +3,15 @@ package Console2;
 import java.util.HashMap;
 
 class TreeShape {
-    public int idShape;
-    public HashMap<Integer, TreeShape> childs;
+    public HashMap<PairShape, TreeShape> childs;
     public TreeShape parent;
 
-    public TreeShape(int idShape, HashMap<Integer, TreeShape> childs, TreeShape parent) {
-        this.idShape = idShape;
+    public TreeShape(HashMap<PairShape, TreeShape> childs, TreeShape parent) {
         this.childs = childs;
         this.parent = parent;
     }
 
-    public TreeShape(int idShape, TreeShape parent) {
-        this.idShape = idShape;
+    public TreeShape(TreeShape parent) {
         this.parent = parent;
         this.childs = new HashMap<>();
     }

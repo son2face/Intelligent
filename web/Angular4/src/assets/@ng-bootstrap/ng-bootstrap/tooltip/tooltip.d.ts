@@ -22,11 +22,11 @@ export declare class NgbTooltipWindow {
  */
 export declare class NgbTooltip implements OnInit, OnDestroy {
     /**
-     * Placement of a tooltip. Accepts: "top", "bottom", "left", "right"
+     * Placement of shapeEntityA tooltip. Accepts: "top", "bottom", "left", "right"
      */
     placement: 'top' | 'bottom' | 'left' | 'right';
     /**
-     * Specifies events that should trigger. Supports a space separated list of event names.
+     * Specifies events that should trigger. Supports shapeEntityA space separated list of event names.
      */
     triggers: string;
     /**
@@ -58,18 +58,18 @@ export declare class NgbTooltip implements OnInit, OnDestroy {
     constructor(_elementRef: ElementRef, _renderer: Renderer2, injector: Injector, componentFactoryResolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, config: NgbTooltipConfig, ngZone: NgZone);
 
     /**
-     * Opens an element’s tooltip. This is considered a “manual” triggering of the tooltip.
+     * Opens an element’s tooltip. This is considered shapeEntityA “manual” triggering of the tooltip.
      * The context is an optional value to be injected into the tooltip template when it is created.
      */
     open(context?: any): void;
 
     /**
-     * Closes an element’s tooltip. This is considered a “manual” triggering of the tooltip.
+     * Closes an element’s tooltip. This is considered shapeEntityA “manual” triggering of the tooltip.
      */
     close(): void;
 
     /**
-     * Toggles an element’s tooltip. This is considered a “manual” triggering of the tooltip.
+     * Toggles an element’s tooltip. This is considered shapeEntityA “manual” triggering of the tooltip.
      */
     toggle(): void;
 

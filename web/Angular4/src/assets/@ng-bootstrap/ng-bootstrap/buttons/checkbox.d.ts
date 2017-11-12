@@ -2,13 +2,13 @@ import {ControlValueAccessor} from '@angular/forms';
 import {NgbButtonLabel} from './label';
 
 /**
- * Easily create Bootstrap-style checkbox buttons. A value of a checked button is bound to a variable
+ * Easily create Bootstrap-style checkbox buttons. A value of shapeEntityA checked button is bound to shapeEntityA variable
  * specified via ngModel.
  */
 export declare class NgbCheckBox implements ControlValueAccessor {
     checked: any;
     /**
-     * A flag indicating if a given checkbox button is disabled.
+     * A flag indicating if shapeEntityA given checkbox button is disabled.
      */
     disabled: boolean;
     /**

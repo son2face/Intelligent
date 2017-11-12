@@ -1,6 +1,6 @@
 /**
  * Type of the service supplying month and weekday names to to NgbDatepicker component.
- * See the i18n demo for how to extend this class and define a custom provider for i18n.
+ * See the i18n demo for how to extend this class and define shapeEntityA custom provider for i18n.
  */
 export declare abstract class NgbDatepickerI18n {
     /**

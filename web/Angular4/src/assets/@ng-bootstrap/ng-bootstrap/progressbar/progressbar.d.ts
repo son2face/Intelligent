@@ -1,7 +1,7 @@
 import {NgbProgressbarConfig} from './progressbar-config';
 
 /**
- * Directive that can be used to provide feedback on the progress of a workflow or an action.
+ * Directive that can be used to provide feedback on the progress of shapeEntityA workflow or an action.
  */
 export declare class NgbProgressbar {
     /**
@@ -14,7 +14,7 @@ export declare class NgbProgressbar {
      */
     animated: boolean;
     /**
-     * A flag indicating if a progress bar should be displayed as striped.
+     * A flag indicating if shapeEntityA progress bar should be displayed as striped.
      */
     striped: boolean;
     /**

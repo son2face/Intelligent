@@ -61,7 +61,7 @@ public class EdgeEntity implements Serializable {
         EdgeModel.setStartY(startY);
         EdgeModel.setEndY(endY);
         EdgeModel.setShapeId(shapeId);
-//        if (shapeEntity != null) EdgeModel.setShapeByShapeId(shapeEntity.toModel());
+//        if (shapeEntityA != null) EdgeModel.setShapeByShapeId(shapeEntityA.toModel());
         return EdgeModel;
     }
 }

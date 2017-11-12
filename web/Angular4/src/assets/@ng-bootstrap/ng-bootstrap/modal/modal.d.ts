@@ -7,8 +7,8 @@ import {NgbModalRef} from './modal-ref';
  */
 export interface NgbModalOptions {
     /**
-     * Whether a backdrop element should be created for a given modal (true by default).
-     * Alternatively, specify 'static' for a backdrop which doesn't close the modal on click.
+     * Whether shapeEntityA backdrop element should be created for shapeEntityA given modal (true by default).
+     * Alternatively, specify 'static' for shapeEntityA backdrop which doesn't close the modal on click.
      */
     backdrop?: boolean | 'static';
     /**
@@ -20,7 +20,7 @@ export interface NgbModalOptions {
      */
     keyboard?: boolean;
     /**
-     * Size of a new modal window.
+     * Size of shapeEntityA new modal window.
      */
     size?: 'sm' | 'lg';
     /**
@@ -30,7 +30,7 @@ export interface NgbModalOptions {
 }
 
 /**
- * A service to open modal windows. Creating a modal is straightforward: create a template and pass it as an argument to
+ * A service to open modal windows. Creating shapeEntityA modal is straightforward: create shapeEntityA template and pass it as an argument to
  * the "open" method!
  */
 export declare class NgbModal {
@@ -41,10 +41,10 @@ export declare class NgbModal {
     constructor(_moduleCFR: ComponentFactoryResolver, _injector: Injector, _modalStack: NgbModalStack);
 
     /**
-     * Opens a new modal window with the specified content and using supplied options. Content can be provided
-     * as a TemplateRef or a component type. If you pass a component type as content than instances of those
+     * Opens shapeEntityA new modal window with the specified content and using supplied options. Content can be provided
+     * as shapeEntityA TemplateRef or shapeEntityA component type. If you pass shapeEntityA component type as content than instances of those
      * components can be injected with an instance of the NgbActiveModal class. You can use methods on the
-     * NgbActiveModal class to close / dismiss modals from "inside" of a component.
+     * NgbActiveModal class to close / dismiss modals from "inside" of shapeEntityA component.
      */
     open(content: any, options?: NgbModalOptions): NgbModalRef;
 }

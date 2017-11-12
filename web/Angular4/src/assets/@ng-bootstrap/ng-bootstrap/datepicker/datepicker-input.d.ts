@@ -36,7 +36,7 @@ export declare class NgbInputDatepicker implements OnChanges, OnDestroy, Control
      */
     firstDayOfWeek: number;
     /**
-     * Callback to mark a given date as disabled.
+     * Callback to mark shapeEntityA given date as disabled.
      * 'Current' contains the month that will be displayed in the view
      */
     markDisabled: (date: NgbDateStruct, current: {
@@ -62,7 +62,7 @@ export declare class NgbInputDatepicker implements OnChanges, OnDestroy, Control
      */
     outsideDays: 'visible' | 'collapsed' | 'hidden';
     /**
-     * Placement of a datepicker popup. Accepts: "top", "bottom", "left", "right", "bottom-left",
+     * Placement of shapeEntityA datepicker popup. Accepts: "top", "bottom", "left", "right", "bottom-left",
      * "bottom-right" etc.
      */
     placement: string;

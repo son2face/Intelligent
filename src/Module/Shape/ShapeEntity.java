@@ -31,6 +31,7 @@ public class ShapeEntity implements Serializable {
     public int weight;
     public ShapeEntity combineA;
     public ShapeEntity combineB;
+    public List<Integer> angles;
     public ShapeEntity() {
     }
 

@@ -15,6 +15,9 @@ public class ProblemModel {
     private String status;
     private Integer fileId;
     private Integer userId;
+    private Integer frameId;
+    private Integer width;
+    private Integer height;
     private Collection<PointModel> pointsByProblemId;
     private FileModel fileByFileId;
     private UserModel userByUserId;
@@ -52,6 +55,35 @@ public class ProblemModel {
     }
 
     @Basic
+    @Column(name = "frameId", nullable = true)
+    public Integer getFrameId() {
+        return frameId;
+    }
+
+    public void setFrameId(Integer frameId) {
+        this.frameId = frameId;
+    }
+
+    @Basic
+    @Column(name = "width", nullable = true)
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    @Basic
+    @Column(name = "height", nullable = true)
+    public Integer getHeight() {
+        return height;
+    }
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    @Basic
     @Column(name = "userId", nullable = true)
     public Integer getUserId() {
         return userId;
@@ -72,6 +104,9 @@ public class ProblemModel {
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (fileId != null ? !fileId.equals(that.fileId) : that.fileId != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (frameId != null ? !frameId.equals(that.frameId) : that.frameId != null) return false;
+        if (width != null ? !width.equals(that.width) : that.width != null) return false;
+        if (height != null ? !height.equals(that.height) : that.height != null) return false;
 
         return true;
     }
@@ -82,6 +117,9 @@ public class ProblemModel {
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (fileId != null ? fileId.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (frameId != null ? frameId.hashCode() : 0);
+        result = 31 * result + (width != null ? width.hashCode() : 0);
+        result = 31 * result + (height != null ? height.hashCode() : 0);
         return result;
     }
 

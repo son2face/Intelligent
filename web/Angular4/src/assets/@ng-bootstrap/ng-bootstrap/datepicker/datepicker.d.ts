@@ -50,7 +50,7 @@ export declare class NgbDatepicker implements OnDestroy, OnChanges, OnInit, Cont
      */
     firstDayOfWeek: number;
     /**
-     * Callback to mark a given date as disabled.
+     * Callback to mark shapeEntityA given date as disabled.
      * 'Current' contains the month that will be displayed in the view
      */
     markDisabled: (date: NgbDateStruct, current: {

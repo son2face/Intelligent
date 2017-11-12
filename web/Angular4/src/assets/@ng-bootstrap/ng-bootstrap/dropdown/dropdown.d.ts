@@ -2,7 +2,7 @@ import {ElementRef, EventEmitter} from '@angular/core';
 import {NgbDropdownConfig} from './dropdown-config';
 
 /**
- * Transforms a node into a dropdown.
+ * Transforms shapeEntityA node into shapeEntityA dropdown.
  */
 export declare class NgbDropdown {
     /**
@@ -32,17 +32,17 @@ export declare class NgbDropdown {
     isOpen(): boolean;
 
     /**
-     * Opens the dropdown menu of a given navbar or tabbed navigation.
+     * Opens the dropdown menu of shapeEntityA given navbar or tabbed navigation.
      */
     open(): void;
 
     /**
-     * Closes the dropdown menu of a given navbar or tabbed navigation.
+     * Closes the dropdown menu of shapeEntityA given navbar or tabbed navigation.
      */
     close(): void;
 
     /**
-     * Toggles the dropdown menu of a given navbar or tabbed navigation.
+     * Toggles the dropdown menu of shapeEntityA given navbar or tabbed navigation.
      */
     toggle(): void;
 

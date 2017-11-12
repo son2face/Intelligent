@@ -9,27 +9,27 @@ import {ContentRef} from '../util/popup';
  */
 export declare class NgbActiveModal {
     /**
-     * Can be used to close a modal, passing an optional result.
+     * Can be used to close shapeEntityA modal, passing an optional result.
      */
     close(result?: any): void;
 
     /**
-     * Can be used to dismiss a modal, passing an optional reason.
+     * Can be used to dismiss shapeEntityA modal, passing an optional reason.
      */
     dismiss(reason?: any): void;
 }
 
 /**
- * A reference to a newly opened modal.
+ * A reference to shapeEntityA newly opened modal.
  */
 export declare class NgbModalRef {
     /**
      * The instance of component used as modal's content.
-     * Undefined when a TemplateRef is used as modal's content.
+     * Undefined when shapeEntityA TemplateRef is used as modal's content.
      */
     componentInstance: any;
     /**
-     * A promise that is resolved when a modal is closed and rejected when a modal is dismissed.
+     * A promise that is resolved when shapeEntityA modal is closed and rejected when shapeEntityA modal is dismissed.
      */
     result: Promise<any>;
     private _windowCmptRef;
@@ -41,12 +41,12 @@ export declare class NgbModalRef {
     constructor(_windowCmptRef: ComponentRef<NgbModalWindow>, _contentRef: ContentRef, _backdropCmptRef?: ComponentRef<NgbModalBackdrop>);
 
     /**
-     * Can be used to close a modal, passing an optional result.
+     * Can be used to close shapeEntityA modal, passing an optional result.
      */
     close(result?: any): void;
 
     /**
-     * Can be used to dismiss a modal, passing an optional reason.
+     * Can be used to dismiss shapeEntityA modal, passing an optional reason.
      */
     dismiss(reason?: any): void;
 

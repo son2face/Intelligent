@@ -2,7 +2,7 @@ import {EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {NgbPaginationConfig} from './pagination-config';
 
 /**
- * A directive that will take care of visualising a pagination bar and enable / disable buttons correctly!
+ * A directive that will take care of visualising shapeEntityA pagination bar and enable / disable buttons correctly!
  */
 export declare class NgbPagination implements OnChanges {
     pageCount: number;

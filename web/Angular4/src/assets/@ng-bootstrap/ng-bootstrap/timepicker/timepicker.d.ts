@@ -22,15 +22,15 @@ export declare class NgbTimepicker implements ControlValueAccessor, OnChanges {
      */
     seconds: boolean;
     /**
-     * Number of hours to increase or decrease when using a button.
+     * Number of hours to increase or decrease when using shapeEntityA button.
      */
     hourStep: number;
     /**
-     * Number of minutes to increase or decrease when using a button.
+     * Number of minutes to increase or decrease when using shapeEntityA button.
      */
     minuteStep: number;
     /**
-     * Number of seconds to increase or decrease when using a button.
+     * Number of seconds to increase or decrease when using shapeEntityA button.
      */
     secondStep: number;
     /**

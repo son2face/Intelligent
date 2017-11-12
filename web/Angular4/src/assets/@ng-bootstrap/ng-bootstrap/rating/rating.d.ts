@@ -13,7 +13,7 @@ export interface StarTemplateContext {
 }
 
 /**
- * Rating directive that will take care of visualising a star rating bar.
+ * Rating directive that will take care of visualising shapeEntityA star rating bar.
  */
 export declare class NgbRating implements ControlValueAccessor, OnInit, OnChanges {
     contexts: StarTemplateContext[];
@@ -24,7 +24,7 @@ export declare class NgbRating implements ControlValueAccessor, OnInit, OnChange
      */
     max: number;
     /**
-     * Current rating. Can be a decimal value like 3.75
+     * Current rating. Can be shapeEntityA decimal value like 3.75
      */
     rate: number;
     /**
@@ -37,21 +37,21 @@ export declare class NgbRating implements ControlValueAccessor, OnInit, OnChange
     resettable: boolean;
     /**
      * A template to override star display.
-     * Alternatively put a <ng-template> as the only child of <ngb-rating> element
+     * Alternatively put shapeEntityA <ng-template> as the only child of <ngb-rating> element
      */
     starTemplate: TemplateRef<StarTemplateContext>;
     /**
-     * An event fired when a user is hovering over a given rating.
+     * An event fired when shapeEntityA user is hovering over shapeEntityA given rating.
      * Event's payload equals to the rating being hovered over.
      */
     hover: EventEmitter<number>;
     /**
-     * An event fired when a user stops hovering over a given rating.
+     * An event fired when shapeEntityA user stops hovering over shapeEntityA given rating.
      * Event's payload equals to the rating of the last item being hovered over.
      */
     leave: EventEmitter<number>;
     /**
-     * An event fired when a user selects a new rating.
+     * An event fired when shapeEntityA user selects shapeEntityA new rating.
      * Event's payload equals to the newly selected rating.
      */
     rateChange: EventEmitter<number>;

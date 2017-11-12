@@ -35,16 +35,16 @@ export declare class NgbTypeaheadWindow implements OnInit {
      */
     term: string;
     /**
-     * A function used to format a given result before display. This function should return a formatted string without any
+     * A function used to format shapeEntityA given result before display. This function should return shapeEntityA formatted string without any
      * HTML markup
      */
     formatter: typeof toString;
     /**
-     * A template to override a matching result default display
+     * A template to override shapeEntityA matching result default display
      */
     resultTemplate: TemplateRef<ResultTemplateContext>;
     /**
-     * Event raised when user selects a particular result row
+     * Event raised when user selects shapeEntityA particular result row
      */
     selectEvent: EventEmitter<{}>;
     activeChangeEvent: EventEmitter<{}>;

@@ -3,7 +3,7 @@ import {ControlValueAccessor} from '@angular/forms';
 import {NgbButtonLabel} from './label';
 
 /**
- * Easily create Bootstrap-style radio buttons. A value of a selected button is bound to a variable
+ * Easily create Bootstrap-style radio buttons. A value of shapeEntityA selected button is bound to shapeEntityA variable
  * specified via ngModel.
  */
 export declare class NgbRadioGroup implements ControlValueAccessor {
@@ -40,11 +40,11 @@ export declare class NgbRadioGroup implements ControlValueAccessor {
  */
 export declare class NgbRadio implements OnDestroy {
     /**
-     * You can specify model value of a given radio by binding to the value property.
+     * You can specify model value of shapeEntityA given radio by binding to the value property.
      */
     value: any;
     /**
-     * A flag indicating if a given radio button is disabled.
+     * A flag indicating if shapeEntityA given radio button is disabled.
      */
     disabled: boolean;
     focused: boolean;
