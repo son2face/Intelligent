@@ -16,6 +16,7 @@ import Module.Shape.ShapeService;
 import Module.User.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.rits.cloning.Cloner;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.Point;
@@ -43,7 +44,6 @@ public class Test {
     int widthFrame = 30;
     int heighFrame = 25;
     TreeShape overTreeShape = new TreeShape(null);
-    //    TreeShape currentTree = treeShape;
     boolean isAssert = false;
     boolean isCenterEmpty = false;
     ObjectMapper mapper = new ObjectMapper();
@@ -66,7 +66,7 @@ public class Test {
         System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "20");
         Test test = new Test();
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(8);
+        test.Process(1);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
@@ -85,7 +85,19 @@ public class Test {
         return shapeEntity.angles.parallelStream().allMatch(integer -> integer % 90 == 0);
     }
 
+    void loadAreas(List<ShapeEntity> shapeEntities) {
+        shapeEntities.parallelStream().forEach(shapeEntity -> {
+            shapeEntity.area = getShapeArea(shapeEntity);
+        });
+    }
 
+    /**
+     * Tính góc, ví dụ vị trí 0 tính góc giữa 2 cạnh 0 1
+     *
+     * @param shapeEntity
+     * @param index
+     * @return
+     */
     int computeAngle(ShapeEntity shapeEntity, int index) {
         int index1 = (index + 1) % shapeEntity.edgeEntities.size();
         double c = Math.pow((shapeEntity.edgeEntities.get(index1).endX - shapeEntity.edgeEntities.get(index).startX), 2) +
@@ -129,11 +141,27 @@ public class Test {
         widthFrame = problemEntity.width;
         heighFrame = problemEntity.height;
         int shapeSize = problemEntity.shapeEntities.size();
-        List<ShapeEntity> shape90Angle = new ArrayList<>();
-        List<ShapeEntity> shapeNot90Angle = new ArrayList<>();
-        HashMap<Integer, List<PairAngleShape>> hashMap = new HashMap<>();
+//        List<ShapeEntity> shape90Angle = new ArrayList<>();
+//        List<ShapeEntity> shapeNot90Angle = new ArrayList<>();
         problemEntity.shapeEntities.parallelStream().forEach(shapeEntity -> {
             shapeEntity.edgeEntities = shapeService.get(shapeEntity.shapeId).edgeEntities;
+//            loadAngles(shapeEntity);
+//            if (isShape90(shapeEntity)) {
+//                shape90Angle.add(shapeEntity);
+//            } else {
+//                shapeNot90Angle.add(shapeEntity);
+//            }
+        });
+        loadAreas(problemEntity.shapeEntities);
+        angleBaseProcess(problemEntity.shapeEntities);
+//        edgeBaseProcess(problemEntity.shapeEntities);
+    }
+
+    void angleBaseProcess(List<ShapeEntity> shapeEntities) {
+        HashMap<Integer, List<PairAngleShape>> hashMap = new HashMap<>();
+        List<ShapeEntity> shape90Angle = new ArrayList<>();
+        List<ShapeEntity> shapeNot90Angle = new ArrayList<>();
+        shapeEntities.parallelStream().forEach(shapeEntity -> {
             loadAngles(shapeEntity);
             if (isShape90(shapeEntity)) {
                 shape90Angle.add(shapeEntity);
@@ -141,11 +169,77 @@ public class Test {
                 shapeNot90Angle.add(shapeEntity);
             }
         });
-        edgeBaseProcess(problemEntity.shapeEntities);
+        List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle(shapeNot90Angle, 0, 0);
+        pairAngleShapes.forEach(pairAngleShape -> {
+            for (int i = 0; i < pairAngleShape.shapeEntities.size(); i++) {
+                System.out.print(pairAngleShape.shapeEntities.get(i).shapeId + "....." + pairAngleShape.shapeEntities.get(i).angles.get(pairAngleShape.position.get(i)));
+                System.out.println("...." + pairAngleShape.shapeEntities.get(i).edgeEntities.get(pairAngleShape.position.get(i)).edgeId);
+            }
+            System.out.println(pairAngleShape.totalAngle);
+            System.out.println();
+        });
     }
 
-    void angleBaseProcess() {
+    List<List<ShapeEntity>> findAllArrShapeArea(List<ShapeEntity> list, int startIndex, double currentSum, double sum) {
+        List<List<ShapeEntity>> result = new ArrayList<>();
+        for (int i = startIndex; i < list.size(); i++) {
+            if (list.get(i).area + currentSum > sum) break;
+            List<ShapeEntity> a = new ArrayList<>();
+            if (list.get(i).area + currentSum == sum) {
+                a.add(list.get(i));
+                result.add(a);
+                for (int j = i + 1; j < list.size(); j++) {
+                    if (Objects.equals(list.get(j), list.get(i))) {
+                        List<ShapeEntity> t = new ArrayList<>();
+                        t.add(list.get(j));
+                        result.add(t);
+                    } else {
+                        break;
+                    }
+                }
+                break;
+            } else {
+                double newSum = currentSum + list.get(i).area;
+                ShapeEntity num = cloner.deepClone(list.get(i));
+                List<List<ShapeEntity>> lists = findAllArrShapeArea(list, i + 1, newSum, sum);
+                lists.parallelStream().forEach(list1 -> {
+                    list1.add(num);
+                });
+                result.addAll(lists);
+            }
+        }
+        return result;
+    }
 
+    List<PairAngleShape> findAllArrShapeAngle(List<ShapeEntity> shapeEntities, int startIndex, int sumAngle) {
+        List<PairAngleShape> result = new ArrayList<>();
+        for (int i = startIndex; i < shapeEntities.size(); i++) {
+            ShapeEntity shapeEntityA = shapeEntities.get(i);
+            for (int j = 0; j < shapeEntityA.angles.size(); j++) {
+                int angleA = shapeEntityA.angles.get(j);
+                if (angleA % 90 != 0) {
+                    int sum = angleA + sumAngle;
+                    if (sum <= 360) {
+                        if (sum % 90 == 0) {
+                            PairAngleShape pairAngleShape = new PairAngleShape();
+                            pairAngleShape.totalAngle = angleA + sumAngle;
+                            pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
+                            pairAngleShape.position.add(j);
+                            result.add(pairAngleShape);
+                        } else {
+                            List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle(shapeEntities, i + 1, sum);
+                            int finalJ = j;
+                            pairAngleShapes.parallelStream().forEach(pairAngleShape -> {
+                                pairAngleShape.position.add(finalJ);
+                                pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
+                            });
+                            result.addAll(pairAngleShapes);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     void edgeBaseProcess(List<ShapeEntity> shapeEntities) {
@@ -230,7 +324,8 @@ public class Test {
                 }
             }).collect(Collectors.toList()));
             clone = sort(clone);
-            for (int j = clone.size() - 1; j >= 0; j--) {
+//            for (int j = clone.size() - 1; j >= 0; j--) {
+            for (int j = 0; j < clone.size(); j++) {
                 List<ShapeEntity> list = cloner.deepClone(shapeEntities);
                 PairShape pair = clone.get(j);
                 list = list.parallelStream().filter(shapeEntity1 -> {
@@ -584,9 +679,10 @@ public class Test {
                     }
                     mergedShape.edgeEntities.add(new EdgeEntity(idEdge++, newCoordinates[i].x, newCoordinates[i].y, newCoordinates[i + 1].x, newCoordinates[i + 1].y, 1));
                 }
-                if (getShapeArea(shapeEntityA) + getShapeArea(newShapeEntityB) == getShapeArea(mergedShape)) {
+                if (shapeEntityA.area + newShapeEntityB.area == getShapeArea(mergedShape)) {
                     mergedShape.shapeId = idShape++;
-                    mergedShape.weight = calWeight(shapeEntityA,newShapeEntityB,edgeEntityA);
+                    mergedShape.weight = calWeight(shapeEntityA, newShapeEntityB, edgeEntityA);
+                    mergedShape.area = shapeEntityA.area + newShapeEntityB.area;
                     return mergedShape;
                 } else {
                     return null;
@@ -776,11 +872,15 @@ public class Test {
             return pairShapes;
         }
         int number = pairShapes.size();
-        quicksort(pairShapes, 0, number - 1);
-        return new ArrayList<PairShape>(pairShapes);
+        quicksortWeight(pairShapes, 0, number - 1);
+        return new ArrayList<>(pairShapes);
     }
 
-    void quicksort(List<PairShape> pairShapes, int low, int high) {
+    ShapeEntity findInterShape(ShapeEntity shapeEntity) {
+        return null;
+    }
+
+    void quicksortWeight(List<PairShape> pairShapes, int low, int high) {
         int i = low, j = high;
         PairShape pivot = pairShapes.get(low + (high - low) / 2);
         while (i <= j) {
@@ -799,10 +899,41 @@ public class Test {
             }
         }
         if (low < j)
-            quicksort(pairShapes, low, j);
+            quicksortWeight(pairShapes, low, j);
         if (i < high)
-            quicksort(pairShapes, i, high);
+            quicksortWeight(pairShapes, i, high);
     }
+
+
+    List<ShapeEntity> quicksortAscArea(List<ShapeEntity> shapeEntities) {
+        quicksortArea(shapeEntities, 0, shapeEntities.size() - 1);
+        return Lists.reverse(shapeEntities);
+    }
+
+    void quicksortArea(List<ShapeEntity> shapeEntities, int low, int high) {
+        int i = low, j = high;
+        ShapeEntity pivot = shapeEntities.get(low + (high - low) / 2);
+        while (i <= j) {
+            while (shapeEntities.get(i).area > pivot.area) {
+                i++;
+            }
+            while (shapeEntities.get(j).area < pivot.area) {
+                j--;
+            }
+            if (i <= j) {
+                ShapeEntity temp = shapeEntities.get(i);
+                shapeEntities.set(i, shapeEntities.get(j));
+                shapeEntities.set(j, temp);
+                i++;
+                j--;
+            }
+        }
+        if (low < j)
+            quicksortArea(shapeEntities, low, j);
+        if (i < high)
+            quicksortArea(shapeEntities, i, high);
+    }
+
 
     ShapeEntity rotateShape90(ShapeEntity shapeEntity) {
         Cloner cloner = new Cloner();
