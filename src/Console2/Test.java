@@ -66,7 +66,7 @@ public class Test {
         System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "20");
         Test test = new Test();
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(7);
+        test.Process(8);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
@@ -189,7 +189,7 @@ public class Test {
                 }
                 if (isAssert || isCenterEmpty) {
                     isCenterEmpty = false;
-                    isAssert = false;
+                    tree.isCenterEmpty = true;
                 } else {
                     overTreeShape.childs.put(pairShape, tree);
                 }
