@@ -49,6 +49,7 @@ public class Test {
     boolean isCenterEmpty = false;
     ObjectMapper mapper = new ObjectMapper();
     Cloner cloner = new Cloner();
+    List<ShapeEntity> shape90Angle = new ArrayList<>();
 
     Test() {
         DatabaseEntity.setFileDir("H:\\apache-tomcat-9.0.1\\bin\\database.txt");
@@ -77,7 +78,7 @@ public class Test {
 //            System.out.println();
 //        });
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(1);
+        test.Process(9);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
@@ -157,14 +158,13 @@ public class Test {
 //            }
         });
         loadAreas(problemEntity.shapeEntities);
-        angleBaseProcess(problemEntity.shapeEntities);
-//        edgeBaseProcess(problemEntity.shapeEntities);
+//        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
+        edgeBaseProcess(problemEntity.shapeEntities);
     }
 
-    public void angleBaseProcess(List<ShapeEntity> shapeEntities) {
-        List<ShapeEntity> shape90Angle = new ArrayList<>();
+    public List<ShapeEntity> angleBaseProcess(List<ShapeEntity> shapeEntities) {
         List<ShapeEntity> shapeNot90Angle = new ArrayList<>();
-        shapeEntities.parallelStream().forEach(shapeEntity -> {
+        shapeEntities.forEach(shapeEntity -> {
             loadAngles(shapeEntity);
             if (isShape90(shapeEntity)) {
                 shape90Angle.add(shapeEntity);
@@ -175,6 +175,7 @@ public class Test {
         List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle(shapeNot90Angle, 0, 0);
         List<List<PairAngleShape>> sortPair = SortPair(pairAngleShapes);
         s(shapeNot90Angle, sortPair);
+        return shape90Angle;
     }
 
     public List<List<PairAngleShape>> SortPair(List<PairAngleShape> pairAngleShapes) {
@@ -220,9 +221,30 @@ public class Test {
 
     }
 
-    public void s(List<ShapeEntity> shapeEntities, List<List<PairAngleShape>> sortPair) {
+    public List<List<Integer>> ChinhHop(List<Integer> index) {
+        List<List<Integer>> result = new ArrayList<>();
+        index.forEach(number -> {
+            List<Integer> list = cloner.deepClone(index);
+            list.remove(number);
+            if (list.size() == 0) {
+                List<Integer> a = new ArrayList<>();
+                a.add(number);
+                result.add(a);
+            } else {
+                List<List<Integer>> a = ChinhHop(list);
+                a.forEach(list1 -> {
+                    list1.add(number);
+                });
+                result.addAll(a);
+            }
+        });
+        return result;
+    }
+
+    public List<ShapeEntity> s(List<ShapeEntity> shapeEntities, List<List<PairAngleShape>> sortPair) {
         List<List<PairAngleShape>> pair = cloner.deepClone(sortPair);
         quicksortPair(pair, 0, pair.size() - 1);
+        List<ShapeEntity> result = new ArrayList<>();
         // pair chứa list đã nhóm các cặp và đã được sắp xếp
         for (int i = 0; i < pair.size(); i++) {
             List<PairAngleShape> pairAngleShapes = pair.get(i);
@@ -248,14 +270,37 @@ public class Test {
                     PairShape pairShape = after.get(k);
                     List<List<PairAngleShape>> newPair = removePair(sortPair, pairAngleShapes);
                     PairAngleShape pairAngleShape = pairAngleShapes.get(0);
-                    List<ShapeEntity> newShapeEntity = new ArrayList<>();
+                    List<ShapeEntity> newShapeEntities = new ArrayList<>();
+                    loadAngles(pairShape.shapeEntityAB);
+                    if (!isShape90(pairShape.shapeEntityAB)) {
+                        newShapeEntities.add(pairShape.shapeEntityAB);
+                    }
                     shapeEntities.parallelStream().forEach(shapeEntity -> {
-                        if (!pairAngleShape.shapeEntities.parallelStream().anyMatch(shapeEntity1 -> shapeEntity.shapeId == shapeEntity1.shapeId)) {
-                            newShapeEntity.add(shapeEntity);
+                        if (!pairAngleShape.shapeEntities.stream().anyMatch(shapeEntity1 -> shapeEntity.shapeId == shapeEntity1.shapeId)) {
+                            newShapeEntities.add(shapeEntity);
                         }
                     });
-                    newShapeEntity.add(pairShape.shapeEntityAB);
-
+                    List<PairAngleShape> pairAngleShapesNew = findAllArrShapeAngle(newShapeEntities, 0, 0);
+                    if (pairAngleShapesNew.size() == 0) {
+                        try {
+                            System.out.println(mapper.writeValueAsString(newShapeEntities));
+                            System.out.println();
+                            newShapeEntities.addAll(shape90Angle);
+                            System.out.println(mapper.writeValueAsString(newShapeEntities));
+                            System.out.println();
+                            System.out.println();
+                            System.out.println();
+                            edgeBaseProcess(newShapeEntities);
+                            return newShapeEntities;
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    List<List<PairAngleShape>> sortPairNew = SortPair(pairAngleShapesNew);
+                    List<ShapeEntity> entities = s(newShapeEntities, sortPairNew);
+                    if (entities.size() > 0) {
+                        return result;
+                    }
                 }
 //                after.addAll(temp);
 //                List<ShapeEntity> shapeEntities = after.parallelStream().map(pairShape -> pairShape.shapeEntityAB).collect(Collectors.toList());
@@ -270,6 +315,7 @@ public class Test {
 //                }
             }
         }
+        return result;
     }
 
 
@@ -293,10 +339,13 @@ public class Test {
         List<Integer> position = pairAngleShapes.get(0).position;
         List<PairShape> result = new ArrayList<>();
         List<Integer> arr = new ArrayList<>();
-        for (int j = 0; j < position.size(); j++) {
+        for (int j = 1; j < position.size(); j++) {
             arr.add(j);
         }
-        List<List<Integer>> roundTable = findRoundTable(0, arr);
+        List<List<Integer>> roundTable = ChinhHop(arr);
+        roundTable.forEach(list -> {
+            list.add(0);
+        });
         for (int i = 0; i < roundTable.size(); i++) {
             List<Integer> indexArr = roundTable.get(i);
             ShapeEntity shapeEntityA = cloner.deepClone(shapeEntities.get(indexArr.get(0)));

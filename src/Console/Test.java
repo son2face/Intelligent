@@ -48,8 +48,8 @@ public class Test {
     ProblemService problemService;
     int minEgde = 100;
     int idShape = 1000;
-    int widthFrame = 25;
-    int heighFrame = 25;
+    int widthFrame = 64;
+    int heighFrame = 100;
 
     Test() {
         DatabaseEntity.setFileDir("H:\\apache-tomcat-9.0.1\\bin\\database.txt");
@@ -76,7 +76,7 @@ public class Test {
 //        test.combineShape();
 
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(2);
+        test.Process(9);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
