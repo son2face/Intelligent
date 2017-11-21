@@ -76,7 +76,7 @@ public class Test {
 //        test.combineShape();
 
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(9);
+        test.Process(10);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);

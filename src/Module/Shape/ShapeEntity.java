@@ -28,11 +28,12 @@ public class ShapeEntity implements Serializable {
     public Integer code;
     private Integer centerX;
     private Integer centerY;
-    public int weight;
+    public double weight;
     public ShapeEntity combineA;
     public ShapeEntity combineB;
     public List<Double> angles;
     public double area;
+    public double recArea;
     public ShapeEntity() {
     }
 
