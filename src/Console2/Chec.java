@@ -74,8 +74,8 @@ class Chec {
         int n = arr.length;
         int sum = 16;
         List<Integer> s = Arrays.asList(arr);
-//        quicksortWeight(SortPair, 0, SortPair.size() - 1);
-//        SortPair.forEach(x -> {
+//        quicksortWeight(groupPair, 0, groupPair.size() - 1);
+//        groupPair.forEach(x -> {
 //            System.out.println(x);
 //        });
         List<Integer> a = new ArrayList<>();
