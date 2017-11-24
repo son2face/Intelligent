@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Test {
-    final int deep = 1;
+    final int deep = 0;
     public List<List<ShapeEntity>> shapeNot90Findedlist = new ArrayList<>();
     IDatabaseService databaseService;
     IDatabaseControllService databaseControllService;
@@ -94,7 +94,7 @@ public class Test {
 //            e.printStackTrace();
 //        }
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(10);
+        test.Process(2);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
@@ -223,8 +223,8 @@ public class Test {
 //            }
         });
         loadAreas(problemEntity.shapeEntities);
-//        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
-        edgeBaseProcess(problemEntity.shapeEntities);
+        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
+//        edgeBaseProcess(problemEntity.shapeEntities);
     }
 
     public List<ShapeEntity> angleBaseProcess(List<ShapeEntity> shapeEntities) {
@@ -277,7 +277,70 @@ public class Test {
                 clonePairAngleShapeList.remove(indexArr.get(i).intValue());
             }
             clonePairAngleShapeList.remove(0);
-            result.add(oneGroup);
+            List<List<PairAngleShape>> sequentList = new ArrayList<>();
+            sequentList.add(oneGroup);
+            for (int i = 0; i < pairAngleShapeA.shapeEntities.size(); i++) {
+                int finalI = i;
+                final int[] k = {0};
+                sequentList = sequentList.parallelStream().filter(Objects::nonNull).collect(Collectors.toList());
+                List<List<List<PairAngleShape>>> s = sequentList.stream().map(pairAngleShapes -> {
+                    k[0]++;
+                    quicksortPairByPosition(pairAngleShapes, 0, pairAngleShapes.size() - 1, finalI);
+                    pairAngleShapes = Lists.reverse(pairAngleShapes);
+                    List<List<PairAngleShape>> finalList = new ArrayList<>();
+                    List<List<PairAngleShape>> currentList = new ArrayList<>();
+                    List<PairAngleShape> temp = new ArrayList<>();
+                    temp.add(pairAngleShapes.get(0));
+                    currentList.add(temp);
+                    for (int j = 1; j < pairAngleShapes.size(); j++) {
+                        int finalJ = j;
+                        if (pairAngleShapes.get(j).position.get(finalI) == currentList.get(0).get(currentList.get(0).size() - 1).position.get(finalI) + 1) {
+                            List<PairAngleShape> finalPairAngleShapes = pairAngleShapes;
+                            currentList.parallelStream().forEach(list -> {
+                                list.add(finalPairAngleShapes.get(finalJ));
+                            });
+                        } else {
+                            finalList.addAll(currentList);
+                            currentList = new ArrayList<>();
+                            temp = new ArrayList<>();
+                            temp.add(pairAngleShapes.get(finalJ));
+                            currentList.add(temp);
+                        }
+                    }
+                    finalList.addAll(currentList);
+                    int edgeSize = pairAngleShapes.get(pairAngleShapes.size() - 1).shapeEntities.get(finalI).edgeEntities.size();
+                    List<List<PairAngleShape>> listA = new ArrayList<>();
+                    List<List<PairAngleShape>> listB = new ArrayList<>();
+                    if (pairAngleShapes.get(0).position.get(finalI) == 0 && pairAngleShapes.get(pairAngleShapes.size() - 1).position.get(finalI) == edgeSize - 1) {
+                        finalList.forEach(pairAngleShapes1 -> {
+                            if (pairAngleShapes1.get(0).position.get(finalI) == 0 && pairAngleShapes1.get(pairAngleShapes1.size() - 1).position.get(finalI) != edgeSize - 1) {
+                                listA.add(pairAngleShapes1);
+                            } else if (pairAngleShapes1.get(0).position.get(finalI) != 0 && pairAngleShapes1.get(pairAngleShapes1.size() - 1).position.get(finalI) == edgeSize - 1) {
+                                listB.add(pairAngleShapes1);
+                            }
+                        });
+                        finalList.removeAll(listA);
+                        finalList.removeAll(listB);
+                        List<List<List<PairAngleShape>>> joinList = listA.stream().map(pairAngleShapesA -> {
+                            return listB.stream().map(pairAngleShapesB -> {
+                                List<PairAngleShape> t = cloner.shallowClone(pairAngleShapesA);
+                                t.addAll(pairAngleShapesB);
+                                return t;
+                            }).collect(Collectors.toList());
+                        }).collect(Collectors.toList());
+                        try {
+                            joinList.stream().forEach(finalList::addAll);
+
+                        } catch (Exception e) {
+                            System.out.println();
+                        }
+                    }
+                    return finalList;
+                }).collect(Collectors.toList());
+                sequentList = new ArrayList<>();
+                s.forEach(sequentList::addAll);
+            }
+            result.addAll(sequentList);
         }
 //        result.forEach(pairAngleShapeList -> {
 //            pairAngleShapeList.forEach(pairAngleShape -> {
@@ -410,6 +473,8 @@ public class Test {
                                     System.out.println();
                                     System.out.println();
 //                                edgeBaseProcess(newShapeNot90List);
+                                    Console3.Test test = new Console3.Test();
+                                    test.angleBaseProcess(newShapeNot90List);
                                     return newShapeNot90List;
                                 }
                             }
@@ -834,7 +899,7 @@ public class Test {
         while (temp.parent != null) {
             temp = temp.parent;
             if (temp.childs.containsKey(pairShape)) {
-                if(!temp.childs.get(pairShape).isCenterEmpty){
+                if (!temp.childs.get(pairShape).isCenterEmpty) {
                     return false;
                 }
             }
@@ -1262,7 +1327,7 @@ public class Test {
                 System.out.println("Topology  mergeShape");
                 return null;
             } catch (ClassCastException e) {
-                System.out.println("ClassCast mergeShape");
+//                System.out.println("ClassCast mergeShape");
                 return null;
             } catch (AssertionFailedException e) {
                 System.out.println("Assert Test");
@@ -1532,6 +1597,29 @@ public class Test {
             quicksortArea(shapeEntities, i, high);
     }
 
+    public void quicksortPairByPosition(List<PairAngleShape> sortPair, int low, int high, int index) {
+        int i = low, j = high;
+        PairAngleShape pivot = sortPair.get(low + (high - low) / 2);
+        while (i <= j) {
+            while (sortPair.get(i).position.get(index) > pivot.position.get(index)) {
+                i++;
+            }
+            while (sortPair.get(j).position.get(index) < pivot.position.get(index)) {
+                j--;
+            }
+            if (i <= j) {
+                PairAngleShape temp = sortPair.get(i);
+                sortPair.set(i, sortPair.get(j));
+                sortPair.set(j, temp);
+                i++;
+                j--;
+            }
+        }
+        if (low < j)
+            quicksortPairByPosition(sortPair, low, j, index);
+        if (i < high)
+            quicksortPairByPosition(sortPair, i, high, index);
+    }
 
     public ShapeEntity rotateShape90(ShapeEntity shapeEntity) {
         ShapeEntity result = cloner.deepClone(shapeEntity);

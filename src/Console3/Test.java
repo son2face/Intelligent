@@ -29,7 +29,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Test {
-    final int deep = 1;
+    final int deep = 0;
+    final int deepSize = 0;
     public List<List<ShapeEntity>> shapeNot90Findedlist = new ArrayList<>();
     IDatabaseService databaseService;
     IDatabaseControllService databaseControllService;
@@ -51,7 +52,7 @@ public class Test {
     Cloner cloner = new Cloner();
     List<ShapeEntity> shape90Angle = new ArrayList<>();
 
-    Test() {
+    public Test() {
         DatabaseEntity.setFileDir("H:\\apache-tomcat-9.0.1\\bin\\database.txt");
         DatabaseEntity.loadData();
         databaseService = new DatabaseService();
@@ -77,24 +78,27 @@ public class Test {
 //            System.out.println();
 //            System.out.println();
 //        });
-//        ShapeEntity shapeEntityA = test.shapeService.get(98);
-//        ShapeEntity shapeEntityB = test.shapeService.get(96);
-//        test.loadAngles(shapeEntityA);
-//        test.loadAngles(shapeEntityB);
+        ShapeEntity shapeEntityA = test.shapeService.get(236);
+        ShapeEntity shapeEntityB = test.shapeService.get(237);
+        test.loadAngles(shapeEntityA);
+        test.loadAngles(shapeEntityB);
 //        shapeEntityA.area = test.getShapeArea(shapeEntityA);
 //        shapeEntityB.area = test.getShapeArea(shapeEntityB);
 ////        test.test(shapeEntityB, new EdgeEntity(Double.valueOf(0),Double.valueOf(0),Double.valueOf(0),Double.valueOf(0)));
 //        int positionA = 2;
 //        int positionB = 1;
 //        List<PairShape> pairShapes = test.combineShapeBasePoint(shapeEntityA, shapeEntityB, shapeEntityA.edgeEntities.get(positionA), shapeEntityB.edgeEntities.get(positionB));
-//        List<ShapeEntity> shapeEntities = pairShapes.parallelStream().map(pairShape -> pairShape.shapeEntityAB).collect(Collectors.toList());
+        List<ShapeEntity> shapeEntities = new ArrayList<>();
+        shapeEntities.add(shapeEntityA);
+        shapeEntities.add(shapeEntityB);
+        test.angleBaseProcess(shapeEntities);
 //        try {
 //            System.out.println(test.mapper.writeValueAsString(shapeEntities));
 //        } catch (JsonProcessingException e) {
 //            e.printStackTrace();
 //        }
         Timestamp pre = new Timestamp(System.currentTimeMillis());
-        test.Process(10);
+//        test.Process(10);
         Timestamp last = new Timestamp(System.currentTimeMillis());
         System.out.println("Done!");
         System.out.println(pre);
@@ -223,26 +227,30 @@ public class Test {
 //            }
         });
         loadAreas(problemEntity.shapeEntities);
-//        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
-        edgeBaseProcess(problemEntity.shapeEntities);
+        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
+//        edgeBaseProcess(problemEntity.shapeEntities);
     }
 
     public List<ShapeEntity> angleBaseProcess(List<ShapeEntity> shapeEntities) {
-        List<ShapeEntity> shapeNot90Angle = new ArrayList<>();
+//        List<ShapeEntity> shapeNot90Angle = new ArrayList<>();
         // Lọc thành 2 mảng chứa các hình có tất cả các góc là vuông và phần còn lại
         shapeEntities.forEach(shapeEntity -> {
             loadAngles(shapeEntity);
-            if (isShape90(shapeEntity)) {
-                shape90Angle.add(shapeEntity);
-            } else {
-                shapeNot90Angle.add(shapeEntity);
-            }
+//            if (isShape90(shapeEntity)) {
+//                shape90Angle.add(shapeEntity);
+//            } else {
+//                shapeNot90Angle.add(shapeEntity);
+//            }
         });
         // Tìm tất cả các cách có thể ghép dựa trên các góc của nó
-        List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle(shapeNot90Angle, 0, 0);
+        List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle2(shapeEntities);
         //
         List<List<PairAngleShape>> sortPair = groupPair(pairAngleShapes);
-        s(shapeNot90Angle, sortPair);
+        if (sortPair.size() > 0 && deepSize != sortPair.get(0).size()) {
+            int threshhold = sortPair.get(0).size() - deepSize;
+            sortPair = sortPair.parallelStream().filter(pairAngleShapes1 -> pairAngleShapes1.size() >= threshhold).collect(Collectors.toList());
+        }
+        s(shapeEntities, sortPair);
         return shape90Angle;
     }
 
@@ -256,6 +264,7 @@ public class Test {
         List<PairAngleShape> clonePairAngleShapeList = cloner.deepClone(pairAngleShapeList);
         List<List<PairAngleShape>> result = new ArrayList<>();
         while (clonePairAngleShapeList.size() > 0) {
+            List<List<PairAngleShape>> res = new ArrayList<>();
             PairAngleShape pairAngleShapeA = cloner.deepClone(clonePairAngleShapeList.get(0));
             List<PairAngleShape> oneGroup = new ArrayList<>();
             oneGroup.add(pairAngleShapeA);
@@ -277,22 +286,235 @@ public class Test {
                 clonePairAngleShapeList.remove(indexArr.get(i).intValue());
             }
             clonePairAngleShapeList.remove(0);
-            result.add(oneGroup);
+//            List<List<PairAngleShape>> sequentList = new ArrayList<>();
+//            sequentList.add(oneGroup);
+            quicksortPairByPosition(oneGroup, 0, oneGroup.size() - 1, 0);
+            oneGroup = Lists.reverse(oneGroup);
+            List<Integer> shapeSizes = new ArrayList<>();
+            for (int j = 0; j < oneGroup.get(0).shapeEntities.size(); j++) {
+                shapeSizes.add(oneGroup.get(0).shapeEntities.get(j).edgeEntities.size());
+            }
+            while (oneGroup.size() > 1) {
+                List<List<PairAngleShape>> sequentList = new ArrayList<>();
+                int startI = 1;
+                while (oneGroup.get(startI).position.get(0) == oneGroup.get(0).position.get(0)) startI++;
+                int sub = oneGroup.get(startI).position.get(0) - oneGroup.get(0).position.get(0);
+                if (sub == 1) {
+                    List<List<Integer>> listSubList = new ArrayList<>();
+                    List<PairAngleShape> list = new ArrayList<>();
+                    List<Integer> removeList = new ArrayList<>();
+                    removeList.add(0);
+                    list.add(oneGroup.get(startI));
+                    int end = startI;
+                    for (int j = startI + 1; j < oneGroup.size(); j++) {
+                        if (oneGroup.get(startI).position.get(0) == oneGroup.get(j).position.get(0)) {
+                            list.add(oneGroup.get(j));
+                        } else {
+                            end = j;
+                            break;
+                        }
+                    }
+                    List<PairAngleShape> list2 = new ArrayList<>();
+                    for (int i = 0; i < list.size(); i++) {
+                        boolean check = true;
+                        List<Integer> subList = new ArrayList<>();
+                        subList.add(sub);
+                        for (int j = 1; j < oneGroup.get(0).shapeEntities.size(); j++) {
+                            int subbb = list.get(i).position.get(j) - oneGroup.get(0).position.get(j);
+                            if (subbb == 1 || subbb == -1) {
+                                subList.add(subbb);
+                            } else if (list.get(i).position.get(j) == shapeSizes.get(j) - 1 && oneGroup.get(0).position.get(j) == 0) {
+                                subList.add(-1);
+                            } else if (list.get(i).position.get(j) == 0 && oneGroup.get(0).position.get(j) == shapeSizes.get(j) - 1) {
+                                subList.add(1);
+                            } else {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if (check) {
+                            listSubList.add(subList);
+                            list2.add(list.get(i));
+                            removeList.add(oneGroup.indexOf(list.get(i)));
+                        }
+                    }
+                    if (list2.size() > 0) {
+                        List<PairAngleShape> finalOneGroup = oneGroup;
+                        List<List<PairAngleShape>> pairAngleList = list2.parallelStream().map(pairAngleShape -> {
+                            List<PairAngleShape> s = new ArrayList<>();
+                            s.add(finalOneGroup.get(0));
+                            s.add(pairAngleShape);
+                            return s;
+                        }).collect(Collectors.toList());
+                        if (oneGroup.get(end).position.get(0) - oneGroup.get(end - 1).position.get(0) != 1) {
+                            sequentList.addAll(pairAngleList);
+                            for (int i = removeList.size() - 1; i >= 0; i--) {
+                                oneGroup.remove((int) removeList.get(i));
+                            }
+                        } else {
+                            while (pairAngleList.size() > 0) {
+                                list = new ArrayList<>();
+                                list.add(oneGroup.get(end));
+                                for (int j = end + 1; j < oneGroup.size(); j++) {
+                                    if (oneGroup.get(end).position.get(0) == oneGroup.get(j).position.get(0)) {
+                                        list.add(oneGroup.get(j));
+                                    } else {
+                                        end = j;
+                                        break;
+                                    }
+                                }
+                                List<Boolean> check = pairAngleList.parallelStream().map(pairAngleShape -> Boolean.FALSE).collect(Collectors.toList());
+                                // list lưu lại các phần tử 4 , (555555)
+                                for (int i = 0; i < list.size(); i++) {
+                                    for (int j = 0; j < pairAngleList.size(); j++) {
+                                        if (check.get(j)) continue;
+                                        boolean che = true;
+                                        for (int k = 1; k < oneGroup.get(0).shapeEntities.size(); k++) {
+                                            int subbb = list.get(i).position.get(k) - pairAngleList.get(j).get(pairAngleList.get(j).size() - 1).position.get(k);
+                                            if (subbb == listSubList.get(j).get(k)) {
+                                            } else if (list.get(i).position.get(k) == shapeSizes.get(k) - 1 && pairAngleList.get(j).get(pairAngleList.get(j).size() - 1).position.get(k) == 0 && listSubList.get(j).get(k) == -1) {
+                                            } else if (list.get(i).position.get(k) == 0 && pairAngleList.get(j).get(pairAngleList.get(j).size() - 1).position.get(k) == shapeSizes.get(k) - 1 && listSubList.get(j).get(k) == 1) {
+                                            } else {
+                                                che = false;
+                                                break;
+                                            }
+                                        }
+                                        if (che) {
+                                            check.set(j, true);
+                                            pairAngleList.get(j).add(list.get(i));
+                                            removeList.add(oneGroup.indexOf(list.get(i)));
+                                        }
+                                    }
+                                }
+                                List<List<PairAngleShape>> temp = new ArrayList<>();
+                                for (int i = 0; i < check.size(); i++) {
+                                    if (check.get(i)) {
+                                        temp.add(pairAngleList.get(i));
+                                    } else {
+                                        sequentList.add(pairAngleList.get(i));
+                                    }
+                                }
+                                pairAngleList = temp;
+                            }
+                            for (int i = removeList.size() - 1; i >= 0; i--) {
+                                oneGroup.remove((int) removeList.get(i));
+                            }
+                        }
+//                    } else if (oneGroup.get(startI).position.get(0) == shapeSizes.get(0) - 1 && oneGroup.get(0).position.get(0) == 0) {
+
+                    } else {
+                        List<PairAngleShape> t = new ArrayList<>();
+                        t.add(oneGroup.get(0));
+                        oneGroup.remove(0);
+                        sequentList.add(t);
+                    }
+                }
+                res.addAll(sequentList);
+            }
+            if (oneGroup.size() == 1) {
+                List<PairAngleShape> t = new ArrayList<>();
+                t.add(oneGroup.get(0));
+                res.add(t);
+            }
+
+            List<List<PairAngleShape>> pairStartListList = new ArrayList<>();
+            List<List<PairAngleShape>> pairEndListList = new ArrayList<>();
+            List<List<PairAngleShape>> list = new ArrayList<>();
+            for (int i = 0; i < res.size(); i++) {
+                List<PairAngleShape> t = res.get(i);
+                if (t.get(t.size() - 1).position.get(0) != shapeSizes.get(0) - 1 && t.get(0).position.get(0) == 0) {
+                    pairStartListList.add(t);
+                } else if (t.get(t.size() - 1).position.get(0) == shapeSizes.get(0) - 1 && t.get(0).position.get(0) != 0) {
+                    pairEndListList.add(t);
+                } else {
+                    list.add(t);
+                }
+            }
+            if (pairEndListList.size() == 0) {
+                result.addAll(pairStartListList);
+            } else if (pairStartListList.size() == 0) {
+                result.addAll(pairEndListList);
+            } else {
+                for (int i = 0; i < pairEndListList.size(); i++) {
+                    List<PairAngleShape> pairEndList = pairEndListList.get(i);
+                    boolean checkExistGroup = false;
+                    if (pairEndList.size() == 1) {
+                        for (int j = 0; j < pairStartListList.size(); j++) {
+                            List<PairAngleShape> pairStartList = pairStartListList.get(j);
+                            if (pairStartList.size() == 1) {
+                                PairAngleShape pairAngleShapeEnd = pairEndList.get(pairEndList.size() - 1);
+                                PairAngleShape pairAngleShapeStart = pairStartList.get(0);
+                                boolean che = true;
+                                for (int h = 1; h < shapeSizes.size(); h++) {
+                                    int subbb = pairAngleShapeEnd.position.get(h) - pairAngleShapeStart.position.get(h);
+                                    if (subbb == -1 || subbb == 1) {
+                                    } else if (pairAngleShapeEnd.position.get(h) == shapeSizes.get(h) - 1 && pairAngleShapeStart.position.get(h) == 0) {
+                                    } else if (pairAngleShapeEnd.position.get(h) == 0 && pairAngleShapeStart.position.get(h) == shapeSizes.get(h) - 1) {
+                                    } else {
+                                        che = false;
+                                        break;
+                                    }
+                                }
+                                if (che) {
+                                    checkExistGroup = true;
+                                    List<PairAngleShape> pairAngleShapes = new ArrayList<>();
+                                    pairAngleShapes.add(pairAngleShapeEnd);
+                                    pairAngleShapes.add(pairAngleShapeStart);
+                                    list.add(pairAngleShapes);
+                                }
+                            } else {
+                                PairAngleShape pairAngleShapeEnd = pairEndList.get(pairEndList.size() - 1);
+                                PairAngleShape pairAngleShapeStart = pairStartList.get(0);
+                                List<Integer> subList = new ArrayList<>();
+                                boolean check = true;
+                                subList.add(1);
+                                for (int h = 1; h < shapeSizes.size(); h++) {
+                                    int subbb = pairAngleShapeEnd.position.get(h) - pairAngleShapeStart.position.get(h);
+                                    if (subbb == 1 || subbb == -1) {
+                                        subList.add(subbb);
+                                    }  else if (pairAngleShapeEnd.position.get(h) == shapeSizes.get(h) - 1 && pairAngleShapeStart.position.get(h) == 0) {
+                                        subList.add(-1);
+                                    } else if (pairAngleShapeEnd.position.get(h) == 0 && pairAngleShapeStart.position.get(h) == shapeSizes.get(h) - 1) {
+                                        subList.add(1);
+                                    } else {
+                                        check = false;
+                                        break;
+                                    }
+                                }
+                                if (check) {
+
+                                }
+                                if (che) {
+                                    List<PairAngleShape> pairAngleShapes = new ArrayList<>();
+                                    pairAngleShapes.add(pairAngleShapeEnd);
+                                    pairAngleShapes.add(pairAngleShapeStart);
+                                    list.add(pairAngleShapes);
+                                }
+
+                            }
+                        }
+                    } else {
+                        for (int j = 0; j < pairStartListList.size(); j++) {
+                            List<PairAngleShape> pairStart = pairStartListList.get(j);
+                            if (pairStart.size() == 1) {
+
+                            } else {
+
+                            }
+                        }
+                    }
+                    if(!checkExistGroup){
+                        result.add(pairEndList);
+                    }
+                }
+            }
+            result.addAll(list);
+
         }
-//        result.forEach(pairAngleShapeList -> {
-//            pairAngleShapeList.forEach(pairAngleShape -> {
-//                for (int i = 0; i < pairAngleShape.shapeEntities.size(); i++) {
-//                    System.out.print(pairAngleShape.shapeEntities.get(i).shapeId + "....." + pairAngleShape.shapeEntities.get(i).angles.get(pairAngleShape.position.get(i)));
-//                    System.out.println("...." + pairAngleShape.shapeEntities.get(i).edgeEntities.get(pairAngleShape.position.get(i)).edgeId);
-//                }
-//                System.out.println(pairAngleShape.totalAngle);
-//                System.out.println();
-//            });
-//            System.out.println();
-//            System.out.println();
-//            System.out.println();
-//        });
         return result;
+    }
+
+    public void separatePair(List<PairAngleShape> sortedPairAngleShapeList) {
 
     }
 
@@ -316,21 +538,28 @@ public class Test {
         return result;
     }
 
-    public List<ShapeEntity> s(List<ShapeEntity> shapeEntities, List<List<PairAngleShape>> pairShapeNot90List) {
-//        try {
-//            System.out.println(mapper.writeValueAsString(shapeEntities));
-//            System.out.println();
-//            System.out.println();
-//            System.out.println();
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-        if (pairShapeNot90List.size() == 0) {
+    public List<ShapeEntity> s(List<ShapeEntity> shapeEntities, List<List<PairAngleShape>> pairShapeList) {
+        try {
+            System.out.println(mapper.writeValueAsString(shapeEntities));
+            System.out.println();
+            System.out.println();
+            System.out.println();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        if (pairShapeList.size() == 0) {
             System.out.println("Null");
             return new ArrayList<>();
         }
-        List<List<PairAngleShape>> clonePairShapeNot90List = cloner.deepClone(pairShapeNot90List);
-        quicksortPair(clonePairShapeNot90List, 0, clonePairShapeNot90List.size() - 1);
+        List<List<PairAngleShape>> clonePairShapeList;
+        if (deepSize != pairShapeList.get(0).size()) {
+            int threshhold = pairShapeList.get(0).size() - deepSize;
+            List<List<PairAngleShape>> temp = pairShapeList.parallelStream().filter(pairAngleShapes1 -> pairAngleShapes1.size() >= threshhold).collect(Collectors.toList());
+            clonePairShapeList = cloner.deepClone(temp);
+        } else {
+            clonePairShapeList = cloner.deepClone(pairShapeList);
+        }
+        quicksortPair(clonePairShapeList, 0, clonePairShapeList.size() - 1);
 //        pair.forEach(pairAngleShapeList -> {
 //            pairAngleShapeList.forEach(pairAngleShape -> {
 //                for (int i = 0; i < pairAngleShape.shapeEntities.size(); i++) {
@@ -346,8 +575,8 @@ public class Test {
 //        });
         List<ShapeEntity> result = new ArrayList<>();
         // pair chứa list đã nhóm các cặp và đã được sắp xếp
-        for (int i = 0; i < clonePairShapeNot90List.size(); i++) {
-            List<PairAngleShape> pairShapeNot90 = clonePairShapeNot90List.get(i);
+        for (int i = 0; i < clonePairShapeList.size(); i++) {
+            List<PairAngleShape> pairShapeNot90 = clonePairShapeList.get(i);
             //pariShapeNot90 chứa 1 nhóm cặp các cách ghép
             for (int j = pairShapeNot90.size(); j >= pairShapeNot90.size() - deep && j >= 1; j--) { // thực hiện tạo các tổ hợp với k từ n -> 1
                 List<List<Integer>> combineList = findCombine(0, 0, j, pairShapeNot90.size());
@@ -366,6 +595,7 @@ public class Test {
                 List<PairShape> pairShapeAfterFilterList = new ArrayList<>();
                 // Lọc các hình trùng nhau
                 temp.forEach(pairShape -> {
+                    if (isOutOfRange(pairShape.shapeEntityAB)) return;
                     boolean check = pairShapeAfterFilterList.stream().anyMatch(pairShape1 -> {
                         return isSameShape(pairShape.shapeEntityAB, pairShape1.shapeEntityAB);
                     });
@@ -374,7 +604,7 @@ public class Test {
                     }
                 });
                 for (PairShape pairShape : pairShapeAfterFilterList) {
-//                    List<List<PairAngleShape>> newPair = removePair(pairShapeNot90List, pariShapeNot90);
+//                    List<List<PairAngleShape>> newPair = removePair(pairShapeList, pariShapeNot90);
                     // pairAngleShape lưu giữ tập các hình đã sử dụng cho cách ghép
                     PairAngleShape pairAngleShape = pairShapeNot90.get(0);
                     List<ShapeEntity> newShapeNot90List = new ArrayList<>();
@@ -392,30 +622,39 @@ public class Test {
                             newShapeNot90List.add(shapeEntity);
                         }
                     });
-                    // Tìm các cách ghép mới từ tập hình được sinh ra
-                    List<PairAngleShape> pairAngleShapeNewList = findAllArrShapeAngle(newShapeNot90List, 0, 0);
-                    // Nếu không tìm được cặp hình nào phù hợp thì kiểm tra nếu tất cả các hình là 90 độ thì chuẩn xác và dừng lại, sử dụng xử lí theo cạnh
-                    if (pairAngleShapeNewList.size() == 0) {
+                    if (newShapeNot90List.size() == 1) {
                         try {
-//                            System.out.println(mapper.writeValueAsString(newShapeNot90List));
-//                            System.out.println();
-                            if (newShapeNot90List.parallelStream().allMatch(this::isShape90)) {
-                                if (!isFindedList(newShapeNot90List)) {
-                                    List<ShapeEntity> shapeEntityList = cloner.deepClone(newShapeNot90List);
-                                    shapeEntityList.parallelStream().forEach(this::translateShapeGreat0);
-                                    shapeNot90Findedlist.add(shapeEntityList);
-                                    newShapeNot90List.addAll(shape90Angle);
-                                    System.out.println(mapper.writeValueAsString(newShapeNot90List));
-                                    System.out.println();
-                                    System.out.println();
-                                    System.out.println();
-//                                edgeBaseProcess(newShapeNot90List);
-                                    return newShapeNot90List;
-                                }
-                            }
+                            System.out.println(mapper.writeValueAsString(newShapeNot90List));
+                            return null;
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
+                    }
+                    // Tìm các cách ghép mới từ tập hình được sinh ra
+                    List<PairAngleShape> pairAngleShapeNewList = findAllArrShapeAngle2(newShapeNot90List);
+                    // Nếu không tìm được cặp hình nào phù hợp thì kiểm tra nếu tất cả các hình là 90 độ thì chuẩn xác và dừng lại, sử dụng xử lí theo cạnh
+                    if (pairAngleShapeNewList.size() == 0) {
+                        System.out.println("Wrong!");
+//                        try {
+////                            System.out.println(mapper.writeValueAsString(newShapeNot90List));
+////                            System.out.println();
+//                            if (newShapeNot90List.parallelStream().allMatch(this::isShape90)) {
+//                                if (!isFindedList(newShapeNot90List)) {
+//                                    List<ShapeEntity> shapeEntityList = cloner.deepClone(newShapeNot90List);
+//                                    shapeEntityList.parallelStream().forEach(this::translateShapeGreat0);
+//                                    shapeNot90Findedlist.add(shapeEntityList);
+//                                    newShapeNot90List.addAll(shape90Angle);
+//                                    System.out.println(mapper.writeValueAsString(newShapeNot90List));
+//                                    System.out.println();
+//                                    System.out.println();
+//                                    System.out.println();
+////                                edgeBaseProcess(newShapeNot90List);
+//                                    return newShapeNot90List;
+//                                }
+//                            }
+//                        } catch (JsonProcessingException e) {
+//                            e.printStackTrace();
+//                        }
                     } else {
                         // Nếu tồn tại các cặp có thể ghép được thì thực hiện nhóm pair
                         List<List<PairAngleShape>> sortPairNew = groupPair(pairAngleShapeNewList);
@@ -737,24 +976,22 @@ public class Test {
                 ShapeEntity shapeEntityA = shapeEntities.get(i);
                 for (int j = 0; j < shapeEntityA.angles.size(); j++) {
                     double angleA = shapeEntityA.angles.get(j);
-                    if (angleA % 90 != 0) {
-                        double sum = angleA + sumAngle;
-                        if (sum <= 360) {
-                            if (sum % 90 == 0) {
-                                PairAngleShape pairAngleShape = new PairAngleShape();
-                                pairAngleShape.totalAngle = angleA + sumAngle;
+                    double sum = angleA + sumAngle;
+                    if (sum <= 360) {
+                        if (sum == 360) {
+                            PairAngleShape pairAngleShape = new PairAngleShape();
+                            pairAngleShape.totalAngle = angleA + sumAngle;
+                            pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
+                            pairAngleShape.position.add(j);
+                            result.add(pairAngleShape);
+                        } else {
+                            List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle(shapeEntities, i + 1, sum);
+                            int finalJ = j;
+                            pairAngleShapes.parallelStream().forEach(pairAngleShape -> {
+                                pairAngleShape.position.add(finalJ);
                                 pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
-                                pairAngleShape.position.add(j);
-                                result.add(pairAngleShape);
-                            } else {
-                                List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle(shapeEntities, i + 1, sum);
-                                int finalJ = j;
-                                pairAngleShapes.parallelStream().forEach(pairAngleShape -> {
-                                    pairAngleShape.position.add(finalJ);
-                                    pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
-                                });
-                                result.addAll(pairAngleShapes);
-                            }
+                            });
+                            result.addAll(pairAngleShapes);
                         }
                     }
                 }
@@ -764,6 +1001,38 @@ public class Test {
             e.printStackTrace();
         }
 
+        return result;
+    }
+
+    public List<PairAngleShape> findAllArrShapeAngle2(List<ShapeEntity> shapeEntities) {
+        List<PairAngleShape> result = new ArrayList<>();
+        try {
+            for (int i = 0; i < shapeEntities.size() - 1; i++) {
+                ShapeEntity shapeEntityA = shapeEntities.get(i);
+                for (int j = 0; j < shapeEntityA.angles.size(); j++) {
+                    double angleA = shapeEntityA.angles.get(j);
+                    for (int k = i + 1; k < shapeEntities.size(); k++) {
+                        ShapeEntity shapeEntityB = shapeEntities.get(k);
+                        for (int h = 0; h < shapeEntityB.angles.size(); h++) {
+                            double angleB = shapeEntityB.angles.get(h);
+                            double total = angleA + angleB;
+                            if (total == 360) {
+                                PairAngleShape pairAngleShape = new PairAngleShape();
+                                pairAngleShape.totalAngle = total;
+                                pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
+                                pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityB));
+                                pairAngleShape.position.add(j);
+                                pairAngleShape.position.add(h);
+                                result.add(pairAngleShape);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("findAllArrShapeAngle");
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -834,7 +1103,7 @@ public class Test {
         while (temp.parent != null) {
             temp = temp.parent;
             if (temp.childs.containsKey(pairShape)) {
-                if(!temp.childs.get(pairShape).isCenterEmpty){
+                if (!temp.childs.get(pairShape).isCenterEmpty) {
                     return false;
                 }
             }
@@ -1262,7 +1531,7 @@ public class Test {
                 System.out.println("Topology  mergeShape");
                 return null;
             } catch (ClassCastException e) {
-                System.out.println("ClassCast mergeShape");
+//                System.out.println("ClassCast mergeShape");
                 return null;
             } catch (AssertionFailedException e) {
                 System.out.println("Assert Test");
@@ -1483,6 +1752,31 @@ public class Test {
         quicksortArea(shapeEntities, 0, shapeEntities.size() - 1);
         return Lists.reverse(shapeEntities);
     }
+
+    public void quicksortPairByPosition(List<PairAngleShape> sortPair, int low, int high, int index) {
+        int i = low, j = high;
+        PairAngleShape pivot = sortPair.get(low + (high - low) / 2);
+        while (i <= j) {
+            while (sortPair.get(i).position.get(index) > pivot.position.get(index)) {
+                i++;
+            }
+            while (sortPair.get(j).position.get(index) < pivot.position.get(index)) {
+                j--;
+            }
+            if (i <= j) {
+                PairAngleShape temp = sortPair.get(i);
+                sortPair.set(i, sortPair.get(j));
+                sortPair.set(j, temp);
+                i++;
+                j--;
+            }
+        }
+        if (low < j)
+            quicksortPairByPosition(sortPair, low, j, index);
+        if (i < high)
+            quicksortPairByPosition(sortPair, i, high, index);
+    }
+
 
     public void quicksortPair(List<List<PairAngleShape>> sortPair, int low, int high) {
         int i = low, j = high;
