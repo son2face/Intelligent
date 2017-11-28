@@ -8,7 +8,9 @@ import Module.Problem.ProblemModel;
 import Module.Shape.ShapeEntity;
 import Module.Shape.ShapeModel;
 
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,8 +64,12 @@ public class UserEntity implements Serializable {
     public UserModel toModel() {
         UserModel UserModel = new UserModel();
         UserModel.setUserId(userId);
-        UserModel.setUserName(userName);
-        UserModel.setPassWord(passWord);
+        try {
+            UserModel.setUserName(new String(userName.getBytes(), "UTF-8"));
+            UserModel.setPassWord(new String(passWord.getBytes(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 //        if (fileEntities != null)
 //            UserModel.setFilesByUserId(fileEntities.parallelStream().map(FileEntity::toModel).collect(Collectors.toList()));
 //        if (problemEntities != null)

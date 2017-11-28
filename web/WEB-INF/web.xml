@@ -45,3 +45,7 @@
     </servlet-mapping>
 </web-app>
 
+<!--<Connector port="8080" maxThreads="150" minSpareThreads="25"-->
+           <!--maxSpareThreads="75" enableLookups="false" redirectPort="8443" acceptCount="100"-->
+           <!--debug="0" connectionTimeout="20000" URIEncoding="UTF-8"-->
+           <!--useBodyEncodingForURI="true" disableUploadTimeout="true" />-->
