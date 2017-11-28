@@ -1,7 +1,12 @@
 <urlrewrite>
     <rule match-type="regex">
-        <condition type="request-uri" operator="notequal">^/(index.html|api|Angular4)</condition>
+        <condition type="request-uri" operator="notequal">^/(index.html|api|Angular4|Signin)</condition>
         <from>^/(.*)$</from>
         <to type="passthrough">/index.html</to>
     </rule>
+    <!--<rule match-type="regex">-->
+        <!--<condition type="request-uri" operator="equal">^/(Signin)</condition>-->
+        <!--<from>^/(.*)$</from>-->
+        <!--<to type="passthrough">/login.html</to>-->
+    <!--</rule>-->
 </urlrewrite>

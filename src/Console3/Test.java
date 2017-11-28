@@ -96,7 +96,6 @@ public class Test {
 //        test.angleBaseProcess(shapeEntities);
 
 
-
 //        try {
 //            System.out.println(test.mapper.writeValueAsString(shapeEntities));
 //        } catch (JsonProcessingException e) {
@@ -248,9 +247,8 @@ public class Test {
 //            }
         });
         // Tìm tất cả các cách có thể ghép dựa trên các góc của nó
-        List<PairAngleShape> pairAngleShapes = findAllArrShapeAngle2(shapeEntities);
-        //
-        List<List<PairAngleShape>> sortPair = groupPair(pairAngleShapes);
+        List<List<PairAngleShape>> sortPair = findPair(shapeEntities);
+//        List<List<PairAngleShape>> sortPair = groupPair(pairAngleShapes);
         if (sortPair.size() > 0 && deepSize != sortPair.get(0).size()) {
             int threshhold = sortPair.get(0).size() - deepSize;
             sortPair = sortPair.parallelStream().filter(pairAngleShapes1 -> pairAngleShapes1.size() >= threshhold).collect(Collectors.toList());
@@ -365,8 +363,8 @@ public class Test {
                     for (int j = startI + 1; j < oneGroup.size(); j++) {
                         if (oneGroup.get(startI).position.get(0) == oneGroup.get(j).position.get(0)) {
                             listNextNumber.add(oneGroup.get(j));
-                        } else {
                             end = j;
+                        } else {
                             break;
                         }
                     }
@@ -419,6 +417,7 @@ public class Test {
                                         break;
                                     }
                                 }
+
                                 List<Boolean> check = pairAngleList.parallelStream().map(pairAngleShape -> Boolean.FALSE).collect(Collectors.toList());
                                 // listNextNumber lưu lại các phần tử 4 , (555555)
                                 for (int i = 0; i < listNextNumber.size(); i++) {
@@ -764,14 +763,10 @@ public class Test {
                 if (!startCheckList.get(i)) list.add(pairStartListList.get(i));
             }
             result.addAll(list);
-
         }
         return result;
     }
 
-    public void separatePair(List<PairAngleShape> sortedPairAngleShapeList) {
-
-    }
 
     public List<List<Integer>> ChinhHop(List<Integer> index) {
         List<List<Integer>> result = new ArrayList<>();
@@ -886,7 +881,8 @@ public class Test {
                         }
                     }
                     // Tìm các cách ghép mới từ tập hình được sinh ra
-                    List<PairAngleShape> pairAngleShapeNewList = findAllArrShapeAngle2(newShapeNot90List);
+                    List<List<PairAngleShape>> pairAngleShapeNewList = findPair(newShapeNot90List);
+//                    List<PairAngleShape> pairAngleShapeNewList = findAllArrShapeAngle2(newShapeNot90List);
                     // Nếu không tìm được cặp hình nào phù hợp thì kiểm tra nếu tất cả các hình là 90 độ thì chuẩn xác và dừng lại, sử dụng xử lí theo cạnh
                     if (pairAngleShapeNewList.size() == 0) {
                         System.out.println("Wrong!");
@@ -912,10 +908,10 @@ public class Test {
 //                        }
                     } else {
                         // Nếu tồn tại các cặp có thể ghép được thì thực hiện nhóm pair
-                        List<List<PairAngleShape>> sortPairNew = groupPair(pairAngleShapeNewList);
+
                         // Thực hiện đệ quy
 //                        System.out.println(pairShape.type);
-                        List<ShapeEntity> entities = s(newShapeNot90List, sortPairNew);
+                        List<ShapeEntity> entities = s(newShapeNot90List, pairAngleShapeNewList);
                         // Kiểm tra xem có trả về giá trị hay không, có tức là đã hoàn thành tìm kiếm
                         if (entities.size() > 0) {
                             return result;
@@ -1259,6 +1255,22 @@ public class Test {
         return result;
     }
 
+    public List<List<PairAngleShape>> findPair(List<ShapeEntity> shapeEntities) {
+        List<List<PairAngleShape>> result = new ArrayList<>();
+        for (int i = 0; i < shapeEntities.size() - 1; i++) {
+            ShapeEntity shapeEntityA = shapeEntities.get(i);
+            for (int j = i + 1; j < shapeEntities.size(); j++) {
+                ShapeEntity shapeEntityB = shapeEntities.get(j);
+                List<ShapeEntity> shapeEntities1 = new ArrayList<>();
+                shapeEntities1.add(shapeEntityA);
+                shapeEntities1.add(shapeEntityB);
+                List<PairAngleShape> p = findAllArrShapeAngle2(shapeEntities1);
+                result.addAll(groupPair(p));
+            }
+        }
+        return result;
+    }
+
     public List<PairAngleShape> findAllArrShapeAngle2(List<ShapeEntity> shapeEntities) {
         List<PairAngleShape> result = new ArrayList<>();
         try {
@@ -1272,13 +1284,23 @@ public class Test {
                             double angleB = shapeEntityB.angles.get(h);
                             double total = angleA + angleB;
                             if (total == 360) {
-                                PairAngleShape pairAngleShape = new PairAngleShape();
-                                pairAngleShape.totalAngle = total;
-                                pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
-                                pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityB));
-                                pairAngleShape.position.add(j);
-                                pairAngleShape.position.add(h);
-                                result.add(pairAngleShape);
+//                                EdgeEntity edgeEntityA1 = shapeEntityA.edgeEntities.get(j);
+//                                EdgeEntity edgeEntityA2 = shapeEntityA.edgeEntities.get((j+1)%shapeEntityA.edgeEntities.size());
+//                                EdgeEntity edgeEntityB1 = shapeEntityB.edgeEntities.get(h);
+//                                EdgeEntity edgeEntityB2 = shapeEntityB.edgeEntities.get((h+1)%shapeEntityB.edgeEntities.size());
+//                                double squareEdgeA1 = squareLengthOfEdge(edgeEntityA1);
+//                                double squareEdgeA2 = squareLengthOfEdge(edgeEntityA2);
+//                                double squareEdgeB1 = squareLengthOfEdge(edgeEntityB1);
+//                                double squareEdgeB2 = squareLengthOfEdge(edgeEntityB2);
+//                                if(squareEdgeA1 == squareEdgeB1 || squareEdgeA1 == squareEdgeB2 ||squareEdgeA2 == squareEdgeB1 ||squareEdgeA2 == squareEdgeB2){
+                                    PairAngleShape pairAngleShape = new PairAngleShape();
+                                    pairAngleShape.totalAngle = total;
+                                    pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
+                                    pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityB));
+                                    pairAngleShape.position.add(j);
+                                    pairAngleShape.position.add(h);
+                                    result.add(pairAngleShape);
+//                                }
                             }
                         }
                     }
