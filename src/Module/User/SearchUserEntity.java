@@ -2,16 +2,12 @@ package Module.User;
 
 import Module.FilterModel;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.ws.rs.QueryParam;
 
-@Entity
-@Table(name = "point", schema = "intelligent", catalog = "")
-public class SearchUserModel extends FilterModel {
+public class SearchUserEntity extends FilterModel {
     @QueryParam("userId")
     private Integer userId;
     @QueryParam("userName")

@@ -17,14 +17,14 @@ public class UserController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<UserEntity> get(@BeanParam SearchUserModel searchUserModel) {
-        return userService.get(searchUserModel);
+    public List<UserEntity> get(@BeanParam SearchUserEntity searchUserEntity) {
+        return userService.get(searchUserEntity);
     }
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Count")
-    public int count(@BeanParam SearchUserModel searchUserModel) {
+    public int count(@BeanParam SearchUserEntity searchUserEntity) {
         return 100;
     }
 

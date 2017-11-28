@@ -47,7 +47,7 @@ public class UserService {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<UserModel> criteria = builder.createQuery(UserModel.class);
         Root<UserModel> userEntities = criteria.from(UserModel.class);
-        criteria.where(builder.equal(userEntities.get("userId"), id));
+        criteria.where(builder.equal(userEntities.get(UserModel_.userId), id));
         try {
             UserModel userModel = session.createQuery(criteria).getSingleResult();
 
@@ -154,14 +154,14 @@ public class UserService {
         return false;
     }
 
-    public List<UserEntity> get(SearchUserModel searchUserModel) {
+    public List<UserEntity> get(SearchUserEntity searchUserEntity) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<UserModel> criteria = builder.createQuery(UserModel.class);
         Root<UserModel> UserEntities = criteria.from(UserModel.class);
         try {
-            CriteriaQuery criteriaQuery = searchUserModel.applyTo(builder,criteria,UserEntities);
-            List<UserModel> userEntities = searchUserModel.skipAndTake(session.createQuery(searchUserModel.order(builder,criteriaQuery,UserEntities))).getResultList();
+            CriteriaQuery criteriaQuery = searchUserEntity.applyTo(builder,criteria,UserEntities);
+            List<UserModel> userEntities = searchUserEntity.skipAndTake(session.createQuery(searchUserEntity.order(builder,criteriaQuery,UserEntities))).getResultList();
             return userEntities.stream()
                     .map(s -> new UserEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {
