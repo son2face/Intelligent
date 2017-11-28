@@ -1,12 +1,6 @@
-package Module.User;
-
-import Module.File.FileModel;
-import Module.Problem.ProblemModel;
-import Module.Shape.ShapeModel;
+package as;
 
 import javax.persistence.*;
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
 import java.util.Collection;
 
 @Entity
@@ -20,7 +14,6 @@ public class UserModel {
     private Collection<ShapeModel> shapesByUserId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId", nullable = false)
     public int getUserId() {
         return userId;
@@ -55,11 +48,11 @@ public class UserModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserModel that = (UserModel) o;
+        UserModel userModel = (UserModel) o;
 
-        if (userId != that.userId) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (passWord != null ? !passWord.equals(that.passWord) : that.passWord != null) return false;
+        if (userId != userModel.userId) return false;
+        if (userName != null ? !userName.equals(userModel.userName) : userModel.userName != null) return false;
+        if (passWord != null ? !passWord.equals(userModel.passWord) : userModel.passWord != null) return false;
 
         return true;
     }
@@ -98,13 +91,4 @@ public class UserModel {
     public void setShapesByUserId(Collection<ShapeModel> shapesByUserId) {
         this.shapesByUserId = shapesByUserId;
     }
-}
-
-
-
-@StaticMetamodel( UserModel.class )
-class UserModel_ {
-    public static volatile SingularAttribute<UserModel, Integer> userId;
-    public static volatile SingularAttribute<UserModel, String> userName;
-    public static volatile SingularAttribute<UserModel, String> passWord;
 }

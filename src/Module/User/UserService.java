@@ -50,6 +50,7 @@ public class UserService {
         criteria.where(builder.equal(userEntities.get("userId"), id));
         try {
             UserModel userModel = session.createQuery(criteria).getSingleResult();
+
             return new UserEntity(userModel);
         } catch (NoResultException e) {
             return null;
@@ -159,7 +160,8 @@ public class UserService {
         CriteriaQuery<UserModel> criteria = builder.createQuery(UserModel.class);
         Root<UserModel> UserEntities = criteria.from(UserModel.class);
         try {
-            List<UserModel> userEntities = session.createQuery(criteria).getResultList();
+            CriteriaQuery criteriaQuery = searchUserModel.applyTo(builder,criteria,UserEntities);
+            List<UserModel> userEntities = searchUserModel.skipAndTake(session.createQuery(searchUserModel.order(builder,criteriaQuery,UserEntities))).getResultList();
             return userEntities.stream()
                     .map(s -> new UserEntity(s)).collect(Collectors.toList());
         } catch (NoResultException e) {

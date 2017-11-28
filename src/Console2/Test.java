@@ -223,8 +223,8 @@ public class Test {
 //            }
         });
         loadAreas(problemEntity.shapeEntities);
-        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
-//        edgeBaseProcess(problemEntity.shapeEntities);
+//        List<ShapeEntity> shapeEntities = angleBaseProcess(problemEntity.shapeEntities);
+        edgeBaseProcess(problemEntity.shapeEntities);
     }
 
     public List<ShapeEntity> angleBaseProcess(List<ShapeEntity> shapeEntities) {

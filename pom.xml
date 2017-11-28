@@ -28,41 +28,43 @@
             <version>5.2.10.Final</version>
         </dependency>
         <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
+
         <!-- optional -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-osgi</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-proxool</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-infinispan</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>5.2.10.Final</version>
+            <version>5.2.12.Final</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -124,9 +126,11 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2 -->
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
+            <version>2.26</version>
         </dependency>
         <dependency>
             <groupId>org.tuckey</groupId>

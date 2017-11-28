@@ -1283,16 +1283,16 @@ public class Test {
                         for (int h = 0; h < shapeEntityB.angles.size(); h++) {
                             double angleB = shapeEntityB.angles.get(h);
                             double total = angleA + angleB;
-                            if (total == 360) {
-//                                EdgeEntity edgeEntityA1 = shapeEntityA.edgeEntities.get(j);
-//                                EdgeEntity edgeEntityA2 = shapeEntityA.edgeEntities.get((j+1)%shapeEntityA.edgeEntities.size());
-//                                EdgeEntity edgeEntityB1 = shapeEntityB.edgeEntities.get(h);
-//                                EdgeEntity edgeEntityB2 = shapeEntityB.edgeEntities.get((h+1)%shapeEntityB.edgeEntities.size());
-//                                double squareEdgeA1 = squareLengthOfEdge(edgeEntityA1);
-//                                double squareEdgeA2 = squareLengthOfEdge(edgeEntityA2);
-//                                double squareEdgeB1 = squareLengthOfEdge(edgeEntityB1);
-//                                double squareEdgeB2 = squareLengthOfEdge(edgeEntityB2);
-//                                if(squareEdgeA1 == squareEdgeB1 || squareEdgeA1 == squareEdgeB2 ||squareEdgeA2 == squareEdgeB1 ||squareEdgeA2 == squareEdgeB2){
+                            if (total == 360 || total == 180) {
+                                EdgeEntity edgeEntityA1 = shapeEntityA.edgeEntities.get(j);
+                                EdgeEntity edgeEntityA2 = shapeEntityA.edgeEntities.get((j+1)%shapeEntityA.edgeEntities.size());
+                                EdgeEntity edgeEntityB1 = shapeEntityB.edgeEntities.get(h);
+                                EdgeEntity edgeEntityB2 = shapeEntityB.edgeEntities.get((h+1)%shapeEntityB.edgeEntities.size());
+                                double squareEdgeA1 = squareLengthOfEdge(edgeEntityA1);
+                                double squareEdgeA2 = squareLengthOfEdge(edgeEntityA2);
+                                double squareEdgeB1 = squareLengthOfEdge(edgeEntityB1);
+                                double squareEdgeB2 = squareLengthOfEdge(edgeEntityB2);
+                                if(squareEdgeA1 == squareEdgeB1 || squareEdgeA1 == squareEdgeB2 ||squareEdgeA2 == squareEdgeB1 ||squareEdgeA2 == squareEdgeB2){
                                     PairAngleShape pairAngleShape = new PairAngleShape();
                                     pairAngleShape.totalAngle = total;
                                     pairAngleShape.shapeEntities.add(cloner.deepClone(shapeEntityA));
@@ -1300,7 +1300,7 @@ public class Test {
                                     pairAngleShape.position.add(j);
                                     pairAngleShape.position.add(h);
                                     result.add(pairAngleShape);
-//                                }
+                                }
                             }
                         }
                     }
